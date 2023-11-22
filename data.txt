@@ -1,0 +1,200 @@
+[]
+https://www.booking.com/hotel/id/kelingking-tatakan-bungalow.en-gb.html?aid=304142&label=gen173nr-1FCAQoggJCC3NlYXJjaF9iYWxpSAlYBGjpAYgBAZgBCbgBF8gBDNgBAegBAfgBA4gCAagCA7gCq9X0qgbAAgHSAiQwMWUwNjI4NS0xYWUzLTQyNzktYWQ0ZC0xNGEzODQyZmQxNzjYAgXgAgE&ucfs=1&arphpl=1&group_adults=1&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=1&hapos=1&sr_order=popularity&srpvid=a87e9bd5c29501ac&srepoch=1700604588&from_sustainable_property_sr=1&from=searchresults&checkin=2023-12-22&checkout=2023-12-23&selected_currency=USD#hotelTmpl
+[]
+[]
+[]
+[]
+2023-12-22
+
+[{"name": "One-Bedroom Villa with Pool View", "max_people": [2], "prices": [191], "max_available_rooms": ["1"]}, {"name": "One Bedroom Villa with Pool View", "max_people": [2], "prices": [191], "max_available_rooms": ["1"]}]
+https://www.booking.com/hotel/id/villa-di-bias.en-gb.html?aid=304142&label=gen173nr-1FCAQoggJCC3NlYXJjaF9iYWxpSAlYBGjpAYgBAZgBCbgBF8gBDNgBAegBAfgBA4gCAagCA7gCq9X0qgbAAgHSAiQwMWUwNjI4NS0xYWUzLTQyNzktYWQ0ZC0xNGEzODQyZmQxNzjYAgXgAgE&ucfs=1&arphpl=1&group_adults=1&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=7&hapos=7&sr_order=popularity&srpvid=a87e9bd5c29501ac&srepoch=1700604588&from_sustainable_property_sr=1&from=searchresults&checkin=2023-12-22&checkout=2023-12-23&selected_currency=USD#hotelTmpl
+['One-Bedroom Villa with Pool View', 'One Bedroom Villa with Pool View']
+[2, 2]
+[191, 191]
+['1', '1']
+2023-12-22
+
+[{"name": "King Suite with Pool View", "max_people": [2, 2], "prices": [38, 45], "max_available_rooms": ["4", "4"]}, {"name": "King Suite with Pool View", "max_people": [2, 2], "prices": [38, 45], "max_available_rooms": ["4", "4"]}]
+https://www.booking.com/hotel/id/la-royale-cataluna.en-gb.html?aid=304142&label=gen173nr-1FCAQoggJCC3NlYXJjaF9iYWxpSAlYBGjpAYgBAZgBCbgBF8gBDNgBAegBAfgBA4gCAagCA7gCq9X0qgbAAgHSAiQwMWUwNjI4NS0xYWUzLTQyNzktYWQ0ZC0xNGEzODQyZmQxNzjYAgXgAgE&ucfs=1&arphpl=1&group_adults=1&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=3&hapos=3&sr_order=popularity&srpvid=a87e9bd5c29501ac&srepoch=1700604588&from_sustainable_property_sr=1&from=searchresults&checkin=2023-12-22&checkout=2023-12-23&selected_currency=USD#hotelTmpl
+['King Suite with Pool View']
+[2, 2]
+[38, 45]
+['4', '4']
+2023-12-22
+
+[{"name": "Deluxe Twin Room", "max_people": [2, 1], "prices": [26, 29], "max_available_rooms": ["10", "10"]}, {"name": "Deluxe Twin Room", "max_people": [2, 1], "prices": [26, 29], "max_available_rooms": ["10", "10"]}, {"name": "Deluxe Double Room", "max_people": [2, 1], "prices": [26, 29], "max_available_rooms": ["10", "10"]}, {"name": "Deluxe Double Room", "max_people": [2, 1], "prices": [26, 29], "max_available_rooms": ["10", "10"]}]
+https://www.booking.com/hotel/id/north-wing-canggu-resort-kabupaten-badung.en-gb.html?aid=304142&label=gen173nr-1FCAQoggJCC3NlYXJjaF9iYWxpSAlYBGjpAYgBAZgBCbgBF8gBDNgBAegBAfgBA4gCAagCA7gCq9X0qgbAAgHSAiQwMWUwNjI4NS0xYWUzLTQyNzktYWQ0ZC0xNGEzODQyZmQxNzjYAgXgAgE&ucfs=1&arphpl=1&group_adults=1&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=6&hapos=6&sr_order=popularity&srpvid=a87e9bd5c29501ac&srepoch=1700604588&from_sustainable_property_sr=1&from=searchresults&checkin=2023-12-22&checkout=2023-12-23&selected_currency=USD#hotelTmpl
+['Deluxe Twin Room', 'Deluxe Double Room']
+[2, 1, 2, 1]
+[26, 29, 26, 29]
+['10', '10', '10', '10']
+2023-12-22
+
+[{"name": "One Bedroom Garden View Suite with Jacuzzi - Jepun", "max_people": [2, 2], "prices": [253, 292], "max_available_rooms": ["1", "1"]}, {"name": "One Bedroom Garden View Suite with Jacuzzi - Jepun", "max_people": [2, 2], "prices": [253, 292], "max_available_rooms": ["1", "1"]}, {"name": "One-Bedroom Ocean View Suite with Hot Tub", "max_people": [2, 2], "prices": [253, 292], "max_available_rooms": ["1", "1"]}, {"name": "One-Bedroom Ocean View Suite with Hot Tub", "max_people": [2, 2], "prices": [253, 292], "max_available_rooms": ["1", "1"]}, {"name": "One-Bedroom Suite with Private Pool", "max_people": [2, 2], "prices": [253, 292], "max_available_rooms": ["1", "1"]}, {"name": "One-Bedroom Suite with Private Pool", "max_people": [2, 2], "prices": [253, 292], "max_available_rooms": ["1", "1"]}, {"name": "One-Bedroom Villa with Private Pool", "max_people": [2, 2], "prices": [253, 292], "max_available_rooms": ["1", "1"]}, {"name": "One-Bedroom Villa with Private Pool", "max_people": [2, 2], "prices": [253, 292], "max_available_rooms": ["1", "1"]}, {"name": "Two-Bedroom Villa with Private Pool", "max_people": [2, 2], "prices": [253, 292], "max_available_rooms": ["1", "1"]}, {"name": "Two-Bedroom Villa with Private Pool", "max_people": [2, 2], "prices": [253, 292], "max_available_rooms": ["1", "1"]}, {"name": "Beach Front Villa with Private Pool", "max_people": [2, 2], "prices": [253, 292], "max_available_rooms": ["1", "1"]}, {"name": "Beach Front Villa with Private Pool", "max_people": [2, 2], "prices": [253, 292], "max_available_rooms": ["1", "1"]}]
+https://www.booking.com/hotel/id/the-royal-purnama-art-suites-and-villas.en-gb.html?aid=304142&label=gen173nr-1FCAQoggJCC3NlYXJjaF9iYWxpSAlYBGjpAYgBAZgBCbgBF8gBDNgBAegBAfgBA4gCAagCA7gCq9X0qgbAAgHSAiQwMWUwNjI4NS0xYWUzLTQyNzktYWQ0ZC0xNGEzODQyZmQxNzjYAgXgAgE&ucfs=1&arphpl=1&group_adults=1&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=2&hapos=2&sr_order=popularity&srpvid=a87e9bd5c29501ac&srepoch=1700604588&from_sustainable_property_sr=1&from=searchresults&checkin=2023-12-22&checkout=2023-12-23&selected_currency=USD#hotelTmpl
+['One Bedroom Garden View Suite with Jacuzzi - Jepun', 'One-Bedroom Ocean View Suite with Hot Tub', 'One-Bedroom Suite with Private Pool', 'One-Bedroom Villa with Private Pool', 'Two-Bedroom Villa with Private Pool', 'Beach Front Villa with Private Pool']
+[2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+[253, 292, 253, 292, 253, 292, 253, 292, 253, 292, 253, 292]
+['1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1']
+2023-12-22
+
+[{"name": "Tent", "max_people": [2, 2, 2, 2, 2], "prices": [28, 30, 37, 62, 34], "max_available_rooms": ["6", "6", "6", "6", "6"]}, {"name": "Tent", "max_people": [2, 2, 2, 2, 2], "prices": [28, 30, 37, 62, 34], "max_available_rooms": ["6", "6", "6", "6", "6"]}, {"name": "Tent", "max_people": [2, 2, 2, 2, 2], "prices": [28, 30, 37, 62, 34], "max_available_rooms": ["6", "6", "6", "6", "6"]}, {"name": "Tent", "max_people": [2, 2, 2, 2, 2], "prices": [28, 30, 37, 62, 34], "max_available_rooms": ["6", "6", "6", "6", "6"]}, {"name": "Tent", "max_people": [2, 2, 2, 2, 2], "prices": [28, 30, 37, 62, 34], "max_available_rooms": ["6", "6", "6", "6", "6"]}, {"name": "Double Room", "max_people": [2, 2, 2, 2, 2, 2, 2, 2], "prices": [28, 30, 37, 62, 34, 63, 67, 138], "max_available_rooms": ["6", "6", "6", "6", "6", "6", "6", "6"]}, {"name": "Double Room", "max_people": [2, 2, 2, 2, 2, 2, 2, 2], "prices": [28, 30, 37, 62, 34, 63, 67, 138], "max_available_rooms": ["6", "6", "6", "6", "6", "6", "6", "6"]}, {"name": "Double Room", "max_people": [2, 2, 2, 2, 2, 2, 2, 2], "prices": [28, 30, 37, 62, 34, 63, 67, 138], "max_available_rooms": ["6", "6", "6", "6", "6", "6", "6", "6"]}, {"name": "Double Room", "max_people": [2, 2, 2, 2, 2, 2, 2, 2], "prices": [28, 30, 37, 62, 34, 63, 67, 138], "max_available_rooms": ["6", "6", "6", "6", "6", "6", "6", "6"]}, {"name": "Double Room", "max_people": [2, 2, 2, 2, 2, 2, 2, 2], "prices": [28, 30, 37, 62, 34, 63, 67, 138], "max_available_rooms": ["6", "6", "6", "6", "6", "6", "6", "6"]}, {"name": "Double Room", "max_people": [2, 2, 2, 2, 2, 2, 2, 2], "prices": [28, 30, 37, 62, 34, 63, 67, 138], "max_available_rooms": ["6", "6", "6", "6", "6", "6", "6", "6"]}, {"name": "Double Room", "max_people": [2, 2, 2, 2, 2, 2, 2, 2], "prices": [28, 30, 37, 62, 34, 63, 67, 138], "max_available_rooms": ["6", "6", "6", "6", "6", "6", "6", "6"]}, {"name": "Double Room", "max_people": [2, 2, 2, 2, 2, 2, 2, 2], "prices": [28, 30, 37, 62, 34, 63, 67, 138], "max_available_rooms": ["6", "6", "6", "6", "6", "6", "6", "6"]}, {"name": "Deluxe Room", "max_people": [2, 2, 2, 2], "prices": [28, 30, 37, 62], "max_available_rooms": ["6", "6", "6", "6"]}, {"name": "Deluxe Room", "max_people": [2, 2, 2, 2], "prices": [28, 30, 37, 62], "max_available_rooms": ["6", "6", "6", "6"]}, {"name": "Deluxe Room", "max_people": [2, 2, 2, 2], "prices": [28, 30, 37, 62], "max_available_rooms": ["6", "6", "6", "6"]}, {"name": "Deluxe Room", "max_people": [2, 2, 2, 2], "prices": [28, 30, 37, 62], "max_available_rooms": ["6", "6", "6", "6"]}]
+https://www.booking.com/hotel/id/daydream-lodge.en-gb.html?aid=304142&label=gen173nr-1FCAQoggJCC3NlYXJjaF9iYWxpSAlYBGjpAYgBAZgBCbgBF8gBDNgBAegBAfgBA4gCAagCA7gCq9X0qgbAAgHSAiQwMWUwNjI4NS0xYWUzLTQyNzktYWQ0ZC0xNGEzODQyZmQxNzjYAgXgAgE&ucfs=1&arphpl=1&group_adults=1&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=8&hapos=8&sr_order=popularity&srpvid=a87e9bd5c29501ac&srepoch=1700604588&from_sustainable_property_sr=1&from=searchresults&checkin=2023-12-22&checkout=2023-12-23&selected_currency=USD#hotelTmpl
+['Tent', 'Double Room', 'Deluxe Room']
+[2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+[28, 30, 37, 62, 34, 28, 30, 37, 62, 34, 63, 67, 138, 28, 30, 37, 62]
+['6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6']
+2023-12-22
+
+[{"name": "Superior Double Room with Free Benefit", "max_people": [2], "prices": [81], "max_available_rooms": ["10"]}, {"name": "Deluxe  Double Room with Free Benefit", "max_people": [2, 2, 2, 1], "prices": [81, 84, 93, 83], "max_available_rooms": ["10", "10", "10", "10"]}, {"name": "Deluxe  Double Room with Free Benefit", "max_people": [2, 2, 2, 1], "prices": [81, 84, 93, 83], "max_available_rooms": ["10", "10", "10", "10"]}, {"name": "Deluxe  Double Room with Free Benefit", "max_people": [2, 2, 2, 1], "prices": [81, 84, 93, 83], "max_available_rooms": ["10", "10", "10", "10"]}, {"name": "Deluxe  Double Room with Free Benefit", "max_people": [2, 2, 2, 1], "prices": [81, 84, 93, 83], "max_available_rooms": ["10", "10", "10", "10"]}, {"name": "One-Bedroom Suite with Garden View and Free Benefit", "max_people": [2, 2], "prices": [81, 84], "max_available_rooms": ["10", "10"]}, {"name": "One-Bedroom Suite with Garden View and Free Benefit", "max_people": [2, 2], "prices": [81, 84], "max_available_rooms": ["10", "10"]}, {"name": "Two-Bedroom Garden Villa with Free Benefit", "max_people": [2, 2], "prices": [81, 84], "max_available_rooms": ["10", "10"]}, {"name": "Two-Bedroom Garden Villa with Free Benefit", "max_people": [2, 2], "prices": [81, 84], "max_available_rooms": ["10", "10"]}, {"name": "Three-Bedroom Garden View Villa with Pool Access and Free Benefit", "max_people": [2], "prices": [81], "max_available_rooms": ["10"]}]
+https://www.booking.com/hotel/id/swan-paradise-bali.en-gb.html?aid=304142&label=gen173nr-1FCAQoggJCC3NlYXJjaF9iYWxpSAlYBGjpAYgBAZgBCbgBF8gBDNgBAegBAfgBA4gCAagCA7gCq9X0qgbAAgHSAiQwMWUwNjI4NS0xYWUzLTQyNzktYWQ0ZC0xNGEzODQyZmQxNzjYAgXgAgE&ucfs=1&arphpl=1&group_adults=1&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=4&hapos=4&sr_order=popularity&srpvid=a87e9bd5c29501ac&srepoch=1700604588&from_sustainable_property_sr=1&from=searchresults&checkin=2023-12-22&checkout=2023-12-23&selected_currency=USD#hotelTmpl
+['Superior Double Room with Free Benefit', 'Deluxe  Double Room with Free Benefit', 'One-Bedroom Suite with Garden View and Free Benefit', 'Two-Bedroom Garden Villa with Free Benefit', 'Three-Bedroom Garden View Villa with Pool Access and Free Benefit']
+[2, 2, 2, 2, 1, 2, 2, 2, 2, 2]
+[81, 81, 84, 93, 83, 81, 84, 81, 84, 81]
+['10', '10', '10', '10', '10', '10', '10', '10', '10', '10']
+2023-12-22
+
+[{"name": "Deluxe Double or Twin Room", "max_people": [2, 2, 2], "prices": [48, 58, 64], "max_available_rooms": ["4", "4", "4"]}, {"name": "Deluxe Double or Twin Room", "max_people": [2, 2, 2], "prices": [48, 58, 64], "max_available_rooms": ["4", "4", "4"]}, {"name": "Deluxe Double or Twin Room", "max_people": [2, 2, 2], "prices": [48, 58, 64], "max_available_rooms": ["4", "4", "4"]}, {"name": "Superior Double or Twin Room with Garden View", "max_people": [2, 2], "prices": [48, 58], "max_available_rooms": ["4", "4"]}, {"name": "Superior Double or Twin Room with Garden View", "max_people": [2, 2], "prices": [48, 58], "max_available_rooms": ["4", "4"]}, {"name": "Premier Room", "max_people": [2, 2], "prices": [48, 58], "max_available_rooms": ["4", "4"]}, {"name": "Premier Room", "max_people": [2, 2], "prices": [48, 58], "max_available_rooms": ["4", "4"]}, {"name": "One-Bedroom Villa", "max_people": [2, 2], "prices": [48, 58], "max_available_rooms": ["4", "4"]}, {"name": "One-Bedroom Villa", "max_people": [2, 2], "prices": [48, 58], "max_available_rooms": ["4", "4"]}]
+https://www.booking.com/hotel/id/sunari-villas-spa-resort.en-gb.html?aid=304142&label=gen173nr-1FCAQoggJCC3NlYXJjaF9iYWxpSAlYBGjpAYgBAZgBCbgBF8gBDNgBAegBAfgBA4gCAagCA7gCq9X0qgbAAgHSAiQwMWUwNjI4NS0xYWUzLTQyNzktYWQ0ZC0xNGEzODQyZmQxNzjYAgXgAgE&ucfs=1&arphpl=1&group_adults=1&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=5&hapos=5&sr_order=popularity&srpvid=a87e9bd5c29501ac&srepoch=1700604588&from_sustainable_property_sr=1&from=searchresults&checkin=2023-12-22&checkout=2023-12-23&selected_currency=USD#hotelTmpl
+['Deluxe Double or Twin Room', 'Superior Double or Twin Room with Garden View', 'Premier Room', 'One-Bedroom Villa']
+[2, 2, 2, 2, 2, 2, 2, 2, 2]
+[48, 58, 64, 48, 58, 48, 58, 48, 58]
+['4', '4', '4', '4', '4', '4', '4', '4', '4']
+2023-12-22
+
+[{"name": "One-Bedroom Villa with Private Pool with Free Benefit", "max_people": [2], "prices": [272], "max_available_rooms": ["1"]}, {"name": "Villa with Private Pool", "max_people": [2], "prices": [272], "max_available_rooms": ["1"]}, {"name": "One-Bedroom Luxury Private Pool Villa with Free Benefit", "max_people": [2], "prices": [272], "max_available_rooms": ["1"]}]
+https://www.booking.com/hotel/id/nau-villa-ubud.en-gb.html?aid=304142&label=gen173nr-1FCAQoggJCC3NlYXJjaF9iYWxpSAlYBGjpAYgBAZgBCbgBF8gBDNgBAegBAfgBA4gCAagCA7gCq9X0qgbAAgHSAiQwMWUwNjI4NS0xYWUzLTQyNzktYWQ0ZC0xNGEzODQyZmQxNzjYAgXgAgE&ucfs=1&arphpl=1&group_adults=1&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=9&hapos=9&sr_order=popularity&srpvid=a87e9bd5c29501ac&srepoch=1700604588&from_sustainable_property_sr=1&from=searchresults&checkin=2023-12-22&checkout=2023-12-23&selected_currency=USD#hotelTmpl
+['One-Bedroom Villa with Private Pool with Free Benefit', 'Villa with Private Pool', 'One-Bedroom Luxury Private Pool Villa with Free Benefit']
+[2, 2, 2]
+[272, 272, 272]
+['1', '1', '1']
+2023-12-22
+
+[{"name": "Inara Room", "max_people": [2, 2, 2], "prices": [111, 123, 135], "max_available_rooms": ["1", "1", "1"]}, {"name": "Inara Room", "max_people": [2, 2, 2], "prices": [111, 123, 135], "max_available_rooms": ["1", "1", "1"]}, {"name": "Inara Room", "max_people": [2, 2, 2], "prices": [111, 123, 135], "max_available_rooms": ["1", "1", "1"]}, {"name": "Duplex Suite with Private Pool", "max_people": [2, 2, 2], "prices": [111, 123, 135], "max_available_rooms": ["1", "1", "1"]}, {"name": "Duplex Suite with Private Pool", "max_people": [2, 2, 2], "prices": [111, 123, 135], "max_available_rooms": ["1", "1", "1"]}, {"name": "Duplex Suite with Private Pool", "max_people": [2, 2, 2], "prices": [111, 123, 135], "max_available_rooms": ["1", "1", "1"]}]
+https://www.booking.com/hotel/id/inara-alas-harum.en-gb.html?aid=304142&label=gen173nr-1FCAQoggJCC3NlYXJjaF9iYWxpSAlYBGjpAYgBAZgBCbgBF8gBDNgBAegBAfgBA4gCAagCA7gCq9X0qgbAAgHSAiQwMWUwNjI4NS0xYWUzLTQyNzktYWQ0ZC0xNGEzODQyZmQxNzjYAgXgAgE&ucfs=1&arphpl=1&group_adults=1&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=10&hapos=10&sr_order=popularity&srpvid=a87e9bd5c29501ac&srepoch=1700604588&from_sustainable_property_sr=1&from=searchresults&checkin=2023-12-22&checkout=2023-12-23&selected_currency=USD#hotelTmpl
+['Inara Room', 'Duplex Suite with Private Pool']
+[2, 2, 2, 2, 2, 2]
+[111, 123, 135, 111, 123, 135]
+['1', '1', '1', '1', '1', '1']
+2023-12-22
+
+[{"name": "Deluxe Room", "max_people": [2], "prices": [22], "max_available_rooms": ["2"]}, {"name": "Deluxe Room", "max_people": [2, 2], "prices": [22, 23], "max_available_rooms": ["2", "2"]}, {"name": "Deluxe Room", "max_people": [2, 2], "prices": [22, 23], "max_available_rooms": ["2", "2"]}, {"name": "Suite", "max_people": [2, 2], "prices": [22, 23], "max_available_rooms": ["2", "2"]}, {"name": "Suite", "max_people": [2, 2], "prices": [22, 23], "max_available_rooms": ["2", "2"]}]
+https://www.booking.com/hotel/id/adhi-jaya-suite.en-gb.html?aid=304142&label=gen173nr-1FCAQoggJCC3NlYXJjaF9iYWxpSAlYBGjpAYgBAZgBCbgBF8gBDNgBAegBAfgBA4gCAagCA7gCq9X0qgbAAgHSAiQwMWUwNjI4NS0xYWUzLTQyNzktYWQ0ZC0xNGEzODQyZmQxNzjYAgXgAgE&ucfs=1&arphpl=1&group_adults=1&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=11&hapos=11&sr_order=popularity&srpvid=a87e9bd5c29501ac&srepoch=1700604588&from_sustainable_property_sr=1&from=searchresults&checkin=2023-12-22&checkout=2023-12-23&selected_currency=USD#hotelTmpl
+['Deluxe Room', 'Deluxe Room', 'Suite']
+[2, 2, 2, 2, 2]
+[22, 22, 23, 22, 23]
+['2', '2', '2', '2', '2']
+2023-12-22
+
+[{"name": "Deluxe Villa", "max_people": [2, 2], "prices": [54, 68], "max_available_rooms": ["2", "2"]}, {"name": "Deluxe Villa", "max_people": [2, 2], "prices": [54, 68], "max_available_rooms": ["2", "2"]}, {"name": "Double Room with Pool View", "max_people": [2, 2], "prices": [54, 68], "max_available_rooms": ["2", "2"]}, {"name": "Double Room with Pool View", "max_people": [2, 2], "prices": [54, 68], "max_available_rooms": ["2", "2"]}]
+https://www.booking.com/hotel/id/pangkung-carik-villa-by-pramana.en-gb.html?aid=304142&label=gen173nr-1FCAQoggJCC3NlYXJjaF9iYWxpSAlYBGjpAYgBAZgBCbgBF8gBDNgBAegBAfgBA4gCAagCA7gCq9X0qgbAAgHSAiQwMWUwNjI4NS0xYWUzLTQyNzktYWQ0ZC0xNGEzODQyZmQxNzjYAgXgAgE&ucfs=1&arphpl=1&group_adults=1&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=13&hapos=13&sr_order=popularity&srpvid=a87e9bd5c29501ac&srepoch=1700604588&from_sustainable_property_sr=1&from=searchresults&checkin=2023-12-22&checkout=2023-12-23&selected_currency=USD#hotelTmpl
+['Deluxe Villa', 'Double Room with Pool View']
+[2, 2, 2, 2]
+[54, 68, 54, 68]
+['2', '2', '2', '2']
+2023-12-22
+
+[]
+https://www.booking.com/hotel/id/pinokkio-b-amp-b-ristorante.en-gb.html?aid=304142&label=gen173nr-1FCAQoggJCC3NlYXJjaF9iYWxpSAlYBGjpAYgBAZgBCbgBF8gBDNgBAegBAfgBA4gCAagCA7gCq9X0qgbAAgHSAiQwMWUwNjI4NS0xYWUzLTQyNzktYWQ0ZC0xNGEzODQyZmQxNzjYAgXgAgE&ucfs=1&arphpl=1&group_adults=1&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=17&hapos=17&sr_order=popularity&srpvid=a87e9bd5c29501ac&srepoch=1700604588&from_sustainable_property_sr=1&from=searchresults&checkin=2023-12-22&checkout=2023-12-23&selected_currency=USD#hotelTmpl
+[]
+[]
+[]
+[]
+2023-12-22
+
+[]
+https://www.booking.com/hotel/id/sahaja-and-sawah-boutique-villa-retreat-tabanan.en-gb.html?aid=304142&label=gen173nr-1FCAQoggJCC3NlYXJjaF9iYWxpSAlYBGjpAYgBAZgBCbgBF8gBDNgBAegBAfgBA4gCAagCA7gCq9X0qgbAAgHSAiQwMWUwNjI4NS0xYWUzLTQyNzktYWQ0ZC0xNGEzODQyZmQxNzjYAgXgAgE&ucfs=1&arphpl=1&group_adults=1&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=18&hapos=18&sr_order=popularity&srpvid=a87e9bd5c29501ac&srepoch=1700604588&from_sustainable_property_sr=1&from=searchresults&checkin=2023-12-22&checkout=2023-12-23&selected_currency=USD#hotelTmpl
+[]
+[]
+[]
+[]
+2023-12-22
+
+[{"name": "Deluxe Double Room with Balcony and Sea View", "max_people": [2, 2, 2, 1, 2, 2, 1], "prices": [78, 92, 138, 83, 82, 97, 87], "max_available_rooms": ["5", "5", "5", "5", "5", "5", "5"]}, {"name": "Deluxe Double Room with Balcony and Sea View", "max_people": [2, 2, 2, 1, 2, 2, 1], "prices": [78, 92, 138, 83, 82, 97, 87], "max_available_rooms": ["5", "5", "5", "5", "5", "5", "5"]}, {"name": "Deluxe Double Room with Balcony and Sea View", "max_people": [2, 2, 2, 1, 2, 2, 1], "prices": [78, 92, 138, 83, 82, 97, 87], "max_available_rooms": ["5", "5", "5", "5", "5", "5", "5"]}, {"name": "Deluxe Double Room with Balcony and Sea View", "max_people": [2, 2, 2, 1, 2, 2, 1], "prices": [78, 92, 138, 83, 82, 97, 87], "max_available_rooms": ["5", "5", "5", "5", "5", "5", "5"]}, {"name": "Deluxe Double Room with Balcony and Sea View", "max_people": [2, 2, 2, 1, 2, 2, 1], "prices": [78, 92, 138, 83, 82, 97, 87], "max_available_rooms": ["5", "5", "5", "5", "5", "5", "5"]}, {"name": "Deluxe Double Room with Balcony and Sea View", "max_people": [2, 2, 2, 1, 2, 2, 1], "prices": [78, 92, 138, 83, 82, 97, 87], "max_available_rooms": ["5", "5", "5", "5", "5", "5", "5"]}, {"name": "Deluxe Double Room with Balcony and Sea View", "max_people": [2, 2, 2, 1, 2, 2, 1], "prices": [78, 92, 138, 83, 82, 97, 87], "max_available_rooms": ["5", "5", "5", "5", "5", "5", "5"]}]
+https://www.booking.com/hotel/id/bali-cliff-glamping.en-gb.html?aid=304142&label=gen173nr-1FCAQoggJCC3NlYXJjaF9iYWxpSAlYBGjpAYgBAZgBCbgBF8gBDNgBAegBAfgBA4gCAagCA7gCq9X0qgbAAgHSAiQwMWUwNjI4NS0xYWUzLTQyNzktYWQ0ZC0xNGEzODQyZmQxNzjYAgXgAgE&ucfs=1&arphpl=1&group_adults=1&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=15&hapos=15&sr_order=popularity&srpvid=a87e9bd5c29501ac&srepoch=1700604588&from_sustainable_property_sr=1&from=searchresults&checkin=2023-12-22&checkout=2023-12-23&selected_currency=USD#hotelTmpl
+['Deluxe Double Room with Balcony and Sea View']
+[2, 2, 2, 1, 2, 2, 1]
+[78, 92, 138, 83, 82, 97, 87]
+['5', '5', '5', '5', '5', '5', '5']
+2023-12-22
+
+[{"name": "Standard Double or Twin Room with Garden View", "max_people": [2, 2, 2, 1, 2], "prices": [47, 50, 55, 42, 50], "max_available_rooms": ["5", "5", "5", "5", "5"]}, {"name": "Standard Double or Twin Room with Garden View", "max_people": [2, 2, 2, 1, 2], "prices": [47, 50, 55, 42, 50], "max_available_rooms": ["5", "5", "5", "5", "5"]}, {"name": "Standard Double or Twin Room with Garden View", "max_people": [2, 2, 2, 1, 2], "prices": [47, 50, 55, 42, 50], "max_available_rooms": ["5", "5", "5", "5", "5"]}, {"name": "Standard Double or Twin Room with Garden View", "max_people": [2, 2, 2, 1, 2], "prices": [47, 50, 55, 42, 50], "max_available_rooms": ["5", "5", "5", "5", "5"]}, {"name": "Standard Double or Twin Room with Garden View", "max_people": [2, 2, 2, 1, 2], "prices": [47, 50, 55, 42, 50], "max_available_rooms": ["5", "5", "5", "5", "5"]}, {"name": "Deluxe Room", "max_people": [2, 2, 2], "prices": [47, 50, 55], "max_available_rooms": ["5", "5", "5"]}, {"name": "Deluxe Room", "max_people": [2, 2, 2], "prices": [47, 50, 55], "max_available_rooms": ["5", "5", "5"]}, {"name": "Deluxe Room", "max_people": [2, 2, 2], "prices": [47, 50, 55], "max_available_rooms": ["5", "5", "5"]}, {"name": "Bungalow with Garden View", "max_people": [2, 2, 2], "prices": [47, 50, 55], "max_available_rooms": ["5", "5", "5"]}, {"name": "Bungalow with Garden View", "max_people": [2, 2, 2], "prices": [47, 50, 55], "max_available_rooms": ["5", "5", "5"]}, {"name": "Bungalow with Garden View", "max_people": [2, 2, 2], "prices": [47, 50, 55], "max_available_rooms": ["5", "5", "5"]}]
+https://www.booking.com/hotel/id/tapa-agung-view.en-gb.html?aid=304142&label=gen173nr-1FCAQoggJCC3NlYXJjaF9iYWxpSAlYBGjpAYgBAZgBCbgBF8gBDNgBAegBAfgBA4gCAagCA7gCq9X0qgbAAgHSAiQwMWUwNjI4NS0xYWUzLTQyNzktYWQ0ZC0xNGEzODQyZmQxNzjYAgXgAgE&ucfs=1&arphpl=1&group_adults=1&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=12&hapos=12&sr_order=popularity&srpvid=a87e9bd5c29501ac&srepoch=1700604588&from_sustainable_property_sr=1&from=searchresults&checkin=2023-12-22&checkout=2023-12-23&selected_currency=USD#hotelTmpl
+['Standard Double or Twin Room with Garden View', 'Deluxe Room', 'Bungalow with Garden View']
+[2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2]
+[47, 50, 55, 42, 50, 47, 50, 55, 47, 50, 55]
+['5', '5', '5', '5', '5', '5', '5', '5', '5', '5', '5']
+2023-12-22
+
+[{"name": "Deluxe Double Room", "max_people": [2, 1], "prices": [18, 18], "max_available_rooms": ["1", "1"]}, {"name": "Deluxe Double Room", "max_people": [2, 1], "prices": [18, 18], "max_available_rooms": ["1", "1"]}, {"name": "Superior Family Room", "max_people": [2, 1, 2, 3], "prices": [18, 18, 24, 24], "max_available_rooms": ["1", "1", "1", "1"]}, {"name": "Superior Family Room", "max_people": [2, 1, 2, 3], "prices": [18, 18, 24, 24], "max_available_rooms": ["1", "1", "1", "1"]}, {"name": "Superior Family Room", "max_people": [2, 1, 2, 3], "prices": [18, 18, 24, 24], "max_available_rooms": ["1", "1", "1", "1"]}, {"name": "Superior Family Room", "max_people": [2, 1, 2, 3], "prices": [18, 18, 24, 24], "max_available_rooms": ["1", "1", "1", "1"]}]
+https://www.booking.com/hotel/id/nusa-penida-yurt.en-gb.html?aid=304142&label=gen173nr-1FCAQoggJCC3NlYXJjaF9iYWxpSAlYBGjpAYgBAZgBCbgBF8gBDNgBAegBAfgBA4gCAagCA7gCq9X0qgbAAgHSAiQwMWUwNjI4NS0xYWUzLTQyNzktYWQ0ZC0xNGEzODQyZmQxNzjYAgXgAgE&ucfs=1&arphpl=1&group_adults=1&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=19&hapos=19&sr_order=popularity&srpvid=a87e9bd5c29501ac&srepoch=1700604588&from_sustainable_property_sr=1&from=searchresults&checkin=2023-12-22&checkout=2023-12-23&selected_currency=USD#hotelTmpl
+['Deluxe Double Room', 'Superior Family Room']
+[2, 1, 2, 1, 2, 3]
+[18, 18, 18, 18, 24, 24]
+['1', '1', '1', '1', '1', '1']
+2023-12-22
+
+[{"name": "Deluxe Room Pool Access", "max_people": [2, 2, 2], "prices": [85, 101, 111], "max_available_rooms": ["6", "6", "6"]}, {"name": "Deluxe Room Pool Access", "max_people": [2, 2, 2], "prices": [85, 101, 111], "max_available_rooms": ["6", "6", "6"]}, {"name": "Deluxe Room Pool Access", "max_people": [2, 2, 2], "prices": [85, 101, 111], "max_available_rooms": ["6", "6", "6"]}, {"name": "Deluxe Room With Balcony", "max_people": [2, 2, 2], "prices": [85, 101, 111], "max_available_rooms": ["6", "6", "6"]}, {"name": "Deluxe Room With Balcony", "max_people": [2, 2, 2], "prices": [85, 101, 111], "max_available_rooms": ["6", "6", "6"]}, {"name": "Deluxe Room With Balcony", "max_people": [2, 2, 2], "prices": [85, 101, 111], "max_available_rooms": ["6", "6", "6"]}, {"name": "Two-Bedroom Pool Villa with One Time 30 Minute Welcome Massage", "max_people": [2, 2], "prices": [85, 101], "max_available_rooms": ["6", "6"]}, {"name": "Two-Bedroom Pool Villa with One Time 30 Minute Welcome Massage", "max_people": [2, 2], "prices": [85, 101], "max_available_rooms": ["6", "6"]}, {"name": "Three-Bedroom Pool Villa with One Time 30 Minute Welcome Massage", "max_people": [2, 2], "prices": [85, 101], "max_available_rooms": ["6", "6"]}, {"name": "Three-Bedroom Pool Villa with One Time 30 Minute Welcome Massage", "max_people": [2, 2], "prices": [85, 101], "max_available_rooms": ["6", "6"]}, {"name": "Four-Bedroom Pool Villa with One Time 30 Minute Welcome Massage", "max_people": [2, 2], "prices": [85, 101], "max_available_rooms": ["6", "6"]}, {"name": "Four-Bedroom Pool Villa with One Time 30 Minute Welcome Massage", "max_people": [2, 2], "prices": [85, 101], "max_available_rooms": ["6", "6"]}]
+https://www.booking.com/hotel/id/swan-keramas-bali-villa.en-gb.html?aid=304142&label=gen173nr-1FCAQoggJCC3NlYXJjaF9iYWxpSAlYBGjpAYgBAZgBCbgBF8gBDNgBAegBAfgBA4gCAagCA7gCq9X0qgbAAgHSAiQwMWUwNjI4NS0xYWUzLTQyNzktYWQ0ZC0xNGEzODQyZmQxNzjYAgXgAgE&ucfs=1&arphpl=1&group_adults=1&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=14&hapos=14&sr_order=popularity&srpvid=a87e9bd5c29501ac&srepoch=1700604588&from_sustainable_property_sr=1&from=searchresults&checkin=2023-12-22&checkout=2023-12-23&selected_currency=USD#hotelTmpl
+['Deluxe Room Pool Access', 'Deluxe Room With Balcony', 'Two-Bedroom Pool Villa with One Time 30 Minute Welcome Massage', 'Three-Bedroom Pool Villa with One Time 30 Minute Welcome Massage', 'Four-Bedroom Pool Villa with One Time 30 Minute Welcome Massage']
+[2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+[85, 101, 111, 85, 101, 111, 85, 101, 85, 101, 85, 101]
+['6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6', '6']
+2023-12-22
+
+[{"name": "Cozy Double or Twin Room", "max_people": [2], "prices": [49], "max_available_rooms": ["2"]}]
+https://www.booking.com/hotel/id/grandmas.en-gb.html?aid=304142&label=gen173nr-1FCAQoggJCC3NlYXJjaF9iYWxpSAlYBGjpAYgBAZgBCbgBF8gBDNgBAegBAfgBA4gCAagCA7gCq9X0qgbAAgHSAiQwMWUwNjI4NS0xYWUzLTQyNzktYWQ0ZC0xNGEzODQyZmQxNzjYAgXgAgE&ucfs=1&arphpl=1&group_adults=1&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=16&hapos=16&sr_order=popularity&srpvid=a87e9bd5c29501ac&srepoch=1700604588&from_sustainable_property_sr=1&from=searchresults&checkin=2023-12-22&checkout=2023-12-23&selected_currency=USD#hotelTmpl
+['Cozy Double or Twin Room']
+[2]
+[49]
+['2']
+2023-12-22
+
+[{"name": "Bed in 6-Bed Mixed Dormitory Room", "max_people": [1], "prices": [8], "max_available_rooms": ["6"]}, {"name": "Bed in 6-Bed Female Dormitory Room", "max_people": [1], "prices": [8], "max_available_rooms": ["6"]}, {"name": "Bed in 4-Bed Mixed Dormitory Room", "max_people": [1], "prices": [8], "max_available_rooms": ["6"]}, {"name": "Bed in 6-Bed Dormitory Room", "max_people": [1], "prices": [8], "max_available_rooms": ["6"]}]
+https://www.booking.com/hotel/id/the-commotion-canggu.en-gb.html?aid=304142&label=gen173nr-1FCAQoggJCC3NlYXJjaF9iYWxpSAlYBGjpAYgBAZgBCbgBF8gBDNgBAegBAfgBA4gCAagCA7gCq9X0qgbAAgHSAiQwMWUwNjI4NS0xYWUzLTQyNzktYWQ0ZC0xNGEzODQyZmQxNzjYAgXgAgE&ucfs=1&arphpl=1&group_adults=1&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=20&hapos=20&sr_order=popularity&srpvid=a87e9bd5c29501ac&srepoch=1700604588&from=searchresults&checkin=2023-12-22&checkout=2023-12-23&selected_currency=USD#hotelTmpl
+['Bed in 6-Bed Mixed Dormitory Room', 'Bed in 6-Bed Female Dormitory Room', 'Bed in 4-Bed Mixed Dormitory Room', 'Bed in 6-Bed Dormitory Room']
+[1, 1, 1, 1]
+[8, 8, 8, 8]
+['6', '6', '6', '6']
+2023-12-22
+
+[]
+https://www.booking.com/hotel/id/mambo-beach-resort.en-gb.html?aid=304142&label=gen173nr-1FCAQoggJCC3NlYXJjaF9iYWxpSAlYBGjpAYgBAZgBCbgBF8gBDNgBAegBAfgBA4gCAagCA7gCq9X0qgbAAgHSAiQwMWUwNjI4NS0xYWUzLTQyNzktYWQ0ZC0xNGEzODQyZmQxNzjYAgXgAgE&ucfs=1&arphpl=1&group_adults=1&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=21&hapos=21&sr_order=popularity&srpvid=a87e9bd5c29501ac&srepoch=1700604588&from_sustainable_property_sr=1&from=searchresults&checkin=2023-12-22&checkout=2023-12-23&selected_currency=USD#hotelTmpl
+[]
+[]
+[]
+[]
+2023-12-22
+
+[{"name": "Suite with Garden View", "max_people": [2, 2], "prices": [72, 86], "max_available_rooms": ["1", "1"]}, {"name": "Suite with Garden View", "max_people": [2, 2], "prices": [72, 86], "max_available_rooms": ["1", "1"]}, {"name": "Executive Suite", "max_people": [2, 2], "prices": [72, 86], "max_available_rooms": ["1", "1"]}, {"name": "Executive Suite", "max_people": [2, 2], "prices": [72, 86], "max_available_rooms": ["1", "1"]}]
+https://www.booking.com/hotel/id/villa-lembah-damai.en-gb.html?aid=304142&label=gen173nr-1FCAQoggJCC3NlYXJjaF9iYWxpSAlYBGjpAYgBAZgBCbgBF8gBDNgBAegBAfgBA4gCAagCA7gCq9X0qgbAAgHSAiQwMWUwNjI4NS0xYWUzLTQyNzktYWQ0ZC0xNGEzODQyZmQxNzjYAgXgAgE&ucfs=1&arphpl=1&group_adults=1&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=22&hapos=22&sr_order=popularity&srpvid=a87e9bd5c29501ac&srepoch=1700604588&from_sustainable_property_sr=1&from=searchresults&checkin=2023-12-22&checkout=2023-12-23&selected_currency=USD#hotelTmpl
+['Suite with Garden View', 'Executive Suite']
+[2, 2, 2, 2]
+[72, 86, 72, 86]
+['1', '1', '1', '1']
+2023-12-22
+
+[{"name": "Double Room with Balcony", "max_people": [2], "prices": [24], "max_available_rooms": ["10"]}]
+https://www.booking.com/hotel/id/umah-santi-residence-kabupaten-badung.en-gb.html?aid=304142&label=gen173nr-1FCAQoggJCC3NlYXJjaF9iYWxpSAlYBGjpAYgBAZgBCbgBF8gBDNgBAegBAfgBA4gCAagCA7gCq9X0qgbAAgHSAiQwMWUwNjI4NS0xYWUzLTQyNzktYWQ0ZC0xNGEzODQyZmQxNzjYAgXgAgE&ucfs=1&arphpl=1&group_adults=1&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=24&hapos=24&sr_order=popularity&srpvid=a87e9bd5c29501ac&srepoch=1700604588&from=searchresults&checkin=2023-12-22&checkout=2023-12-23&selected_currency=USD#hotelTmpl
+['Double Room with Balcony']
+[2]
+[24]
+['10']
+2023-12-22
+
+[{"name": "Deluxe Double Room with Side Sea View", "max_people": [2, 2], "prices": [88, 98], "max_available_rooms": ["10", "10"]}, {"name": "Deluxe Double Room with Side Sea View", "max_people": [2, 2], "prices": [88, 98], "max_available_rooms": ["10", "10"]}]
+https://www.booking.com/hotel/id/mambo-hill-resort.en-gb.html?aid=304142&label=gen173nr-1FCAQoggJCC3NlYXJjaF9iYWxpSAlYBGjpAYgBAZgBCbgBF8gBDNgBAegBAfgBA4gCAagCA7gCq9X0qgbAAgHSAiQwMWUwNjI4NS0xYWUzLTQyNzktYWQ0ZC0xNGEzODQyZmQxNzjYAgXgAgE&ucfs=1&arphpl=1&group_adults=1&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=23&hapos=23&sr_order=popularity&srpvid=a87e9bd5c29501ac&srepoch=1700604588&from_sustainable_property_sr=1&from=searchresults&checkin=2023-12-22&checkout=2023-12-23&selected_currency=USD#hotelTmpl
+['Deluxe Double Room with Side Sea View']
+[2, 2]
+[88, 98]
+['10', '10']
+2023-12-22
+
+[{"name": "Superior Double Room", "max_people": [2, 2, 1], "prices": [43, 47, 46], "max_available_rooms": ["1", "1", "1"]}, {"name": "Superior Double Room", "max_people": [2, 2, 1], "prices": [43, 47, 46], "max_available_rooms": ["1", "1", "1"]}, {"name": "Superior Double Room", "max_people": [2, 2, 1], "prices": [43, 47, 46], "max_available_rooms": ["1", "1", "1"]}, {"name": "Deluxe King Room", "max_people": [2, 2, 1], "prices": [43, 47, 46], "max_available_rooms": ["1", "1", "1"]}, {"name": "Deluxe King Room", "max_people": [2, 2, 1], "prices": [43, 47, 46], "max_available_rooms": ["1", "1", "1"]}, {"name": "Deluxe King Room", "max_people": [2, 2, 1], "prices": [43, 47, 46], "max_available_rooms": ["1", "1", "1"]}, {"name": "Suite Room With Pool View", "max_people": [2, 2, 1], "prices": [43, 47, 46], "max_available_rooms": ["1", "1", "1"]}, {"name": "Suite Room With Pool View", "max_people": [2, 2, 1], "prices": [43, 47, 46], "max_available_rooms": ["1", "1", "1"]}, {"name": "Suite Room With Pool View", "max_people": [2, 2, 1], "prices": [43, 47, 46], "max_available_rooms": ["1", "1", "1"]}]
+https://www.booking.com/hotel/id/keris-art-shop-and-villa-telaga-wana.en-gb.html?aid=304142&label=gen173nr-1FCAQoggJCC3NlYXJjaF9iYWxpSAlYBGjpAYgBAZgBCbgBF8gBDNgBAegBAfgBA4gCAagCA7gCq9X0qgbAAgHSAiQwMWUwNjI4NS0xYWUzLTQyNzktYWQ0ZC0xNGEzODQyZmQxNzjYAgXgAgE&ucfs=1&arphpl=1&group_adults=1&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=25&hapos=25&sr_order=popularity&srpvid=a87e9bd5c29501ac&srepoch=1700604588&from_sustainable_property_sr=1&from=searchresults&checkin=2023-12-22&checkout=2023-12-23&selected_currency=USD#hotelTmpl
+['Superior Double Room', 'Deluxe King Room', 'Suite Room With Pool View']
+[2, 2, 1, 2, 2, 1, 2, 2, 1]
+[43, 47, 46, 43, 47, 46, 43, 47, 46]
+['1', '1', '1', '1', '1', '1', '1', '1', '1']
+2023-12-22
+
