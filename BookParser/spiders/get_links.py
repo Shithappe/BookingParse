@@ -17,7 +17,6 @@ class BookingSpider(scrapy.Spider):
             VALUES (%s)
         """
     
-
     main_url = 'https://www.booking.com/searchresults.en-gb.html?ss=Bali%2C+Indonesia&lang=en-gb&dest_type=region&search_selected=true&group_adults=1&no_rooms=1&group_children=0&nflt='
 
 
@@ -50,7 +49,7 @@ class BookingSpider(scrapy.Spider):
             self.start_urls = [self.main_url + quote(line.strip()) for line in lines]
 
         for start_url in self.start_urls:
-            for i in range(0, 100, 25):  
+            for i in range(0, 1, 25):  
                 count_item = i + 1
                 next_page_url = f"{start_url}&offset={count_item}"
                 yield scrapy.Request(url=next_page_url, callback=self.parse)
