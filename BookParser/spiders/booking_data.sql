@@ -28,8 +28,9 @@ CREATE TABLE IF NOT EXISTS booking_data (
 DROP TABLE rooms;
 
 CREATE TABLE IF NOT EXISTS rooms (
+    id INT AUTO_INCREMENT PRIMARY KEY,
     booking_id INT,
-    FOREIGN KEY (booking_id) REFERENCES booking_data(id),
+    FOREIGN KEY (booking_id) REFERENCES booking_data(id) ON DELETE CASCADE,
     title VARCHAR(255),
     max_people INT,
     prices VARCHAR(255),

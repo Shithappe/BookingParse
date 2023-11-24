@@ -19,11 +19,8 @@ class UpdateRoomsSpider(scrapy.Spider):
     start_urls = ["https://www.booking.com"]
     connection = None
     cursor = None
-    sql = """
-            INSERT INTO rooms 
-            (booking_id, title, max_people, prices, max_available_rooms, checkin, checkout)
-            VALUES (%s, %s, %s, %s, %s, %s, %s)
-        """
+    sql = None
+    
 
     def connect_to_db(self):
         
@@ -70,7 +67,7 @@ class UpdateRoomsSpider(scrapy.Spider):
         self.cursor.execute('SELECT id, link FROM booking_data')
         rows = self.cursor.fetchall()
         for row in rows:
-            formatted_link = self.format_link(row[1])  # Применяем функцию format_link к ссылке
+            formatted_link = self.format_link(row[1]) 
             request_meta = {
                 'booking_id': row[0],
                 'link': formatted_link
@@ -85,6 +82,23 @@ class UpdateRoomsSpider(scrapy.Spider):
         booking_id = response.meta.get('booking_id')
         link = response.meta.get('link')
         print(f'\n{booking_id}\n{link}\n\n')
+
+        sql_select = "SELECT id, max_people, max_available_rooms FROM rooms WHERE booking_id = %s"
+        self.cursor.execute(sql_select, (booking_id,))
+        old_rooms = self.cursor.fetchall()
+        if old_rooms:
+            print(old_rooms)
+            self.sql = """
+                UPDATE rooms 
+                SET max_people = %s, prices = %s, max_available_rooms = %s WHERE booking_id = %s
+            """
+        else:
+            print("Нет данных для данного booking_id")
+            self.sql = """
+                INSERT INTO rooms 
+                (booking_id, title, max_people, prices, max_available_rooms, checkin, checkout)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
+            """
 
 
         checkin = None
@@ -112,14 +126,24 @@ class UpdateRoomsSpider(scrapy.Spider):
                 for j in range(int(rowspan)):
                     text = rows[j + i].xpath('.//span[@class="bui-u-sr-only"]/text()').get().split(':')[-1].strip()
                     numbers = [int(num) for num in re.findall(r'\d+', text)]
-                    max_people = max(numbers)
+                    if old_rooms:
+                        max_people = max(old_rooms[i + j][1], max(numbers))
+                    else:
+                        max_people = max(numbers)
 
                     prices = re.sub(r'[^\d.]', '', rows[j + i].xpath('.//span[@class="prco-valign-middle-helper"]/text()').get())
-                    max_available_rooms = rows[j + i].xpath('(//select[@class="hprt-nos-select js-hprt-nos-select"]//option)[last()]/@value').get()
+
+                    if old_rooms:
+                        max_available_rooms = max(int(old_rooms[i + j][2]), int(rows[j + i].xpath('(//select[@class="hprt-nos-select js-hprt-nos-select"]//option)[last()]/@value').get()))
+                    else:
+                        max_available_rooms = rows[j + i].xpath('(//select[@class="hprt-nos-select js-hprt-nos-select"]//option)[last()]/@value').get()
 
                     print(f'\n\n{booking_id}\n{link}\n{title}\n{max_people}\n{prices}\n{max_available_rooms}\n{checkin} - {checkout}')
                     
-                    self.cursor.execute(self.sql, (
-                        booking_id, title, max_people, prices, max_available_rooms, checkin, checkout
-                    ))
+                    if old_rooms:
+                        self.cursor.execute(self.sql, (max_people, prices, max_available_rooms, i + j))
+                    else:
+                        self.cursor.execute(self.sql, (
+                            booking_id, title, max_people, prices, max_available_rooms, checkin, checkout
+                        ))
                     self.connection.commit()
