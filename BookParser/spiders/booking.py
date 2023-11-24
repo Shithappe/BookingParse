@@ -1,5 +1,4 @@
 import re
-import json
 import scrapy
 import mysql.connector
 
@@ -67,11 +66,6 @@ class MySpider(scrapy.Spider):
         rows = self.cursor.fetchall()
         self.start_urls = [self.format_link(row[0]) for row in rows]
 
-        # with open('clean_links.txt', 'r') as file:
-        #     links = file.readlines()
-        #     self.start_urls = [self.fomat_link(link.strip()) for link in links]
-        #     print(self.start_urls)
-
         for url in self.start_urls:
             yield scrapy.Request(url=url, callback=self.parse, meta={'original_url': url})
 
@@ -94,63 +88,10 @@ class MySpider(scrapy.Spider):
 
         images = response.css('a.bh-photo-grid-item.bh-photo-grid-thumb > img::attr(src)').extract()
 
-        rooms = []
-        names = []
-        max_people = []
-        prices = []
-        max_available_rooms = []
-        rowspan = None
-        
-        rows = response.xpath('//*[@id="hprt-table"]/tbody/tr')
+        link = response.meta.get('original_url').split('?')[0]
 
-        for i in range(len(rows)):
-            rowspan = rows[i].xpath('./td/@rowspan').get()
-            if rowspan:
-                room = {
-                    'name': '',
-                    'max_people': [],
-                    'prices': [],
-                    'max_available_rooms': [],
-                }
-                names.append(rows[i].xpath('.//span[contains(@class, "hprt-roomtype-icon-link")]/text()').get().strip())  
-                room['name'] = rows[i].xpath('.//span[contains(@class, "hprt-roomtype-icon-link")]/text()').get().strip()
-
-                for i in range(int(rowspan)):
-                    # max_people.append(int(rows[i].xpath('.//span[@class="bui-u-sr-only"]/text()').get().split(':')[-1].strip()))
-                    # max_people.append(max([int(num) for num in re.findall(r'\d+', rows[i].xpath('.//span[@class="bui-u-sr-only"]/text()').get().split(':')[-1].strip()))]))
-                    
-                    text = rows[i].xpath('.//span[@class="bui-u-sr-only"]/text()').get().split(':')[-1].strip()
-
-                    numbers = [int(num) for num in re.findall(r'\d+', text)]
-                    max_people.append(max(numbers))
-                    
-                    
-                    
-                    prices.append(int(re.sub(r'[^\d.]', '', rows[i].xpath('.//span[@class="prco-valign-middle-helper"]/text()').get())))
-                    max_available_rooms.append(rows[i].xpath('(//select[@class="hprt-nos-select js-hprt-nos-select"]//option)[last()]/@value').get())
-                    
-                    # room['max_people'].append(int(rows[i].xpath('.//span[@class="bui-u-sr-only"]/text()').get().split(':')[-1].strip()))
-                    # room['prices'].append(int(re.sub(r'[^\d.]', '', rows[i].xpath('.//span[@class="prco-valign-middle-helper"]/text()').get())))
-                    # room['max_available_rooms'].append(rows[i].xpath('(//select[@class="hprt-nos-select js-hprt-nos-select"]//option)[last()]/@value').get())
-
-            rooms.append(room)
-
-
-        checkin = None
-        checkout = None
-
-        link = response.meta.get('original_url')
-
-        url = urlparse(link)
-        query_parameters = parse_qs(url.query)
-
-        checkin = query_parameters.get('checkin')[0]
-        checkout = query_parameters.get('checkout')[0]
-
-        with open('data.txt', 'a', encoding='utf-8') as f:
-            # f.write(f"Title:\n{title}\n\nDescription:\n{description}\n\nAdress:\n{address}\n\nCoordinates:\n{coordinates}\n\n{images}\n\n")
-            # f.write(f"{json.dumps(rooms)}\n{link}\n{names}\n{max_people}\n{prices}\n{max_available_rooms}\n{checkin}\n\n")
-            f.write(f"{address}\n{city}\n\n")
+        # with open('data.txt', 'a', encoding='utf-8') as f:
+        #     f.write(f"{link}\n{address}\n{city}\n\n")
 
 
         sql = """

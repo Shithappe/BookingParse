@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS booking_data (
 DROP TABLE rooms;
 
 CREATE TABLE IF NOT EXISTS rooms (
-    booking_id INT PRIMARY KEY,
+    booking_id INT,
     FOREIGN KEY (booking_id) REFERENCES booking_data(id),
     title VARCHAR(255),
     max_people INT,
