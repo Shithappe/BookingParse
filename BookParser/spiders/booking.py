@@ -99,17 +99,17 @@ class MySpider(scrapy.Spider):
         # Здесь вы можете использовать полученные данные для записи в базу данных
         with open('data.txt', 'a', encoding='utf-8') as f:
             # f.write(f"Title:\n{title}\n\nDescription:\n{description}\n\nAdress:\n{address}\n\nCoordinates:\n{coordinates}\n\n{images}\n\n")
-            f.write(f"{json.dumps(rooms)}\n{link}\n{names}\n{max_people}\n{prices}\n{max_available_rooms}\n{checkin}\n\n")
+            f.write(f"{link}\n{names}\n{max_people}\n{prices}\n{max_available_rooms}\n{checkin}\n\n")
             # f.write(f"{link}\n{json.dumps(rooms)}\n\n\n")
 
 
-        cursor = self.connection.cursor()
-        sql = """
-            INSERT INTO booking_data 
-            (title, description, link, address, coordinates, images, rooms, checkin, checkout)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
-        """
-        cursor.execute(sql, (
-            title, description, link, address, coordinates, str(images), json.dumps(rooms), checkin, checkout
-        ))
-        self.connection.commit()
+        # cursor = self.connection.cursor()
+        # sql = """
+        #     INSERT INTO booking_data 
+        #     (title, description, link, address, coordinates, images, rooms, checkin, checkout)
+        #     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+        # """
+        # cursor.execute(sql, (
+        #     title, description, link, address, coordinates, str(images), json.dumps(rooms), checkin, checkout
+        # ))
+        # self.connection.commit()

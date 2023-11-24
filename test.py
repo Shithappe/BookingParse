@@ -1,12 +1,28 @@
-from datetime import datetime, timedelta
-from dateutil.relativedelta import relativedelta
+import mysql.connector
 
-next_month = datetime.now().date() + relativedelta(months=1)
+def connect_to_db():
+    try:
+        config = {
+            'user': 'root',
+            'password': '1234',
+            'host': 'localhost',
+            'database': 'parser_booking',
+            'raise_on_warnings': True
+        }
 
-checkin = next_month
-checkout = next_month + relativedelta(days=1)
+        connection = mysql.connector.connect(**config)
+        if connection.is_connected():
+            print('Успешно подключено к базе данных')
+            return connection
+    except mysql.connector.Error as err:
+        print(f"Ошибка подключения к базе данных: {err}")
+        return None
 
-start_urls = [f"https://www.booking.com/searchresults.en-gb.html?ss=Bali&ssne=Bali&ssne_untouched=Bali&checkin={checkin}&checkout={checkout}&group_adults=1&no_rooms=1&group_children=0"]
-
-
-print(start_urls)
+# Пример использования:
+connection = connect_to_db()
+if connection:
+    # Выполнение запросов или других операций с базой данных
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM booking_data")
+    # ...дополнительные операции с базой данных...
+    connection.close()  # Важно закрыть соединение после использования
