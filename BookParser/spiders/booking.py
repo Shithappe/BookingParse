@@ -22,13 +22,14 @@ class MySpider(scrapy.Spider):
         
     
     def connect_to_db(self):
-        # config = {
-        #     'user': 'root',
-        #     'password': '1234',
-        #     'host': 'localhost',
-        #     'database': 'parser_booking',
-        #     'raise_on_warnings': True
-        # }
+       
+        config_local = {
+            'user': 'root',
+            'password': '1234',
+            'host': 'localhost',
+            'database': 'parser_booking',
+            'raise_on_warnings': True
+        }
 
         config = {
             'user': 'artnmo_estate',
@@ -39,10 +40,11 @@ class MySpider(scrapy.Spider):
         }
         
         try:
-            cnx = mysql.connector.connect(**config)
+            cnx = mysql.connector.connect(**config_local)
+            # cnx = mysql.connector.connect(**config)
             return cnx
         except mysql.connector.Error as err:
-            print(f"Ошибка подключения к базе данных: {err}")
+            print(err)
 
     def format_link(self, link):
         url = urlparse(link)
@@ -65,29 +67,34 @@ class MySpider(scrapy.Spider):
         if self.connection and self.connection.is_connected():
             print('\nConnection to DB success\n')
         else:
-            print('\nFailed to connect to DB. Exiting...\n')
             raise SystemExit("Failed to connect to DB")
         
         self.cursor = self.connection.cursor()
 
         self.cursor.execute('SELECT link FROM links')
-        rows = self.cursor.fetchall()
-        self.start_urls = [self.format_link(row[0]) for row in rows]
+        all_links = [i[0] for i in self.cursor.fetchall()]
+
+        self.cursor.execute('SELECT link FROM booking_data')
+        old_links = [i[0] for i in self.cursor.fetchall()]
+
+
+        self.start_urls = [x for x in all_links if x not in old_links]
+        # self.start_urls = [self.format_link(i[0]) for i in all_links]
+        print(self.start_urls)
 
         for url in self.start_urls:
-            yield scrapy.Request(url=url, callback=self.parse, meta={'original_url': url})
+            yield scrapy.Request(url=self.format_link(url), callback=self.parse, meta={'original_url': url})
 
         # self.cursor.close()
         # self.connection.close()
 
     def parse(self, response):
-        
+
         title = response.css('.d2fee87262.pp-header__title::text').extract_first()
         description = response.css('.a53cbfa6de.b3efd73f69::text').extract_first().strip()
 
         star = len(response.css('span[data-testid="rating-stars"] > span'))
         address = response.css('span.hp_address_subtitle::text').get().strip()
-        # city = re.sub(r'\d+', '', address.split(',')[3]).strip()
         if len(address.split(',')) > 3:
             city = re.sub(r'\d+', '', address.split(',')[3]).strip()
         else:
@@ -97,9 +104,6 @@ class MySpider(scrapy.Spider):
         images = response.css('a.bh-photo-grid-item.bh-photo-grid-thumb > img::attr(src)').extract()
 
         link = response.meta.get('original_url').split('?')[0]
-
-        # with open('data.txt', 'a', encoding='utf-8') as f:
-        #     f.write(f"{link}\n{address}\n{city}\n\n")
 
 
         sql = """

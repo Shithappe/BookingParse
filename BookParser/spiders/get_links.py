@@ -22,14 +22,15 @@ class BookingSpider(scrapy.Spider):
 
 
     def connect_to_db(self):
-        # config = {
-        #     'user': 'root',
-        #     'password': '1234',
-        #     'host': 'localhost',
-        #     'database': 'parser_booking',
-        #     'raise_on_warnings': True
-        # }
         
+        config_local = {
+            'user': 'root',
+            'password': '1234',
+            'host': 'localhost',
+            'database': 'parser_booking',
+            'raise_on_warnings': True
+        }
+
         config = {
             'user': 'artnmo_estate',
             'password': 'gL8+8uBs2_',
@@ -39,10 +40,11 @@ class BookingSpider(scrapy.Spider):
         }
         
         try:
-            cnx = mysql.connector.connect(**config)
+            cnx = mysql.connector.connect(**config_local)
+            # cnx = mysql.connector.connect(**config)
             return cnx
         except mysql.connector.Error as err:
-            print(f"Ошибка подключения к базе данных: {err}")
+            print(err)
 
     def start_requests(self):
         self.connection = self.connect_to_db()
@@ -50,7 +52,6 @@ class BookingSpider(scrapy.Spider):
             self.cursor = self.connection.cursor()
             print('\nConnection to DB success\n')
         else:
-            print('\nFailed to connect to DB. Exiting...\n')
             raise SystemExit("Failed to connect to DB")
         
         with open('query_list.txt', 'r') as file:
@@ -67,22 +68,5 @@ class BookingSpider(scrapy.Spider):
         for a_tag in response.css('a[data-testid="title-link"]'):
             link = a_tag.css('::attr(href)').extract_first().split('?')[0]
 
-            # with open('booking_links.txt', 'a', encoding='utf-8') as f:
-            #     f.write(link + '\n')
-
             self.cursor.execute(self.sql, [link])
             self.connection.commit()
-
-
-    # def format_link(self, link):
-    #     url = urlparse(link)
-    #     query_parameters = parse_qs(url.query)
-
-    #     query_parameters['group_adults'] = 1
-    #     query_parameters['no_rooms'] = 1
-    #     query_parameters['group_children'] = 0
-
-    #     query_parameters['selected_currency'] = 'USD'
-
-    #     url = url._replace(query=urlencode(query_parameters, doseq=True))
-    #     return urlunparse(url)

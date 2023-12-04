@@ -14,7 +14,7 @@ class UpdateRoomsSpider(scrapy.Spider):
     checkout = next_month + relativedelta(days = 1)
 
 
-    name = "update_rooms"
+    name = "rooms"
     allowed_domains = ["www.booking.com"]
     start_urls = ["https://www.booking.com"]
     connection = None
@@ -24,13 +24,13 @@ class UpdateRoomsSpider(scrapy.Spider):
 
     def connect_to_db(self):
         
-        # config = {
-        #     'user': 'root',
-        #     'password': '1234',
-        #     'host': 'localhost',
-        #     'database': 'parser_booking',
-        #     'raise_on_warnings': True
-        # }
+        config_local = {
+            'user': 'root',
+            'password': '1234',
+            'host': 'localhost',
+            'database': 'parser_booking',
+            'raise_on_warnings': True
+        }
 
         config = {
             'user': 'artnmo_estate',
@@ -41,10 +41,11 @@ class UpdateRoomsSpider(scrapy.Spider):
         }
         
         try:
-            cnx = mysql.connector.connect(**config)
+            cnx = mysql.connector.connect(**config_local)
+            # cnx = mysql.connector.connect(**config)
             return cnx
         except mysql.connector.Error as err:
-            print(f"Ошибка подключения к базе данных: {err}")
+            print(err)
 
     def format_link(self, link):
         url = urlparse(link)
@@ -69,7 +70,6 @@ class UpdateRoomsSpider(scrapy.Spider):
         if self.connection and self.connection.is_connected():
             print('\nConnection to DB success\n')
         else:
-            print('\nFailed to connect to DB. Exiting...\n')
             raise SystemExit("Failed to connect to DB")
         
         self.cursor = self.connection.cursor()
@@ -91,25 +91,21 @@ class UpdateRoomsSpider(scrapy.Spider):
 
         booking_id = response.meta.get('booking_id')
         link = response.meta.get('link')
-        print(f'\n{booking_id}\n{link}\n\n')
 
         sql_select = "SELECT id, max_people, max_available_rooms FROM rooms WHERE booking_id = %s"
         self.cursor.execute(sql_select, (booking_id,))
         old_rooms = self.cursor.fetchall()
         if old_rooms:
-            print(old_rooms)
             self.sql = """
                 UPDATE rooms 
                 SET max_people = %s, prices = %s, max_available_rooms = %s WHERE booking_id = %s
             """
         else:
-            print("Нет данных для данного booking_id")
             self.sql = """
                 INSERT INTO rooms 
                 (booking_id, title, max_people, prices, max_available_rooms, checkin, checkout)
                 VALUES (%s, %s, %s, %s, %s, %s, %s)
             """
-
 
         checkin = None
         checkout = None
