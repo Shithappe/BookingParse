@@ -8,27 +8,30 @@ from urllib.parse import urlparse, urlencode, parse_qs, urlunparse
 
 class UpdateRoomsSpider(scrapy.Spider):
     
-    checkin = datetime.now().date() + timedelta(hours=5) + relativedelta(days=1)   # today
-    checkout = checkin + relativedelta(days=1)          # tomorrow
-
+    checkin = datetime.now().date() + timedelta(hours=5) + relativedelta(days=1)  
+    checkout = checkin + relativedelta(days=1)        
 
     name = "rooms_2_day"
     allowed_domains = ["www.booking.com"]
     start_urls = ["https://www.booking.com"]
     connection = None
     cursor = None
-    sql = None
+    sql = """
+            INSERT INTO rooms_2_day
+            (booking_id, room_type, max_available_rooms, checkin, checkout)
+            VALUES (%s, %s, %s, %s, %s)
+        """
     
 
     def connect_to_db(self):
         
-        # config = {
-        #     'user': 'root',
-        #     'password': '1234',
-        #     'host': 'localhost',
-        #     'database': 'parser_booking',
-        #     'raise_on_warnings': True
-        # }
+        config_local = {
+            'user': 'root',
+            'password': '1234',
+            'host': 'localhost',
+            'database': 'parser_booking',
+            'raise_on_warnings': True
+        }
 
         config = {
             'user': 'artnmo_estate',
@@ -39,10 +42,11 @@ class UpdateRoomsSpider(scrapy.Spider):
         }
         
         try:
-            cnx = mysql.connector.connect(**config)
+            cnx = mysql.connector.connect(**config_local)
+            # cnx = mysql.connector.connect(**config)
             return cnx
         except mysql.connector.Error as err:
-            print(f"Ошибка подключения к базе данных: {err}")
+            print(err)
 
     def format_link(self, link):
         url = urlparse(link)
@@ -81,43 +85,11 @@ class UpdateRoomsSpider(scrapy.Spider):
             yield scrapy.Request(url=formatted_link, callback=self.parse, meta=request_meta)
 
 
-        # self.cursor.execute('''
-        #     SELECT sub_query.room_id AS room_id, sub_query.room_count AS room_count, bd.link AS link
-        #     FROM (
-        #         SELECT r.booking_id, MIN(r.id) AS room_id, COUNT(r.id) AS room_count
-        #         FROM rooms r
-        #         GROUP BY r.booking_id
-        #     ) AS sub_query
-        #     INNER JOIN booking_data bd ON sub_query.booking_id = bd.id
-        # ''')
-        # rows = self.cursor.fetchall()
-        # for row in rows:
-        #     formatted_link = self.format_link(row[2]) 
-            
-        #     request_meta = {
-        #         'room_id': row[0],
-        #         'count_room': row[1],
-        #     }
-
-        #     yield scrapy.Request(url=formatted_link, callback=self.parse, meta=request_meta)
-
-        # self.cursor.close()
-        # self.connection.close()
-
     def parse(self, response):
 
-        # room_id = response.meta.get('room_id')
-        # count_room = response.meta.get('count_room')
-
         booking_id = response.meta.get('booking_id')
-
-        self.sql = """
-            INSERT INTO rooms_2_day
-            (booking_id, max_available_rooms, checkin, checkout)
-            VALUES (%s, %s, %s, %s)
-        """
-
-        max_available_rooms = None
+        room_type = None
+        max_available_rooms = 0
         rowspan = None
         
         rows = response.xpath('//*[@id="hprt-table"]/tbody/tr')
@@ -125,13 +97,13 @@ class UpdateRoomsSpider(scrapy.Spider):
         for i in range(len(rows)):
             rowspan = rows[i].xpath('./td/@rowspan').get()
             if rowspan:
+                room_type = rows[i].xpath('.//span[contains(@class, "hprt-roomtype-icon-link")]/text()').get().strip()
                 for j in range(int(rowspan)):
-                    
                     max_available_rooms = rows[j + i].xpath('(//select[@class="hprt-nos-select js-hprt-nos-select"]//option)[last()]/@value').get()
-                    if max_available_rooms is None:
+                    if not max_available_rooms: 
                         max_available_rooms = 0
-
+                        print(max_available_rooms) 
                     self.cursor.execute(self.sql, (
-                        booking_id, max_available_rooms, self.checkin, self.checkout
+                        booking_id, room_type, max_available_rooms, self.checkin, self.checkout
                     ))
                 self.connection.commit()

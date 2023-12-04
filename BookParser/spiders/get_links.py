@@ -13,7 +13,7 @@ class BookingSpider(scrapy.Spider):
     connection = None
     cursor = None
     sql = """
-            INSERT INTO links 
+            INSERT IGNORE INTO links 
             (link)
             VALUES (%s)
         """
