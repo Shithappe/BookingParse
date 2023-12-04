@@ -8,7 +8,7 @@ from urllib.parse import urlparse, urlencode, parse_qs, urlunparse
 
 class UpdateRoomsSpider(scrapy.Spider):
     
-    checkin = datetime.now().date() + timedelta(hours=5) + relativedelta(days=1)  
+    checkin = datetime.now().date() + timedelta(hours=5)  # + relativedelta(days=1)  
     checkout = checkin + relativedelta(days=1)        
 
     name = "rooms_2_day"
@@ -16,11 +16,6 @@ class UpdateRoomsSpider(scrapy.Spider):
     start_urls = ["https://www.booking.com"]
     connection = None
     cursor = None
-    sql = """
-            INSERT INTO rooms_2_day
-            (booking_id, room_type, max_available_rooms, checkin, checkout)
-            VALUES (%s, %s, %s, %s, %s)
-        """
     
 
     def connect_to_db(self):
@@ -89,7 +84,7 @@ class UpdateRoomsSpider(scrapy.Spider):
 
         booking_id = response.meta.get('booking_id')
         room_type = None
-        max_available_rooms = 0
+        max_available_rooms = None
         rowspan = None
         
         rows = response.xpath('//*[@id="hprt-table"]/tbody/tr')
@@ -102,8 +97,12 @@ class UpdateRoomsSpider(scrapy.Spider):
                     max_available_rooms = rows[j + i].xpath('(//select[@class="hprt-nos-select js-hprt-nos-select"]//option)[last()]/@value').get()
                     if not max_available_rooms: 
                         max_available_rooms = 0
-                        print(max_available_rooms) 
-                    self.cursor.execute(self.sql, (
+
+                    self.cursor.execute("""
+                            INSERT INTO rooms_2_day
+                            (booking_id, room_type, max_available_rooms, checkin, checkout)
+                            VALUES (%s, %s, %s, %s, %s)
+                        """, (
                         booking_id, room_type, max_available_rooms, self.checkin, self.checkout
                     ))
                 self.connection.commit()
