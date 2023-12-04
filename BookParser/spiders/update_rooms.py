@@ -24,11 +24,19 @@ class UpdateRoomsSpider(scrapy.Spider):
 
     def connect_to_db(self):
         
+        # config = {
+        #     'user': 'root',
+        #     'password': '1234',
+        #     'host': 'localhost',
+        #     'database': 'parser_booking',
+        #     'raise_on_warnings': True
+        # }
+
         config = {
-            'user': 'root',
-            'password': '1234',
-            'host': 'localhost',
-            'database': 'parser_booking',
+            'user': 'artnmo_estate',
+            'password': 'gL8+8uBs2_',
+            'host': 'artnmo.mysql.tools',
+            'database': 'artnmo_estate',
             'raise_on_warnings': True
         }
         
@@ -52,6 +60,8 @@ class UpdateRoomsSpider(scrapy.Spider):
         query_parameters['selected_currency'] = 'USD'
 
         url = url._replace(query=urlencode(query_parameters, doseq=True))
+        print('\n'+urlunparse(url)+'\n')
+
         return urlunparse(url)
         
     def start_requests(self):

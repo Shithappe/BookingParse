@@ -1,4 +1,4 @@
--- Active: 1694892122116@@127.0.0.1@3306@parser_booking
+-- Active: 1701476604929@@artnmo.mysql.tools@3306@artnmo_estate
 
 DROP TABLE links;
 
@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS booking_data (
     title VARCHAR(255),
     description TEXT,
     star INT,
-    link TEXT,
+    link TEXT, UNIQUE (link(255)), 
     address VARCHAR(255),
     city VARCHAR(255),
     coordinates VARCHAR(255),
@@ -34,6 +34,41 @@ CREATE TABLE IF NOT EXISTS rooms (
     title VARCHAR(255),
     max_people INT,
     prices VARCHAR(255),
+    max_available_rooms INT,
+    checkin VARCHAR(20),
+    checkout VARCHAR(20),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)
+
+
+DROP TABLE rooms_2_day;
+
+CREATE TABLE IF NOT EXISTS rooms_2_day (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    booking_id INT,
+    FOREIGN KEY (booking_id) REFERENCES booking_data(id) ON DELETE CASCADE,
+    max_available_rooms INT,
+    checkin VARCHAR(20),
+    checkout VARCHAR(20),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)
+-- CREATE TABLE IF NOT EXISTS rooms_2_day (
+--     id INT AUTO_INCREMENT PRIMARY KEY,
+--     room_id INT,
+--     FOREIGN KEY (room_id) REFERENCES rooms(id) ON DELETE CASCADE,
+--     max_available_rooms INT,
+--     checkin VARCHAR(20),
+--     checkout VARCHAR(20),
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- )
+
+
+DROP TABLE rooms_30_day;
+
+CREATE TABLE IF NOT EXISTS rooms_30_day (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    booking_id INT,
+    FOREIGN KEY (booking_id) REFERENCES booking_data(id) ON DELETE CASCADE,
     max_available_rooms INT,
     checkin VARCHAR(20),
     checkout VARCHAR(20),

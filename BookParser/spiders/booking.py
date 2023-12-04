@@ -22,11 +22,19 @@ class MySpider(scrapy.Spider):
         
     
     def connect_to_db(self):
+        # config = {
+        #     'user': 'root',
+        #     'password': '1234',
+        #     'host': 'localhost',
+        #     'database': 'parser_booking',
+        #     'raise_on_warnings': True
+        # }
+
         config = {
-            'user': 'root',
-            'password': '1234',
-            'host': 'localhost',
-            'database': 'parser_booking',
+            'user': 'artnmo_estate',
+            'password': 'gL8+8uBs2_',
+            'host': 'artnmo.mysql.tools',
+            'database': 'artnmo_estate',
             'raise_on_warnings': True
         }
         

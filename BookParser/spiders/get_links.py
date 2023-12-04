@@ -9,6 +9,7 @@ class BookingSpider(scrapy.Spider):
     allowed_domains = ["www.booking.com"]
     start_urls = []  
 
+    count_pages = 1000
     connection = None
     cursor = None
     sql = """
@@ -21,11 +22,19 @@ class BookingSpider(scrapy.Spider):
 
 
     def connect_to_db(self):
+        # config = {
+        #     'user': 'root',
+        #     'password': '1234',
+        #     'host': 'localhost',
+        #     'database': 'parser_booking',
+        #     'raise_on_warnings': True
+        # }
+        
         config = {
-            'user': 'root',
-            'password': '1234',
-            'host': 'localhost',
-            'database': 'parser_booking',
+            'user': 'artnmo_estate',
+            'password': 'gL8+8uBs2_',
+            'host': 'artnmo.mysql.tools',
+            'database': 'artnmo_estate',
             'raise_on_warnings': True
         }
         
@@ -49,7 +58,7 @@ class BookingSpider(scrapy.Spider):
             self.start_urls = [self.main_url + quote(line.strip()) for line in lines]
 
         for start_url in self.start_urls:
-            for i in range(0, 1, 25):  
+            for i in range(0, self.count_pages, 25):  
                 count_item = i + 1
                 next_page_url = f"{start_url}&offset={count_item}"
                 yield scrapy.Request(url=next_page_url, callback=self.parse)
