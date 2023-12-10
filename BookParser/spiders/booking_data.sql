@@ -1,4 +1,4 @@
--- Active: 1694892122116@@127.0.0.1@3306@parser_booking
+-- Active: 1694892122116@@127.0.0.1@3306@test
 
 DROP TABLE links;
 
@@ -53,15 +53,6 @@ CREATE TABLE IF NOT EXISTS rooms_2_day (
     checkout VARCHAR(20), 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )
--- CREATE TABLE IF NOT EXISTS rooms_2_day (
---     id INT AUTO_INCREMENT PRIMARY KEY,
---     room_id INT,
---     FOREIGN KEY (room_id) REFERENCES rooms(id) ON DELETE CASCADE,
---     max_available_rooms INT,
---     checkin VARCHAR(20),
---     checkout VARCHAR(20),
---     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
--- )
 
 
 DROP TABLE rooms_30_day; 
@@ -74,5 +65,19 @@ CREATE TABLE IF NOT EXISTS rooms_30_day (
     max_available_rooms INT,
     checkin VARCHAR(20),
     checkout VARCHAR(20),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (booking_id, checkin, checkout, created_at)
 )
+
+
+
+ALTER TABLE booking_data ADD processed BOOLEAN DEFAULT 0;
+
+
+CREATE EVENT reset_procced
+ON SCHEDULE EVERY 1 DAY
+STARTS TIMESTAMP(CURRENT_DATE, '07:00:00')
+DO
+BEGIN
+    UPDATE booking_data SET procced = 0;
+END;

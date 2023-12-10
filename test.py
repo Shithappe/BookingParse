@@ -14,14 +14,4 @@ checkout = [datetime.now().date() + timedelta(hours=5) + timedelta(days=i+1) for
 # print(checkin)
 # print(checkout)
 
-print(checkin_today)
-print(checkout_today)
-
-print(checkin_tomorrow)
-print(checkout_tomorrow)
-
-
-dates = [[checkin_today, checkout_today], [checkin_tomorrow, checkout_tomorrow]] 
-
-for i in range(len(dates)):
-    print(i)
+print(datetime.now().date())
