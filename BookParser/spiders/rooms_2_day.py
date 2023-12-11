@@ -7,9 +7,15 @@ from urllib.parse import urlparse, urlencode, parse_qs, urlunparse
 
 
 class UpdateRoomsSpider(scrapy.Spider):
+
+    # mod = 0  # четные  # estate 1
+    mod = 1  # не четные  # ai-pdf 2
     
-    checkin = datetime.now().date() + timedelta(hours=5)  # + relativedelta(days=1)  
-    checkout = checkin + relativedelta(days=1)        
+
+    today = datetime.now().date()
+
+    checkin = [datetime.now().date() + timedelta(hours=5) + timedelta(days=i) for i in range(30)]
+    checkout = [datetime.now().date() + timedelta(hours=5) + timedelta(days=i+1) for i in range(30)]   
 
     name = "rooms_2_day"
     allowed_domains = ["www.booking.com"]
@@ -37,13 +43,13 @@ class UpdateRoomsSpider(scrapy.Spider):
         }
         
         try:
-            cnx = mysql.connector.connect(**config_local)
-            # cnx = mysql.connector.connect(**config)
+            # cnx = mysql.connector.connect(**config_local)
+            cnx = mysql.connector.connect(**config)
             return cnx
         except mysql.connector.Error as err:
             print(err)
 
-    def format_link(self, link):
+    def format_link(self, link, checkin, checkout):
         url = urlparse(link)
         query_parameters = parse_qs(url.query)
 
@@ -51,8 +57,8 @@ class UpdateRoomsSpider(scrapy.Spider):
         query_parameters['no_rooms'] = 1
         query_parameters['group_children'] = 0
 
-        query_parameters['checkin'] = self.checkin
-        query_parameters['checkout'] = self.checkout
+        query_parameters['checkin'] = checkin
+        query_parameters['checkout'] = checkout
 
         query_parameters['selected_currency'] = 'USD'
 
@@ -69,20 +75,44 @@ class UpdateRoomsSpider(scrapy.Spider):
         
         self.cursor = self.connection.cursor()
 
-        self.cursor.execute('SELECT id, link FROM booking_data')
+        rows = None
+
+         # последий обработыный booking_id за сегодня для этого парсера
+        self.cursor.execute(f"SELECT MAX(booking_id) FROM rooms_2_day WHERE created_at >= '{self.today}' AND booking_id MOD 2 = {self.mod}")
         rows = self.cursor.fetchall()
+
+        if rows[0][0]:
+            # удалить все записи за сегодня с последним booking_id (он может быть не полным)
+            print(f'Continuing with booking_id {rows[0][0]}')
+            self.cursor.execute(f"DELETE FROM rooms_30_day WHERE created_at = '{self.today}' AND booking_id = {rows[0][0]}")
+            self.cursor.fetchall()
+
+            # продолжить обход записей с предпоследнего значения 
+            self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id >= {rows[0][0]} AND id MOD 2 = {self.mod}')
+            rows = self.cursor.fetchall()
+        else:
+            # в слуае отсутствия записей за сегодня для этого парсера  
+            self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id MOD 2 = {self.mod}')
+            rows = self.cursor.fetchall()
+
+
         for row in rows:
-            formatted_link = self.format_link(row[1]) 
-            request_meta = {
-                'booking_id': row[0],
-                'link': formatted_link
-            }
-            yield scrapy.Request(url=formatted_link, callback=self.parse, meta=request_meta)
+            for i in range(2):
+                formatted_link = self.format_link(row[1], self.checkin[i], self.checkout[i]) 
+                request_meta = {
+                    'booking_id': row[0],
+                    'checkin': self.checkin[i], 
+                    'checkout': self.checkout[i]
+                }
+                yield scrapy.Request(url=formatted_link, callback=self.parse, meta=request_meta, priority=i)
 
 
     def parse(self, response):
 
         booking_id = response.meta.get('booking_id')
+        checkin = response.meta.get('checkin')
+        checkout = response.meta.get('checkout')        
+        
         room_type = None
         max_available_rooms = None
         rowspan = None
@@ -103,6 +133,6 @@ class UpdateRoomsSpider(scrapy.Spider):
                             (booking_id, room_type, max_available_rooms, checkin, checkout)
                             VALUES (%s, %s, %s, %s, %s)
                         """, (
-                        booking_id, room_type, max_available_rooms, self.checkin, self.checkout
+                        booking_id, room_type, max_available_rooms, checkin, checkout
                     ))
                 self.connection.commit()

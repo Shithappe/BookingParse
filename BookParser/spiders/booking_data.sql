@@ -66,14 +66,12 @@ CREATE TABLE IF NOT EXISTS rooms_30_day (
     checkin VARCHAR(20),
     checkout VARCHAR(20),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE (booking_id, checkin, checkout, created_at)
+    -- UNIQUE (booking_id, checkin, checkout, created_at)
 )
 
 
 
 ALTER TABLE booking_data ADD processed BOOLEAN DEFAULT 0;
-
-
 CREATE EVENT reset_procced
 ON SCHEDULE EVERY 1 DAY
 STARTS TIMESTAMP(CURRENT_DATE, '07:00:00')

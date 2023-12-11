@@ -14,7 +14,7 @@ class MySpider(scrapy.Spider):
     checkout = next_month + relativedelta(days=1)
 
 
-    name = "booking"
+    name = "booking_data"
     allowed_domains = ["www.booking.com"]
     start_urls = []
     connection = None
@@ -85,8 +85,8 @@ class MySpider(scrapy.Spider):
         for url in self.start_urls:
             yield scrapy.Request(url=self.format_link(url), callback=self.parse, meta={'original_url': url})
 
-        # self.cursor.close()
-        # self.connection.close()
+        self.cursor.close()
+        self.connection.close()
 
     def parse(self, response):
 

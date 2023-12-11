@@ -1,7 +1,6 @@
 import scrapy
 import mysql.connector
 from urllib.parse import quote
-# from urllib.parse import urlparse, urlencode, parse_qs, urlunparse
 
 class BookingSpider(scrapy.Spider):
 
@@ -40,8 +39,8 @@ class BookingSpider(scrapy.Spider):
         }
         
         try:
-            cnx = mysql.connector.connect(**config_local)
-            # cnx = mysql.connector.connect(**config)
+            # cnx = mysql.connector.connect(**config_local)
+            cnx = mysql.connector.connect(**config)
             return cnx
         except mysql.connector.Error as err:
             print(err)

@@ -81,12 +81,11 @@ class UpdateRoomsSpider(scrapy.Spider):
 
         if rows[0][0]:
             # удалить все записи за сегодня с последним booking_id (он может быть не полным)
-            print(f'удалить все записи за сегодня с последним booking_id {rows[0][0]}')
+            print(f'Continuing with booking_id {rows[0][0]}')
             self.cursor.execute(f"DELETE FROM rooms_30_day WHERE created_at = '{self.today}' AND booking_id = {rows[0][0]}")
             self.cursor.fetchall()
 
             # продолжить обход записей с предпоследнего значения 
-            print('продолжить обход записей с предпоследнего значения')
             self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id >= {rows[0][0]} AND id MOD 2 = {self.mod}')
             rows = self.cursor.fetchall()
         else:
