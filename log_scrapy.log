@@ -1,17 +1,18 @@
-2023-12-12 00:21:37 [scrapy.utils.log] INFO: Scrapy 2.11.0 started (bot: BookParser)
-2023-12-12 00:21:38 [scrapy.utils.log] INFO: Versions: lxml 4.9.3.0, libxml2 2.10.3, cssselect 1.2.0, parsel 1.8.1, w3lib 2.1.2, Twisted 22.10.0, Python 3.12.0 (tags/v3.12.0:0fb18b0, Oct  2 2023, 13:03:39) [MSC v.1935 64 bit (AMD64)], pyOpenSSL 23.3.0 (OpenSSL 3.1.4 24 Oct 2023), cryptography 41.0.5, Platform Windows-11-10.0.22631-SP0
-2023-12-12 00:21:38 [scrapy.addons] INFO: Enabled addons:
+2023-12-22 02:41:58 [scrapy.utils.log] INFO: Scrapy 2.11.0 started (bot: BookParser)
+2023-12-22 02:41:58 [scrapy.utils.log] INFO: Versions: lxml 4.9.3.0, libxml2 2.10.3, cssselect 1.2.0, parsel 1.8.1, w3lib 2.1.2, Twisted 22.10.0, Python 3.12.0 (tags/v3.12.0:0fb18b0, Oct  2 2023, 13:03:39) [MSC v.1935 64 bit (AMD64)], pyOpenSSL 23.3.0 (OpenSSL 3.1.4 24 Oct 2023), cryptography 41.0.5, Platform Windows-11-10.0.22631-SP0
+2023-12-22 02:41:58 [scrapy.addons] INFO: Enabled addons:
 []
-2023-12-12 00:21:38 [asyncio] DEBUG: Using selector: SelectSelector
-2023-12-12 00:21:38 [scrapy.utils.log] DEBUG: Using reactor: twisted.internet.asyncioreactor.AsyncioSelectorReactor
-2023-12-12 00:21:38 [scrapy.utils.log] DEBUG: Using asyncio event loop: asyncio.windows_events._WindowsSelectorEventLoop
-2023-12-12 00:21:38 [scrapy.extensions.telnet] INFO: Telnet Password: e73a9ff8e21b8925
-2023-12-12 00:21:38 [scrapy.middleware] INFO: Enabled extensions:
+2023-12-22 02:41:58 [asyncio] DEBUG: Using selector: SelectSelector
+2023-12-22 02:41:58 [scrapy.utils.log] DEBUG: Using reactor: twisted.internet.asyncioreactor.AsyncioSelectorReactor
+2023-12-22 02:41:58 [scrapy.utils.log] DEBUG: Using asyncio event loop: asyncio.windows_events._WindowsSelectorEventLoop
+2023-12-22 02:41:58 [scrapy.extensions.telnet] INFO: Telnet Password: a2554c239bcdd180
+2023-12-22 02:41:58 [scrapy.middleware] INFO: Enabled extensions:
 ['scrapy.extensions.corestats.CoreStats',
  'scrapy.extensions.telnet.TelnetConsole',
  'scrapy.extensions.logstats.LogStats']
-2023-12-12 00:21:38 [scrapy.crawler] INFO: Overridden settings:
+2023-12-22 02:41:58 [scrapy.crawler] INFO: Overridden settings:
 {'BOT_NAME': 'BookParser',
+ 'DOWNLOAD_DELAY': 0.4,
  'FEED_EXPORT_ENCODING': 'utf-8',
  'LOG_FILE': 'log_scrapy.log',
  'NEWSPIDER_MODULE': 'BookParser.spiders',
@@ -21,7 +22,7 @@
  'TWISTED_REACTOR': 'twisted.internet.asyncioreactor.AsyncioSelectorReactor',
  'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
                '(KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
-2023-12-12 00:21:38 [scrapy.middleware] INFO: Enabled downloader middlewares:
+2023-12-22 02:41:58 [scrapy.middleware] INFO: Enabled downloader middlewares:
 ['scrapy.downloadermiddlewares.robotstxt.RobotsTxtMiddleware',
  'scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
  'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
@@ -34,50 +35,352 @@
  'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
  'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware',
  'scrapy.downloadermiddlewares.stats.DownloaderStats']
-2023-12-12 00:21:38 [scrapy.middleware] INFO: Enabled spider middlewares:
+2023-12-22 02:41:58 [scrapy.middleware] INFO: Enabled spider middlewares:
 ['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
  'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
  'scrapy.spidermiddlewares.referer.RefererMiddleware',
  'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
  'scrapy.spidermiddlewares.depth.DepthMiddleware']
-2023-12-12 00:21:38 [scrapy.middleware] INFO: Enabled item pipelines:
+2023-12-22 02:41:58 [scrapy.middleware] INFO: Enabled item pipelines:
 []
-2023-12-12 00:21:38 [scrapy.core.engine] INFO: Spider opened
-2023-12-12 00:21:38 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
-2023-12-12 00:21:38 [scrapy.extensions.telnet] INFO: Telnet console listening on 127.0.0.1:6023
-2023-12-12 00:21:38 [scrapy.core.engine] ERROR: Error while obtaining start requests
+2023-12-22 02:41:58 [scrapy.core.engine] INFO: Spider opened
+2023-12-22 02:41:58 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2023-12-22 02:41:58 [scrapy.extensions.telnet] INFO: Telnet console listening on 127.0.0.1:6023
+2023-12-22 02:41:59 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/robots.txt> (referer: None)
+2023-12-22 02:42:02 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/eka-s-homestay.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:42:02 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/tara-house.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:42:03 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/indalodge.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:42:04 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/pondok-bambu-homestay.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:42:04 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/frangipani-bungalow.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:42:04 [scrapy.core.scraper] ERROR: Spider error processing <GET https://www.booking.com/hotel/id/frangipani-bungalow.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
 Traceback (most recent call last):
-  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\scrapy\core\engine.py", line 181, in _next_request
-    request = next(self.slot.start_requests)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\max\Desktop\BookParser\BookParser\spiders\rooms_2_day.py", line 81, in start_requests
-    self.cursor.execute(f"SELECT MAX(booking_id) FROM rooms_30_day WHERE created_at >= '{self.today}' AND booking_id MOD 2 = {self.mod}")
-                                                                                         ^^^^^^^^^^
-AttributeError: 'UpdateRoomsSpider' object has no attribute 'today'
-2023-12-12 00:21:38 [scrapy.core.engine] INFO: Closing spider (finished)
-2023-12-12 00:21:38 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
-{'elapsed_time_seconds': 0.040053,
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 300, in execute
+    raise ProgrammingError
+mysql.connector.errors.ProgrammingError: Unknown error
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\twisted\internet\defer.py", line 892, in _runCallbacks
+    current.result = callback(  # type: ignore[misc]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\max\Desktop\BookParser\BookParser\spiders\booking_update.py", line 118, in parse
+    self.cursor.execute(sql, (
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 302, in execute
+    raise ProgrammingError("Cursor is not connected", 2055) from err
+mysql.connector.errors.ProgrammingError: 2055: Cursor is not connected
+2023-12-22 02:42:05 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/ww-backpackers.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:42:05 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/kubu-taman-home-stay.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:42:05 [scrapy.core.scraper] ERROR: Spider error processing <GET https://www.booking.com/hotel/id/ww-backpackers.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 300, in execute
+    raise ProgrammingError
+mysql.connector.errors.ProgrammingError: Unknown error
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\twisted\internet\defer.py", line 892, in _runCallbacks
+    current.result = callback(  # type: ignore[misc]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\max\Desktop\BookParser\BookParser\spiders\booking_update.py", line 118, in parse
+    self.cursor.execute(sql, (
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 302, in execute
+    raise ProgrammingError("Cursor is not connected", 2055) from err
+mysql.connector.errors.ProgrammingError: 2055: Cursor is not connected
+2023-12-22 02:42:05 [scrapy.core.scraper] ERROR: Spider error processing <GET https://www.booking.com/hotel/id/kubu-taman-home-stay.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 300, in execute
+    raise ProgrammingError
+mysql.connector.errors.ProgrammingError: Unknown error
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\twisted\internet\defer.py", line 892, in _runCallbacks
+    current.result = callback(  # type: ignore[misc]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\max\Desktop\BookParser\BookParser\spiders\booking_update.py", line 118, in parse
+    self.cursor.execute(sql, (
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 302, in execute
+    raise ProgrammingError("Cursor is not connected", 2055) from err
+mysql.connector.errors.ProgrammingError: 2055: Cursor is not connected
+2023-12-22 02:42:06 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/santana-bali-home-stay.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:42:06 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/jero-di-bisma-hostel.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:42:06 [scrapy.core.scraper] ERROR: Spider error processing <GET https://www.booking.com/hotel/id/santana-bali-home-stay.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 300, in execute
+    raise ProgrammingError
+mysql.connector.errors.ProgrammingError: Unknown error
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\twisted\internet\defer.py", line 892, in _runCallbacks
+    current.result = callback(  # type: ignore[misc]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\max\Desktop\BookParser\BookParser\spiders\booking_update.py", line 118, in parse
+    self.cursor.execute(sql, (
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 302, in execute
+    raise ProgrammingError("Cursor is not connected", 2055) from err
+mysql.connector.errors.ProgrammingError: 2055: Cursor is not connected
+2023-12-22 02:42:06 [scrapy.core.scraper] ERROR: Spider error processing <GET https://www.booking.com/hotel/id/jero-di-bisma-hostel.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 300, in execute
+    raise ProgrammingError
+mysql.connector.errors.ProgrammingError: Unknown error
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\twisted\internet\defer.py", line 892, in _runCallbacks
+    current.result = callback(  # type: ignore[misc]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\max\Desktop\BookParser\BookParser\spiders\booking_update.py", line 118, in parse
+    self.cursor.execute(sql, (
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 302, in execute
+    raise ProgrammingError("Cursor is not connected", 2055) from err
+mysql.connector.errors.ProgrammingError: 2055: Cursor is not connected
+2023-12-22 02:42:06 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/poshtel-ubud-kabupaten-gianyar.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:42:06 [scrapy.core.scraper] ERROR: Spider error processing <GET https://www.booking.com/hotel/id/poshtel-ubud-kabupaten-gianyar.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 300, in execute
+    raise ProgrammingError
+mysql.connector.errors.ProgrammingError: Unknown error
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\twisted\internet\defer.py", line 892, in _runCallbacks
+    current.result = callback(  # type: ignore[misc]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\max\Desktop\BookParser\BookParser\spiders\booking_update.py", line 118, in parse
+    self.cursor.execute(sql, (
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 302, in execute
+    raise ProgrammingError("Cursor is not connected", 2055) from err
+mysql.connector.errors.ProgrammingError: 2055: Cursor is not connected
+2023-12-22 02:42:07 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/sari-bungalow.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:42:07 [scrapy.core.scraper] ERROR: Spider error processing <GET https://www.booking.com/hotel/id/sari-bungalow.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 300, in execute
+    raise ProgrammingError
+mysql.connector.errors.ProgrammingError: Unknown error
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\twisted\internet\defer.py", line 892, in _runCallbacks
+    current.result = callback(  # type: ignore[misc]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\max\Desktop\BookParser\BookParser\spiders\booking_update.py", line 118, in parse
+    self.cursor.execute(sql, (
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 302, in execute
+    raise ProgrammingError("Cursor is not connected", 2055) from err
+mysql.connector.errors.ProgrammingError: 2055: Cursor is not connected
+2023-12-22 02:42:07 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/adi-santia-bungalows.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:42:07 [scrapy.core.scraper] ERROR: Spider error processing <GET https://www.booking.com/hotel/id/adi-santia-bungalows.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 300, in execute
+    raise ProgrammingError
+mysql.connector.errors.ProgrammingError: Unknown error
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\twisted\internet\defer.py", line 892, in _runCallbacks
+    current.result = callback(  # type: ignore[misc]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\max\Desktop\BookParser\BookParser\spiders\booking_update.py", line 118, in parse
+    self.cursor.execute(sql, (
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 302, in execute
+    raise ProgrammingError("Cursor is not connected", 2055) from err
+mysql.connector.errors.ProgrammingError: 2055: Cursor is not connected
+2023-12-22 02:42:07 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/praety-home-stay.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:42:08 [scrapy.core.scraper] ERROR: Spider error processing <GET https://www.booking.com/hotel/id/praety-home-stay.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 300, in execute
+    raise ProgrammingError
+mysql.connector.errors.ProgrammingError: Unknown error
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\twisted\internet\defer.py", line 892, in _runCallbacks
+    current.result = callback(  # type: ignore[misc]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\max\Desktop\BookParser\BookParser\spiders\booking_update.py", line 118, in parse
+    self.cursor.execute(sql, (
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 302, in execute
+    raise ProgrammingError("Cursor is not connected", 2055) from err
+mysql.connector.errors.ProgrammingError: 2055: Cursor is not connected
+2023-12-22 02:42:08 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/dewa-hostel-2.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:42:08 [scrapy.core.scraper] ERROR: Spider error processing <GET https://www.booking.com/hotel/id/dewa-hostel-2.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 300, in execute
+    raise ProgrammingError
+mysql.connector.errors.ProgrammingError: Unknown error
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\twisted\internet\defer.py", line 892, in _runCallbacks
+    current.result = callback(  # type: ignore[misc]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\max\Desktop\BookParser\BookParser\spiders\booking_update.py", line 118, in parse
+    self.cursor.execute(sql, (
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 302, in execute
+    raise ProgrammingError("Cursor is not connected", 2055) from err
+mysql.connector.errors.ProgrammingError: 2055: Cursor is not connected
+2023-12-22 02:42:09 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/gerhana-sari-2-bungalows.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:42:09 [scrapy.core.scraper] ERROR: Spider error processing <GET https://www.booking.com/hotel/id/gerhana-sari-2-bungalows.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 300, in execute
+    raise ProgrammingError
+mysql.connector.errors.ProgrammingError: Unknown error
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\twisted\internet\defer.py", line 892, in _runCallbacks
+    current.result = callback(  # type: ignore[misc]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\max\Desktop\BookParser\BookParser\spiders\booking_update.py", line 118, in parse
+    self.cursor.execute(sql, (
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 302, in execute
+    raise ProgrammingError("Cursor is not connected", 2055) from err
+mysql.connector.errors.ProgrammingError: 2055: Cursor is not connected
+2023-12-22 02:42:09 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/secret-garden-guest-house.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:42:09 [scrapy.core.scraper] ERROR: Spider error processing <GET https://www.booking.com/hotel/id/secret-garden-guest-house.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 300, in execute
+    raise ProgrammingError
+mysql.connector.errors.ProgrammingError: Unknown error
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\twisted\internet\defer.py", line 892, in _runCallbacks
+    current.result = callback(  # type: ignore[misc]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\max\Desktop\BookParser\BookParser\spiders\booking_update.py", line 118, in parse
+    self.cursor.execute(sql, (
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 302, in execute
+    raise ProgrammingError("Cursor is not connected", 2055) from err
+mysql.connector.errors.ProgrammingError: 2055: Cursor is not connected
+2023-12-22 02:42:10 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/arjuna-house-ii.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:42:10 [scrapy.core.scraper] ERROR: Spider error processing <GET https://www.booking.com/hotel/id/arjuna-house-ii.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 300, in execute
+    raise ProgrammingError
+mysql.connector.errors.ProgrammingError: Unknown error
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\twisted\internet\defer.py", line 892, in _runCallbacks
+    current.result = callback(  # type: ignore[misc]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\max\Desktop\BookParser\BookParser\spiders\booking_update.py", line 118, in parse
+    self.cursor.execute(sql, (
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 302, in execute
+    raise ProgrammingError("Cursor is not connected", 2055) from err
+mysql.connector.errors.ProgrammingError: 2055: Cursor is not connected
+2023-12-22 02:42:11 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/puri-bayu-ubud2.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:42:11 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/ayu-homestay.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:42:11 [scrapy.core.scraper] ERROR: Spider error processing <GET https://www.booking.com/hotel/id/puri-bayu-ubud2.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 300, in execute
+    raise ProgrammingError
+mysql.connector.errors.ProgrammingError: Unknown error
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\twisted\internet\defer.py", line 892, in _runCallbacks
+    current.result = callback(  # type: ignore[misc]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\max\Desktop\BookParser\BookParser\spiders\booking_update.py", line 118, in parse
+    self.cursor.execute(sql, (
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 302, in execute
+    raise ProgrammingError("Cursor is not connected", 2055) from err
+mysql.connector.errors.ProgrammingError: 2055: Cursor is not connected
+2023-12-22 02:42:11 [scrapy.core.scraper] ERROR: Spider error processing <GET https://www.booking.com/hotel/id/ayu-homestay.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 300, in execute
+    raise ProgrammingError
+mysql.connector.errors.ProgrammingError: Unknown error
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\twisted\internet\defer.py", line 892, in _runCallbacks
+    current.result = callback(  # type: ignore[misc]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\max\Desktop\BookParser\BookParser\spiders\booking_update.py", line 118, in parse
+    self.cursor.execute(sql, (
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 302, in execute
+    raise ProgrammingError("Cursor is not connected", 2055) from err
+mysql.connector.errors.ProgrammingError: 2055: Cursor is not connected
+2023-12-22 02:42:11 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/teja-home-stay.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:42:11 [scrapy.core.scraper] ERROR: Spider error processing <GET https://www.booking.com/hotel/id/teja-home-stay.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 300, in execute
+    raise ProgrammingError
+mysql.connector.errors.ProgrammingError: Unknown error
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\twisted\internet\defer.py", line 892, in _runCallbacks
+    current.result = callback(  # type: ignore[misc]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\max\Desktop\BookParser\BookParser\spiders\booking_update.py", line 118, in parse
+    self.cursor.execute(sql, (
+  File "C:\Users\max\AppData\Local\Programs\Python\Python312\Lib\site-packages\mysql\connector\cursor_cext.py", line 302, in execute
+    raise ProgrammingError("Cursor is not connected", 2055) from err
+mysql.connector.errors.ProgrammingError: 2055: Cursor is not connected
+2023-12-22 02:42:11 [scrapy.core.engine] INFO: Closing spider (finished)
+2023-12-22 02:42:11 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
+{'downloader/request_bytes': 19211,
+ 'downloader/request_count': 21,
+ 'downloader/request_method_count/GET': 21,
+ 'downloader/response_bytes': 6851635,
+ 'downloader/response_count': 21,
+ 'downloader/response_status_count/200': 21,
+ 'elapsed_time_seconds': 13.081616,
  'finish_reason': 'finished',
- 'finish_time': datetime.datetime(2023, 12, 11, 22, 21, 38, 354362, tzinfo=datetime.timezone.utc),
- 'log_count/DEBUG': 3,
- 'log_count/ERROR': 1,
+ 'finish_time': datetime.datetime(2023, 12, 22, 0, 42, 11, 874087, tzinfo=datetime.timezone.utc),
+ 'httpcompression/response_bytes': 28050674,
+ 'httpcompression/response_count': 21,
+ 'log_count/DEBUG': 24,
+ 'log_count/ERROR': 16,
  'log_count/INFO': 10,
- 'start_time': datetime.datetime(2023, 12, 11, 22, 21, 38, 314309, tzinfo=datetime.timezone.utc)}
-2023-12-12 00:21:38 [scrapy.core.engine] INFO: Spider closed (finished)
-2023-12-12 00:23:03 [scrapy.utils.log] INFO: Scrapy 2.11.0 started (bot: BookParser)
-2023-12-12 00:23:04 [scrapy.utils.log] INFO: Versions: lxml 4.9.3.0, libxml2 2.10.3, cssselect 1.2.0, parsel 1.8.1, w3lib 2.1.2, Twisted 22.10.0, Python 3.12.0 (tags/v3.12.0:0fb18b0, Oct  2 2023, 13:03:39) [MSC v.1935 64 bit (AMD64)], pyOpenSSL 23.3.0 (OpenSSL 3.1.4 24 Oct 2023), cryptography 41.0.5, Platform Windows-11-10.0.22631-SP0
-2023-12-12 00:23:04 [scrapy.addons] INFO: Enabled addons:
+ 'response_received_count': 21,
+ 'robotstxt/request_count': 1,
+ 'robotstxt/response_count': 1,
+ 'robotstxt/response_status_count/200': 1,
+ 'scheduler/dequeued': 20,
+ 'scheduler/dequeued/memory': 20,
+ 'scheduler/enqueued': 20,
+ 'scheduler/enqueued/memory': 20,
+ 'spider_exceptions/ProgrammingError': 16,
+ 'start_time': datetime.datetime(2023, 12, 22, 0, 41, 58, 792471, tzinfo=datetime.timezone.utc)}
+2023-12-22 02:42:11 [scrapy.core.engine] INFO: Spider closed (finished)
+2023-12-22 02:45:50 [scrapy.utils.log] INFO: Scrapy 2.11.0 started (bot: BookParser)
+2023-12-22 02:45:51 [scrapy.utils.log] INFO: Versions: lxml 4.9.3.0, libxml2 2.10.3, cssselect 1.2.0, parsel 1.8.1, w3lib 2.1.2, Twisted 22.10.0, Python 3.12.0 (tags/v3.12.0:0fb18b0, Oct  2 2023, 13:03:39) [MSC v.1935 64 bit (AMD64)], pyOpenSSL 23.3.0 (OpenSSL 3.1.4 24 Oct 2023), cryptography 41.0.5, Platform Windows-11-10.0.22631-SP0
+2023-12-22 02:45:51 [scrapy.addons] INFO: Enabled addons:
 []
-2023-12-12 00:23:04 [asyncio] DEBUG: Using selector: SelectSelector
-2023-12-12 00:23:04 [scrapy.utils.log] DEBUG: Using reactor: twisted.internet.asyncioreactor.AsyncioSelectorReactor
-2023-12-12 00:23:04 [scrapy.utils.log] DEBUG: Using asyncio event loop: asyncio.windows_events._WindowsSelectorEventLoop
-2023-12-12 00:23:04 [scrapy.extensions.telnet] INFO: Telnet Password: 8f7836ba1d98dcbc
-2023-12-12 00:23:04 [scrapy.middleware] INFO: Enabled extensions:
+2023-12-22 02:45:51 [asyncio] DEBUG: Using selector: SelectSelector
+2023-12-22 02:45:51 [scrapy.utils.log] DEBUG: Using reactor: twisted.internet.asyncioreactor.AsyncioSelectorReactor
+2023-12-22 02:45:51 [scrapy.utils.log] DEBUG: Using asyncio event loop: asyncio.windows_events._WindowsSelectorEventLoop
+2023-12-22 02:45:51 [scrapy.extensions.telnet] INFO: Telnet Password: 31749a40f50dd903
+2023-12-22 02:45:51 [scrapy.middleware] INFO: Enabled extensions:
 ['scrapy.extensions.corestats.CoreStats',
  'scrapy.extensions.telnet.TelnetConsole',
  'scrapy.extensions.logstats.LogStats']
-2023-12-12 00:23:04 [scrapy.crawler] INFO: Overridden settings:
+2023-12-22 02:45:51 [scrapy.crawler] INFO: Overridden settings:
 {'BOT_NAME': 'BookParser',
+ 'DOWNLOAD_DELAY': 0.4,
  'FEED_EXPORT_ENCODING': 'utf-8',
  'LOG_FILE': 'log_scrapy.log',
  'NEWSPIDER_MODULE': 'BookParser.spiders',
@@ -87,7 +390,7 @@ AttributeError: 'UpdateRoomsSpider' object has no attribute 'today'
  'TWISTED_REACTOR': 'twisted.internet.asyncioreactor.AsyncioSelectorReactor',
  'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
                '(KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
-2023-12-12 00:23:04 [scrapy.middleware] INFO: Enabled downloader middlewares:
+2023-12-22 02:45:51 [scrapy.middleware] INFO: Enabled downloader middlewares:
 ['scrapy.downloadermiddlewares.robotstxt.RobotsTxtMiddleware',
  'scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
  'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
@@ -100,234 +403,60 @@ AttributeError: 'UpdateRoomsSpider' object has no attribute 'today'
  'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
  'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware',
  'scrapy.downloadermiddlewares.stats.DownloaderStats']
-2023-12-12 00:23:04 [scrapy.middleware] INFO: Enabled spider middlewares:
+2023-12-22 02:45:51 [scrapy.middleware] INFO: Enabled spider middlewares:
 ['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
  'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
  'scrapy.spidermiddlewares.referer.RefererMiddleware',
  'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
  'scrapy.spidermiddlewares.depth.DepthMiddleware']
-2023-12-12 00:23:04 [scrapy.middleware] INFO: Enabled item pipelines:
+2023-12-22 02:45:51 [scrapy.middleware] INFO: Enabled item pipelines:
 []
-2023-12-12 00:23:04 [scrapy.core.engine] INFO: Spider opened
-2023-12-12 00:23:04 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
-2023-12-12 00:23:04 [scrapy.extensions.telnet] INFO: Telnet console listening on 127.0.0.1:6023
-2023-12-12 00:23:05 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/robots.txt> (referer: None)
-2023-12-12 00:23:10 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/eka-s-homestay.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:23:12 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/ww-backpackers.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:23:12 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/frangipani-bungalow.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:23:12 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/indalodge.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:23:13 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/frangipani-bungalow.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:23:13 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/ww-backpackers.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:23:13 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/indalodge.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:23:13 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/eka-s-homestay.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:23:14 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/santana-bali-home-stay.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:23:16 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/santana-bali-home-stay.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:23:19 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/gerhana-sari-2-bungalows.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:23:19 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/secret-garden-guest-house.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:23:20 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/sari-bungalow.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:23:20 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/praety-home-stay.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:23:20 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/sari-bungalow.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:23:20 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/praety-home-stay.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:23:21 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/gerhana-sari-2-bungalows.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:23:22 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/secret-garden-guest-house.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:23:24 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/puri-bayu-ubud2.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:23:25 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/puri-bayu-ubud2.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:23:29 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/odi-ode-house.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:23:29 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/odi-ode-house.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:23:29 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/bale-bali-house.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:23:29 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/pondok-taman-asri-homestay.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:23:30 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/manuaba-inn.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:23:30 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/bale-bali-house.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:23:31 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/pondok-taman-asri-homestay.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:23:31 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/manuaba-inn.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:23:35 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/ananda-cottages.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:23:37 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/waka-di-ume-resort-spa.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:23:37 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/the-artini-resort.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:23:38 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/ananda-cottages.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:23:38 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/the-lokha-ubud.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:23:39 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/the-lokha-ubud.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:23:40 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/the-artini-resort.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:23:42 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/waka-di-ume-resort-spa.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:23:42 [scrapy.crawler] INFO: Received SIGINT, shutting down gracefully. Send again to force 
-2023-12-12 00:23:42 [scrapy.core.engine] INFO: Closing spider (shutdown)
-2023-12-12 00:23:43 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/sri-ratih-cottages.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:23:44 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/sri-ratih-cottages.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:23:45 [scrapy.crawler] INFO: Received SIGINT twice, forcing unclean shutdown
-2023-12-12 00:23:45 [scrapy.core.downloader.handlers.http11] WARNING: Got data loss in https://www.booking.com/hotel/id/jannata-resort-and-spa.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD. If you want to process broken responses set the setting DOWNLOAD_FAIL_ON_DATALOSS = False -- This message won't be shown in further requests
-2023-12-12 00:23:45 [scrapy.downloadermiddlewares.retry] DEBUG: Retrying <GET https://www.booking.com/hotel/id/jannata-resort-and-spa.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (failed 1 times): [<twisted.python.failure.Failure twisted.internet.error.ConnectionLost: Connection to the other side was lost in a non-clean fashion: Connection lost.>, <twisted.python.failure.Failure twisted.web.http._DataLoss: Chunked decoder in 'BODY' state, still expecting more data to get to 'FINISHED' state.>]
-2023-12-12 00:23:45 [scrapy.core.downloader.handlers.http11] WARNING: Got data loss in https://www.booking.com/hotel/id/amora-ubud-villas.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD. If you want to process broken responses set the setting DOWNLOAD_FAIL_ON_DATALOSS = False -- This message won't be shown in further requests
-2023-12-12 00:23:45 [scrapy.downloadermiddlewares.retry] DEBUG: Retrying <GET https://www.booking.com/hotel/id/amora-ubud-villas.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (failed 1 times): [<twisted.python.failure.Failure twisted.internet.error.ConnectionLost: Connection to the other side was lost in a non-clean fashion: Connection lost.>, <twisted.python.failure.Failure twisted.web.http._DataLoss: Chunked decoder in 'CHUNK_LENGTH' state, still expecting more data to get to 'FINISHED' state.>]
-2023-12-12 00:23:45 [scrapy.core.downloader.handlers.http11] WARNING: Got data loss in https://www.booking.com/hotel/id/tjampuhan-spa.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD. If you want to process broken responses set the setting DOWNLOAD_FAIL_ON_DATALOSS = False -- This message won't be shown in further requests
-2023-12-12 00:23:45 [scrapy.downloadermiddlewares.retry] DEBUG: Retrying <GET https://www.booking.com/hotel/id/tjampuhan-spa.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (failed 1 times): [<twisted.python.failure.Failure twisted.internet.error.ConnectionLost: Connection to the other side was lost in a non-clean fashion: Connection lost.>, <twisted.python.failure.Failure twisted.web.http._DataLoss: Chunked decoder in 'BODY' state, still expecting more data to get to 'FINISHED' state.>]
-2023-12-12 00:23:45 [scrapy.core.downloader.handlers.http11] WARNING: Got data loss in https://www.booking.com/hotel/id/jannata-resort-and-spa.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD. If you want to process broken responses set the setting DOWNLOAD_FAIL_ON_DATALOSS = False -- This message won't be shown in further requests
-2023-12-12 00:23:45 [scrapy.downloadermiddlewares.retry] DEBUG: Retrying <GET https://www.booking.com/hotel/id/jannata-resort-and-spa.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (failed 1 times): [<twisted.python.failure.Failure twisted.internet.error.ConnectionLost: Connection to the other side was lost in a non-clean fashion: Connection lost.>, <twisted.python.failure.Failure twisted.web.http._DataLoss: Chunked decoder in 'BODY' state, still expecting more data to get to 'FINISHED' state.>]
-2023-12-12 00:23:45 [scrapy.core.downloader.handlers.http11] WARNING: Got data loss in https://www.booking.com/hotel/id/amora-ubud-villas.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD. If you want to process broken responses set the setting DOWNLOAD_FAIL_ON_DATALOSS = False -- This message won't be shown in further requests
-2023-12-12 00:23:45 [scrapy.downloadermiddlewares.retry] DEBUG: Retrying <GET https://www.booking.com/hotel/id/amora-ubud-villas.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (failed 1 times): [<twisted.python.failure.Failure twisted.internet.error.ConnectionLost: Connection to the other side was lost in a non-clean fashion: Connection lost.>, <twisted.python.failure.Failure twisted.web.http._DataLoss: Chunked decoder in 'BODY' state, still expecting more data to get to 'FINISHED' state.>]
-2023-12-12 00:23:45 [scrapy.core.downloader.handlers.http11] WARNING: Got data loss in https://www.booking.com/hotel/id/om-ham-retreat-ubud.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD. If you want to process broken responses set the setting DOWNLOAD_FAIL_ON_DATALOSS = False -- This message won't be shown in further requests
-2023-12-12 00:23:45 [scrapy.downloadermiddlewares.retry] DEBUG: Retrying <GET https://www.booking.com/hotel/id/om-ham-retreat-ubud.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (failed 1 times): [<twisted.python.failure.Failure twisted.internet.error.ConnectionLost: Connection to the other side was lost in a non-clean fashion: Connection lost.>, <twisted.python.failure.Failure twisted.web.http._DataLoss: Chunked decoder in 'CHUNK_LENGTH' state, still expecting more data to get to 'FINISHED' state.>]
-2023-12-12 00:23:45 [scrapy.core.downloader.handlers.http11] WARNING: Got data loss in https://www.booking.com/hotel/id/tjampuhan-spa.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD. If you want to process broken responses set the setting DOWNLOAD_FAIL_ON_DATALOSS = False -- This message won't be shown in further requests
-2023-12-12 00:23:45 [scrapy.downloadermiddlewares.retry] DEBUG: Retrying <GET https://www.booking.com/hotel/id/tjampuhan-spa.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (failed 1 times): [<twisted.python.failure.Failure twisted.internet.error.ConnectionLost: Connection to the other side was lost in a non-clean fashion: Connection lost.>, <twisted.python.failure.Failure twisted.web.http._DataLoss: Chunked decoder in 'CHUNK_LENGTH' state, still expecting more data to get to 'FINISHED' state.>]
-2023-12-12 00:24:34 [scrapy.utils.log] INFO: Scrapy 2.11.0 started (bot: BookParser)
-2023-12-12 00:24:34 [scrapy.utils.log] INFO: Versions: lxml 4.9.3.0, libxml2 2.10.3, cssselect 1.2.0, parsel 1.8.1, w3lib 2.1.2, Twisted 22.10.0, Python 3.12.0 (tags/v3.12.0:0fb18b0, Oct  2 2023, 13:03:39) [MSC v.1935 64 bit (AMD64)], pyOpenSSL 23.3.0 (OpenSSL 3.1.4 24 Oct 2023), cryptography 41.0.5, Platform Windows-11-10.0.22631-SP0
-2023-12-12 00:24:34 [scrapy.addons] INFO: Enabled addons:
-[]
-2023-12-12 00:24:34 [asyncio] DEBUG: Using selector: SelectSelector
-2023-12-12 00:24:34 [scrapy.utils.log] DEBUG: Using reactor: twisted.internet.asyncioreactor.AsyncioSelectorReactor
-2023-12-12 00:24:34 [scrapy.utils.log] DEBUG: Using asyncio event loop: asyncio.windows_events._WindowsSelectorEventLoop
-2023-12-12 00:24:34 [scrapy.extensions.telnet] INFO: Telnet Password: 2df8fcd56e8db636
-2023-12-12 00:24:34 [scrapy.middleware] INFO: Enabled extensions:
-['scrapy.extensions.corestats.CoreStats',
- 'scrapy.extensions.telnet.TelnetConsole',
- 'scrapy.extensions.logstats.LogStats']
-2023-12-12 00:24:34 [scrapy.crawler] INFO: Overridden settings:
-{'BOT_NAME': 'BookParser',
- 'FEED_EXPORT_ENCODING': 'utf-8',
- 'LOG_FILE': 'log_scrapy.log',
- 'NEWSPIDER_MODULE': 'BookParser.spiders',
- 'REQUEST_FINGERPRINTER_IMPLEMENTATION': '2.7',
- 'ROBOTSTXT_OBEY': True,
- 'SPIDER_MODULES': ['BookParser.spiders'],
- 'TWISTED_REACTOR': 'twisted.internet.asyncioreactor.AsyncioSelectorReactor',
- 'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
-               '(KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
-2023-12-12 00:24:34 [scrapy.middleware] INFO: Enabled downloader middlewares:
-['scrapy.downloadermiddlewares.robotstxt.RobotsTxtMiddleware',
- 'scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
- 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
- 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
- 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware',
- 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
- 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
- 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
- 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
- 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
- 'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware',
- 'scrapy.downloadermiddlewares.stats.DownloaderStats']
-2023-12-12 00:24:34 [scrapy.middleware] INFO: Enabled spider middlewares:
-['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
- 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
- 'scrapy.spidermiddlewares.referer.RefererMiddleware',
- 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
- 'scrapy.spidermiddlewares.depth.DepthMiddleware']
-2023-12-12 00:24:34 [scrapy.middleware] INFO: Enabled item pipelines:
-[]
-2023-12-12 00:24:34 [scrapy.core.engine] INFO: Spider opened
-2023-12-12 00:24:34 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
-2023-12-12 00:24:34 [scrapy.extensions.telnet] INFO: Telnet console listening on 127.0.0.1:6023
-2023-12-12 00:24:35 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/robots.txt> (referer: None)
-2023-12-12 00:24:40 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/pondok-ketut-kuaya.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:24:41 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/nirwa-ubud-karma.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:24:43 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/dana-sari-homestay.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:24:44 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/nirwa-ubud-karma.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:24:45 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/ina-inn.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:24:45 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/dana-sari-homestay.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:24:46 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/pondok-ketut-kuaya.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:24:47 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/narasoma-homestay-amp-retreat.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:24:47 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/ina-inn.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:24:48 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/narasoma-homestay-amp-retreat.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:24:49 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/lilis-cempaka-mas-guesthouse.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:24:50 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/the-kayuri.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:24:50 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/the-kayuri.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:24:52 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/asung-guest-house.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:24:54 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/putu-homestay-badung.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:24:55 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/lilis-cempaka-mas-guesthouse.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:24:55 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/charlie-brown-bali-guesthouse.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:24:57 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/umah-tikari-guesthouse.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:24:57 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/umah-tikari-guesthouse.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:24:57 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/charlie-brown-bali-guesthouse.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:24:57 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/putu-homestay-badung.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:24:58 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/asung-guest-house.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:24:59 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/canggu-hbd.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:25:01 [scrapy.crawler] INFO: Received SIGINT, shutting down gracefully. Send again to force 
-2023-12-12 00:25:01 [scrapy.core.engine] INFO: Closing spider (shutdown)
-2023-12-12 00:25:02 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/canggu-hbd.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:25:02 [scrapy.crawler] INFO: Received SIGINT twice, forcing unclean shutdown
-2023-12-12 00:25:02 [scrapy.core.downloader.handlers.http11] WARNING: Got data loss in https://www.booking.com/hotel/id/sakura-guest-house.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD. If you want to process broken responses set the setting DOWNLOAD_FAIL_ON_DATALOSS = False -- This message won't be shown in further requests
-2023-12-12 00:25:02 [scrapy.downloadermiddlewares.retry] DEBUG: Retrying <GET https://www.booking.com/hotel/id/sakura-guest-house.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (failed 1 times): [<twisted.python.failure.Failure twisted.internet.error.ConnectionLost: Connection to the other side was lost in a non-clean fashion: Connection lost.>, <twisted.python.failure.Failure twisted.web.http._DataLoss: Chunked decoder in 'BODY' state, still expecting more data to get to 'FINISHED' state.>]
-2023-12-12 00:25:02 [scrapy.core.downloader.handlers.http11] WARNING: Got data loss in https://www.booking.com/hotel/id/sakura-guest-house.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD. If you want to process broken responses set the setting DOWNLOAD_FAIL_ON_DATALOSS = False -- This message won't be shown in further requests
-2023-12-12 00:25:02 [scrapy.downloadermiddlewares.retry] DEBUG: Retrying <GET https://www.booking.com/hotel/id/sakura-guest-house.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (failed 1 times): [<twisted.python.failure.Failure twisted.internet.error.ConnectionLost: Connection to the other side was lost in a non-clean fashion: Connection lost.>, <twisted.python.failure.Failure twisted.web.http._DataLoss: Chunked decoder in 'BODY' state, still expecting more data to get to 'FINISHED' state.>]
-2023-12-12 00:25:02 [scrapy.core.downloader.handlers.http11] WARNING: Got data loss in https://www.booking.com/hotel/id/nudel-room-amp-cafe.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD. If you want to process broken responses set the setting DOWNLOAD_FAIL_ON_DATALOSS = False -- This message won't be shown in further requests
-2023-12-12 00:25:02 [scrapy.downloadermiddlewares.retry] DEBUG: Retrying <GET https://www.booking.com/hotel/id/nudel-room-amp-cafe.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (failed 1 times): [<twisted.python.failure.Failure twisted.internet.error.ConnectionLost: Connection to the other side was lost in a non-clean fashion: Connection lost.>, <twisted.python.failure.Failure twisted.web.http._DataLoss: Chunked decoder in 'BODY' state, still expecting more data to get to 'FINISHED' state.>]
-2023-12-12 00:25:02 [scrapy.core.downloader.handlers.http11] WARNING: Got data loss in https://www.booking.com/hotel/id/nudel-room-amp-cafe.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD. If you want to process broken responses set the setting DOWNLOAD_FAIL_ON_DATALOSS = False -- This message won't be shown in further requests
-2023-12-12 00:25:02 [scrapy.downloadermiddlewares.retry] DEBUG: Retrying <GET https://www.booking.com/hotel/id/nudel-room-amp-cafe.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (failed 1 times): [<twisted.python.failure.Failure twisted.internet.error.ConnectionLost: Connection to the other side was lost in a non-clean fashion: Connection lost.>, <twisted.python.failure.Failure twisted.web.http._DataLoss: Chunked decoder in 'CRLF' state, still expecting more data to get to 'FINISHED' state.>]
-2023-12-12 00:25:02 [scrapy.core.downloader.handlers.http11] WARNING: Got data loss in https://www.booking.com/hotel/id/kubu-kutus-kabupaten-badung.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD. If you want to process broken responses set the setting DOWNLOAD_FAIL_ON_DATALOSS = False -- This message won't be shown in further requests
-2023-12-12 00:25:02 [scrapy.downloadermiddlewares.retry] DEBUG: Retrying <GET https://www.booking.com/hotel/id/kubu-kutus-kabupaten-badung.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (failed 1 times): [<twisted.python.failure.Failure twisted.internet.error.ConnectionLost: Connection to the other side was lost in a non-clean fashion: Connection lost.>, <twisted.python.failure.Failure twisted.web.http._DataLoss: Chunked decoder in 'BODY' state, still expecting more data to get to 'FINISHED' state.>]
-2023-12-12 00:25:02 [scrapy.core.downloader.handlers.http11] WARNING: Got data loss in https://www.booking.com/hotel/id/kubu-kutus-kabupaten-badung.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD. If you want to process broken responses set the setting DOWNLOAD_FAIL_ON_DATALOSS = False -- This message won't be shown in further requests
-2023-12-12 00:25:02 [scrapy.downloadermiddlewares.retry] DEBUG: Retrying <GET https://www.booking.com/hotel/id/kubu-kutus-kabupaten-badung.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (failed 1 times): [<twisted.python.failure.Failure twisted.internet.error.ConnectionLost: Connection to the other side was lost in a non-clean fashion: Connection lost.>, <twisted.python.failure.Failure twisted.web.http._DataLoss: Chunked decoder in 'BODY' state, still expecting more data to get to 'FINISHED' state.>]
-2023-12-12 00:25:02 [scrapy.core.downloader.handlers.http11] WARNING: Got data loss in https://www.booking.com/hotel/id/the-sloth-bali.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD. If you want to process broken responses set the setting DOWNLOAD_FAIL_ON_DATALOSS = False -- This message won't be shown in further requests
-2023-12-12 00:25:02 [scrapy.downloadermiddlewares.retry] DEBUG: Retrying <GET https://www.booking.com/hotel/id/the-sloth-bali.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (failed 1 times): [<twisted.python.failure.Failure twisted.internet.error.ConnectionLost: Connection to the other side was lost in a non-clean fashion: Connection lost.>, <twisted.python.failure.Failure twisted.web.http._DataLoss: Chunked decoder in 'CHUNK_LENGTH' state, still expecting more data to get to 'FINISHED' state.>]
-2023-12-12 00:26:24 [scrapy.utils.log] INFO: Scrapy 2.11.0 started (bot: BookParser)
-2023-12-12 00:26:24 [scrapy.utils.log] INFO: Versions: lxml 4.9.3.0, libxml2 2.10.3, cssselect 1.2.0, parsel 1.8.1, w3lib 2.1.2, Twisted 22.10.0, Python 3.12.0 (tags/v3.12.0:0fb18b0, Oct  2 2023, 13:03:39) [MSC v.1935 64 bit (AMD64)], pyOpenSSL 23.3.0 (OpenSSL 3.1.4 24 Oct 2023), cryptography 41.0.5, Platform Windows-11-10.0.22631-SP0
-2023-12-12 00:26:24 [scrapy.addons] INFO: Enabled addons:
-[]
-2023-12-12 00:26:24 [asyncio] DEBUG: Using selector: SelectSelector
-2023-12-12 00:26:24 [scrapy.utils.log] DEBUG: Using reactor: twisted.internet.asyncioreactor.AsyncioSelectorReactor
-2023-12-12 00:26:24 [scrapy.utils.log] DEBUG: Using asyncio event loop: asyncio.windows_events._WindowsSelectorEventLoop
-2023-12-12 00:26:24 [scrapy.extensions.telnet] INFO: Telnet Password: 837d3d34228fc413
-2023-12-12 00:26:24 [scrapy.middleware] INFO: Enabled extensions:
-['scrapy.extensions.corestats.CoreStats',
- 'scrapy.extensions.telnet.TelnetConsole',
- 'scrapy.extensions.logstats.LogStats']
-2023-12-12 00:26:24 [scrapy.crawler] INFO: Overridden settings:
-{'BOT_NAME': 'BookParser',
- 'FEED_EXPORT_ENCODING': 'utf-8',
- 'LOG_FILE': 'log_scrapy.log',
- 'NEWSPIDER_MODULE': 'BookParser.spiders',
- 'REQUEST_FINGERPRINTER_IMPLEMENTATION': '2.7',
- 'ROBOTSTXT_OBEY': True,
- 'SPIDER_MODULES': ['BookParser.spiders'],
- 'TWISTED_REACTOR': 'twisted.internet.asyncioreactor.AsyncioSelectorReactor',
- 'USER_AGENT': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 '
-               '(KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
-2023-12-12 00:26:24 [scrapy.middleware] INFO: Enabled downloader middlewares:
-['scrapy.downloadermiddlewares.robotstxt.RobotsTxtMiddleware',
- 'scrapy.downloadermiddlewares.httpauth.HttpAuthMiddleware',
- 'scrapy.downloadermiddlewares.downloadtimeout.DownloadTimeoutMiddleware',
- 'scrapy.downloadermiddlewares.defaultheaders.DefaultHeadersMiddleware',
- 'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware',
- 'scrapy.downloadermiddlewares.retry.RetryMiddleware',
- 'scrapy.downloadermiddlewares.redirect.MetaRefreshMiddleware',
- 'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware',
- 'scrapy.downloadermiddlewares.redirect.RedirectMiddleware',
- 'scrapy.downloadermiddlewares.cookies.CookiesMiddleware',
- 'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware',
- 'scrapy.downloadermiddlewares.stats.DownloaderStats']
-2023-12-12 00:26:24 [scrapy.middleware] INFO: Enabled spider middlewares:
-['scrapy.spidermiddlewares.httperror.HttpErrorMiddleware',
- 'scrapy.spidermiddlewares.offsite.OffsiteMiddleware',
- 'scrapy.spidermiddlewares.referer.RefererMiddleware',
- 'scrapy.spidermiddlewares.urllength.UrlLengthMiddleware',
- 'scrapy.spidermiddlewares.depth.DepthMiddleware']
-2023-12-12 00:26:24 [scrapy.middleware] INFO: Enabled item pipelines:
-[]
-2023-12-12 00:26:24 [scrapy.core.engine] INFO: Spider opened
-2023-12-12 00:26:24 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
-2023-12-12 00:26:24 [scrapy.extensions.telnet] INFO: Telnet console listening on 127.0.0.1:6023
-2023-12-12 00:26:25 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/robots.txt> (referer: None)
-2023-12-12 00:26:31 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/canggu-hbd.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:26:31 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/nudel-room-amp-cafe.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:26:32 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/canggu-hbd.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:26:32 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/kubu-kutus-kabupaten-badung.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:26:32 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/nudel-room-amp-cafe.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:26:33 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/the-sloth-bali.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:26:33 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/kubu-kutus-kabupaten-badung.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:26:33 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/the-sloth-bali.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:26:35 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/puri-canggu-rooms-ll.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:26:37 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/puri-canggu-rooms-ll.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:26:39 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/dewangga-bungalow.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:26:40 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/bebek-uma-dawa-guesthouse.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:26:40 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/ubud-aura.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (referer: None)
-2023-12-12 00:26:40 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/dewangga-bungalow.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:26:40 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/ubud-aura.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:26:41 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/jati-cottage.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (referer: None)
-2023-12-12 00:26:41 [scrapy.crawler] INFO: Received SIGINT, shutting down gracefully. Send again to force 
-2023-12-12 00:26:41 [scrapy.core.engine] INFO: Closing spider (shutdown)
-2023-12-12 00:26:42 [scrapy.crawler] INFO: Received SIGINT twice, forcing unclean shutdown
-2023-12-12 00:26:42 [scrapy.core.downloader.handlers.http11] WARNING: Got data loss in https://www.booking.com/hotel/id/pondok-tamiu.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD. If you want to process broken responses set the setting DOWNLOAD_FAIL_ON_DATALOSS = False -- This message won't be shown in further requests
-2023-12-12 00:26:42 [scrapy.downloadermiddlewares.retry] DEBUG: Retrying <GET https://www.booking.com/hotel/id/pondok-tamiu.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (failed 1 times): [<twisted.python.failure.Failure twisted.internet.error.ConnectionLost: Connection to the other side was lost in a non-clean fashion: Connection lost.>, <twisted.python.failure.Failure twisted.web.http._DataLoss: Chunked decoder in 'CHUNK_LENGTH' state, still expecting more data to get to 'FINISHED' state.>]
-2023-12-12 00:26:42 [scrapy.core.downloader.handlers.http11] WARNING: Got data loss in https://www.booking.com/hotel/id/pondok-tamiu.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD. If you want to process broken responses set the setting DOWNLOAD_FAIL_ON_DATALOSS = False -- This message won't be shown in further requests
-2023-12-12 00:26:42 [scrapy.downloadermiddlewares.retry] DEBUG: Retrying <GET https://www.booking.com/hotel/id/pondok-tamiu.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (failed 1 times): [<twisted.python.failure.Failure twisted.internet.error.ConnectionLost: Connection to the other side was lost in a non-clean fashion: Connection lost.>, <twisted.python.failure.Failure twisted.web.http._DataLoss: Chunked decoder in 'CHUNK_LENGTH' state, still expecting more data to get to 'FINISHED' state.>]
-2023-12-12 00:26:42 [scrapy.core.downloader.handlers.http11] WARNING: Got data loss in https://www.booking.com/hotel/id/bebek-uma-dawa-guesthouse.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD. If you want to process broken responses set the setting DOWNLOAD_FAIL_ON_DATALOSS = False -- This message won't be shown in further requests
-2023-12-12 00:26:42 [scrapy.downloadermiddlewares.retry] DEBUG: Retrying <GET https://www.booking.com/hotel/id/bebek-uma-dawa-guesthouse.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-13&checkout=2023-12-14&selected_currency=USD> (failed 1 times): [<twisted.python.failure.Failure twisted.internet.error.ConnectionLost: Connection to the other side was lost in a non-clean fashion: Connection lost.>, <twisted.python.failure.Failure twisted.web.http._DataLoss: Chunked decoder in 'BODY' state, still expecting more data to get to 'FINISHED' state.>]
-2023-12-12 00:26:42 [scrapy.core.downloader.handlers.http11] WARNING: Got data loss in https://www.booking.com/hotel/id/jati-cottage.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD. If you want to process broken responses set the setting DOWNLOAD_FAIL_ON_DATALOSS = False -- This message won't be shown in further requests
-2023-12-12 00:26:42 [scrapy.downloadermiddlewares.retry] DEBUG: Retrying <GET https://www.booking.com/hotel/id/jati-cottage.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2023-12-12&checkout=2023-12-13&selected_currency=USD> (failed 1 times): [<twisted.python.failure.Failure twisted.internet.error.ConnectionLost: Connection to the other side was lost in a non-clean fashion: Connection lost.>, <twisted.python.failure.Failure twisted.web.http._DataLoss: Chunked decoder in 'CHUNK_LENGTH' state, still expecting more data to get to 'FINISHED' state.>]
+2023-12-22 02:45:51 [scrapy.core.engine] INFO: Spider opened
+2023-12-22 02:45:51 [scrapy.extensions.logstats] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
+2023-12-22 02:45:51 [scrapy.extensions.telnet] INFO: Telnet console listening on 127.0.0.1:6023
+2023-12-22 02:45:51 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/robots.txt> (referer: None)
+2023-12-22 02:45:54 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/eka-s-homestay.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:45:55 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/tara-house.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:45:56 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/pondok-bambu-homestay.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:45:56 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/indalodge.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:45:56 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/frangipani-bungalow.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:45:57 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/kubu-taman-home-stay.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:45:58 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/ww-backpackers.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:45:58 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/jero-di-bisma-hostel.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:45:58 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/santana-bali-home-stay.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:45:58 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/poshtel-ubud-kabupaten-gianyar.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:45:59 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/sari-bungalow.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:46:00 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/adi-santia-bungalows.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:46:00 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/praety-home-stay.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:46:01 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/dewa-hostel-2.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:46:01 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/gerhana-sari-2-bungalows.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:46:02 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/ayu-homestay.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:46:02 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/secret-garden-guest-house.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:46:03 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/arjuna-house-ii.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:46:03 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/puri-bayu-ubud2.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:46:03 [scrapy.core.engine] DEBUG: Crawled (200) <GET https://www.booking.com/hotel/id/teja-home-stay.en-gb.html?group_adults=1&no_rooms=1&group_children=0&checkin=2024-01-22&checkout=2024-01-23&selected_currency=USD> (referer: None)
+2023-12-22 02:46:04 [scrapy.core.engine] INFO: Closing spider (finished)
+2023-12-22 02:46:04 [scrapy.statscollectors] INFO: Dumping Scrapy stats:
+{'downloader/request_bytes': 19203,
+ 'downloader/request_count': 21,
+ 'downloader/request_method_count/GET': 21,
+ 'downloader/response_bytes': 6861946,
+ 'downloader/response_count': 21,
+ 'downloader/response_status_count/200': 21,
+ 'elapsed_time_seconds': 12.941567,
+ 'finish_reason': 'finished',
+ 'finish_time': datetime.datetime(2023, 12, 22, 0, 46, 4, 243005, tzinfo=datetime.timezone.utc),
+ 'httpcompression/response_bytes': 28065085,
+ 'httpcompression/response_count': 21,
+ 'log_count/DEBUG': 24,
+ 'log_count/INFO': 10,
+ 'response_received_count': 21,
+ 'robotstxt/request_count': 1,
+ 'robotstxt/response_count': 1,
+ 'robotstxt/response_status_count/200': 1,
+ 'scheduler/dequeued': 20,
+ 'scheduler/dequeued/memory': 20,
+ 'scheduler/enqueued': 20,
+ 'scheduler/enqueued/memory': 20,
+ 'start_time': datetime.datetime(2023, 12, 22, 0, 45, 51, 301438, tzinfo=datetime.timezone.utc)}
+2023-12-22 02:46:04 [scrapy.core.engine] INFO: Spider closed (finished)
