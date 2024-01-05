@@ -1,4 +1,4 @@
--- Active: 1694892122116@@127.0.0.1@3306@test
+-- Active: 1701476604929@@artnmo.mysql.tools@3306@artnmo_estate
 
 DROP TABLE links;
 
@@ -79,3 +79,35 @@ DO
 BEGIN
     UPDATE booking_data SET procced = 0;
 END;
+
+
+
+DROP TABLE room_cache; 
+
+CREATE TABLE IF NOT EXISTS room_cache (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    booking_id INT,
+    FOREIGN KEY (booking_id) REFERENCES booking_data(id) ON DELETE CASCADE,
+    room_type VARCHAR(255),
+    max_available INT,
+    occupancy_rate FLOAT
+)
+
+
+DROP TABLE facilities; 
+CREATE TABLE IF NOT EXISTS facilities (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255)
+)
+
+
+CREATE TABLE IF NOT EXISTS facilities (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255)
+)
+
+CREATE TABLE IF NOT EXISTS booking_facilities (
+    booking_id INT,
+    facilities_id INT
+)
+

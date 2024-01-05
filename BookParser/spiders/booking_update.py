@@ -19,6 +19,8 @@ class MySpider(scrapy.Spider):
     start_urls = []
     connection = None
     cursor = None
+
+    facilities_cache = {}
         
     
     def connect_to_db(self):
@@ -40,8 +42,8 @@ class MySpider(scrapy.Spider):
         }
         
         try:
-            cnx = mysql.connector.connect(**config_local)
-            # cnx = mysql.connector.connect(**config)
+            # cnx = mysql.connector.connect(**config_local)
+            cnx = mysql.connector.connect(**config)
             return cnx
         except mysql.connector.Error as err:
             print(err)
@@ -71,7 +73,11 @@ class MySpider(scrapy.Spider):
         
         self.cursor = self.connection.cursor()
 
-        self.cursor.execute('SELECT id, link FROM booking_data LIMIT 20')
+        self.cursor.execute('SELECT id, title FROM facilities')
+        facilities_data = self.cursor.fetchall()
+        self.facilities_cache = {title: id for id, title in facilities_data}
+
+        self.cursor.execute('SELECT id, link FROM booking_data LIMIT 1')
         booking_data = self.cursor.fetchall()
 
         for book in booking_data:
@@ -95,7 +101,6 @@ class MySpider(scrapy.Spider):
         else:
             city = re.sub(r'\d+', '', address.split(',')[1]).strip()
 
-        coordinates = response.css('span.hp_address_subtitle::attr(data-bbox)').get()
         location = response.css('a#hotel_address').attrib.get('data-atlas-latlng')
 
         score = response.css('div.a3b8729ab1.d86cee9b25::text').get()
@@ -105,17 +110,51 @@ class MySpider(scrapy.Spider):
 
         link = response.meta.get('original_url').split('?')[0]
 
-        print(location)
-        print(score)
+        type = response.css('li[itemprop="itemListElement"][data-google-track*="hotel"] a::text')[1].get()
+        if 'All' in type:
+            type = type.replace('All', '').strip().capitalize()
+        else:
+            type = 'Guest houses'
 
 
         sql = """
              UPDATE booking_data 
-            SET title = %s, description = %s, star = %s, link = %s, address = %s, city = %s, coordinates = %s,
-            location = %s, score = %s, images = %s
+            SET title = %s, description = %s, star = %s, link = %s, address = %s, city = %s,
+            location = %s, score = %s, images = %s, type = %s
             WHERE id = %s
         """
         self.cursor.execute(sql, (
-            title, description, star, link, address, city, coordinates, location, score, str(images), id
+            title, description, star, link, address, city, location, score, str(images), type, id
         ))
         self.connection.commit()
+
+
+
+
+
+        # получение удобств отеля 
+        facilities = None
+        facilities = response.xpath('//*[@id="basiclayout"]/div[1]/div[2]/div/div/div/div/div/ul/li/div[2]/div')
+        if not facilities:
+            facilities = response.xpath('//ul[@class="c807d72881 d1a624a1cc e10711a42e"]/li/div/div/div/span/div/span')    
+
+        # Обработка найденных элементов
+        for element in facilities:
+            # Извлечение текста из каждого элемента и вывод его в консоль
+            selected_text = element.xpath('./text()').get()
+            print(selected_text)
+
+            # Проверка наличия текста в facilities_cache
+            existing_id = self.facilities_cache.get(selected_text)
+            if existing_id is not None:
+                print(f"Existing ID for '{selected_text}': {existing_id}")
+            else:
+                # If the selected_text is not found, add it to the database and cache
+                self.cursor.execute('INSERT INTO facilities (title) VALUES (%s)', (selected_text,))
+                self.connection.commit()
+                new_id = self.cursor.lastrowid
+                print(f"New ID for '{new_id}': {selected_text}")
+                self.facilities_cache[selected_text] = new_id
+
+        # print(facilities)
+        print(self.facilities_cache)

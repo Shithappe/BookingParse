@@ -99,19 +99,28 @@ class MySpider(scrapy.Spider):
             city = re.sub(r'\d+', '', address.split(',')[3]).strip()
         else:
             city = re.sub(r'\d+', '', address.split(',')[1]).strip()
-        coordinates = response.css('span.hp_address_subtitle::attr(data-bbox)').get()
+
+        location = response.css('a#hotel_address').attrib.get('data-atlas-latlng')
+
+        score = response.css('div.a3b8729ab1.d86cee9b25::text').get()
 
         images = response.css('a.bh-photo-grid-item.bh-photo-grid-thumb > img::attr(src)').extract()
 
         link = response.meta.get('original_url').split('?')[0]
 
+        type = response.css('li[itemprop="itemListElement"][data-google-track*="hotel"] a::text')[1].get()
+        if 'All' in type:
+            type = type.replace('All', '').strip().capitalize()
+        else:
+            type = 'Guest houses'
+
 
         sql = """
             INSERT INTO booking_data 
-            (title, description, star, link, address, city, coordinates, images)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            (title, description, star, link, address, city, location, score, images, type)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
         self.cursor.execute(sql, (
-            title, description, star, link, address, city, coordinates, str(images)
+            title, description, star, link, address, city, location, score, str(images), type
         ))
         self.connection.commit()
