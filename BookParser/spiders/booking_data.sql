@@ -71,6 +71,20 @@ CREATE TABLE IF NOT EXISTS rooms_30_day (
 
 
 
+CREATE TABLE IF NOT EXISTS remaining_rooms (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    booking_id INT,
+    FOREIGN KEY (booking_id) REFERENCES booking_data(id) ON DELETE CASCADE,
+    room_type VARCHAR(255),
+    max_available_rooms INT,
+    checkin VARCHAR(20),
+    checkout VARCHAR(20),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (booking_id, checkin, checkout, created_at)
+)
+
+
+
 ALTER TABLE booking_data ADD processed BOOLEAN DEFAULT 0;
 CREATE EVENT reset_procced
 ON SCHEDULE EVERY 1 DAY
@@ -95,9 +109,11 @@ CREATE TABLE IF NOT EXISTS room_cache (
 
 
 DROP TABLE facilities; 
+
 CREATE TABLE IF NOT EXISTS facilities (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(255)
+    title VARCHAR(255),
+    UNIQUE (title)
 )
 
 
@@ -105,9 +121,13 @@ CREATE TABLE IF NOT EXISTS facilities (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255)
 )
+
+
+DROP TABLE booking_facilities; 
 
 CREATE TABLE IF NOT EXISTS booking_facilities (
     booking_id INT,
-    facilities_id INT
+    facilities_id INT,
+    UNIQUE (booking_id, facilities_id)
 )
 
