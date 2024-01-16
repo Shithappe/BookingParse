@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS remaining_rooms (
     checkin VARCHAR(20),
     checkout VARCHAR(20),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE (booking_id, checkin, checkout, created_at)
+    UNIQUE (booking_id, room_type, checkin, checkout, created_at)
 )
 
 

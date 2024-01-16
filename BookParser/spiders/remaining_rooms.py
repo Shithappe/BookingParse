@@ -1,17 +1,15 @@
 import scrapy
 import mysql.connector
 from datetime import datetime, timedelta
-from dateutil.relativedelta import relativedelta
 from urllib.parse import urlparse, urlencode, parse_qs, urlunparse
-
 
 
 class UpdateRoomsSpider(scrapy.Spider):    
 
     today = datetime.now().date()
 
-    checkin = datetime.now().date() + timedelta(hours=5)
-    checkout = datetime.now().date() + timedelta(hours=5)+timedelta(days=1)
+    checkin = (datetime.now() + timedelta(hours=5)).date()
+    checkout = (datetime.now() + timedelta(hours=5) + timedelta(days=1)).date()
 
     name = "remaining_rooms"
     allowed_domains = ["www.booking.com"]
@@ -72,7 +70,7 @@ class UpdateRoomsSpider(scrapy.Spider):
         self.cursor = self.connection.cursor()
 
         rows = None
-        self.cursor.execute(f'SELECT id, link FROM booking_data')
+        self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id = 2017')
         rows = self.cursor.fetchall()
 
 
@@ -105,6 +103,8 @@ class UpdateRoomsSpider(scrapy.Spider):
                 available_rooms = rows[i].xpath('.//select[@class="hprt-nos-select js-hprt-nos-select"]//option[last()]/@value').get()                
                 if not available_rooms: 
                     available_rooms = 0
+
+                # print(room_type, available_rooms)
 
                 self.cursor.execute("""
                         INSERT INTO remaining_rooms
