@@ -120,17 +120,15 @@ class UpdateRoomsSpider(scrapy.Spider):
             rowspan = rows[i].xpath('./td/@rowspan').get()
             if rowspan:
                 room_type = rows[i].xpath('.//span[contains(@class, "hprt-roomtype-icon-link")]/text()').get().strip()
-                for j in range(int(rowspan)):
-                    
-                    max_available_rooms = rows[j + i].xpath('(//select[@class="hprt-nos-select js-hprt-nos-select"]//option)[last()]/@value').get()
-                    if not max_available_rooms: 
-                        max_available_rooms = 0
+                max_available_rooms = rows[i].xpath('.//select[@class="hprt-nos-select js-hprt-nos-select"]//option[last()]/@value').get() 
+                if not max_available_rooms: 
+                    max_available_rooms = 0
 
-                    self.cursor.execute("""
-                            INSERT INTO rooms_30_day
-                            (booking_id, room_type, max_available_rooms, checkin, checkout)
-                            VALUES (%s, %s, %s, %s, %s)
-                        """, (
-                        booking_id, room_type, max_available_rooms, checkin, checkout
-                    ))
-                    self.connection.commit()
+                self.cursor.execute("""
+                        INSERT INTO rooms_30_day
+                        (booking_id, room_type, max_available_rooms, checkin, checkout)
+                        VALUES (%s, %s, %s, %s, %s)
+                    """, (
+                    booking_id, room_type, max_available_rooms, checkin, checkout
+                ))
+                self.connection.commit()

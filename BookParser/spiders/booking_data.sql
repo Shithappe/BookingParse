@@ -69,14 +69,14 @@ CREATE TABLE IF NOT EXISTS rooms_30_day (
     -- UNIQUE (booking_id, checkin, checkout, created_at)
 )
 
-
+DROP TABLE remaining_rooms; 
 
 CREATE TABLE IF NOT EXISTS remaining_rooms (
     id INT AUTO_INCREMENT PRIMARY KEY,
     booking_id INT,
     FOREIGN KEY (booking_id) REFERENCES booking_data(id) ON DELETE CASCADE,
     room_type VARCHAR(255),
-    max_available_rooms INT,
+    available_rooms INT,
     checkin VARCHAR(20),
     checkout VARCHAR(20),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

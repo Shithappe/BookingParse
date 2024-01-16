@@ -93,7 +93,7 @@ class UpdateRoomsSpider(scrapy.Spider):
         checkout = response.meta.get('checkout')        
         
         room_type = None
-        max_available_rooms = None
+        available_rooms = None
         rowspan = None
         
         rows = response.xpath('//*[@id="hprt-table"]/tbody/tr')
@@ -102,15 +102,15 @@ class UpdateRoomsSpider(scrapy.Spider):
             rowspan = rows[i].xpath('./td/@rowspan').get()
             if rowspan:
                 room_type = rows[i].xpath('.//span[contains(@class, "hprt-roomtype-icon-link")]/text()').get().strip()
-                max_available_rooms = rows[i].xpath('.//select[@class="hprt-nos-select js-hprt-nos-select"]//option[last()]/@value').get()                
-                if not max_available_rooms: 
-                    max_available_rooms = 0
+                available_rooms = rows[i].xpath('.//select[@class="hprt-nos-select js-hprt-nos-select"]//option[last()]/@value').get()                
+                if not available_rooms: 
+                    available_rooms = 0
 
                 self.cursor.execute("""
                         INSERT INTO remaining_rooms
-                        (booking_id, room_type, max_available_rooms, checkin, checkout)
+                        (booking_id, room_type, available_rooms, checkin, checkout)
                         VALUES (%s, %s, %s, %s, %s)
                     """, (
-                    booking_id, room_type, max_available_rooms, checkin, checkout
+                    booking_id, room_type, available_rooms, checkin, checkout
                 ))
             self.connection.commit()
