@@ -13,8 +13,8 @@ class UpdateRoomsSpider(scrapy.Spider):
 
     today = datetime.now().date()
 
-    checkin = (datetime.now() + timedelta(hours=5)).date()
-    checkout = (datetime.now() + timedelta(hours=5) + timedelta(days=1)).date()
+    checkin = (datetime.now() + timedelta(hours=8)).date()
+    checkout = (datetime.now() + timedelta(hours=8) + timedelta(days=1)).date()
 
     name = "rooms_2_day"
     allowed_domains = ["www.booking.com"]
