@@ -70,7 +70,7 @@ class UpdateRoomsSpider(scrapy.Spider):
         self.cursor = self.connection.cursor()
 
         rows = None
-        self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id = 2017')
+        self.cursor.execute(f'SELECT id, link FROM booking_data')
         rows = self.cursor.fetchall()
 
 
@@ -104,7 +104,7 @@ class UpdateRoomsSpider(scrapy.Spider):
                 if not available_rooms: 
                     available_rooms = 0
 
-                # print(room_type, available_rooms)
+                # print(f'\n{room_type, available_rooms}\n')
 
                 self.cursor.execute("""
                         INSERT INTO remaining_rooms
