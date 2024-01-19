@@ -94,9 +94,6 @@ class UpdateRoomsSpider(scrapy.Spider):
             self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id MOD 2 = {self.mod}')
             rows = self.cursor.fetchall()
 
-        # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id = 1628')
-        # rows = self.cursor.fetchall()
-
 
         for row in rows:
                 formatted_link = self.format_link(row[1], self.checkin, self.checkout) 
@@ -115,7 +112,7 @@ class UpdateRoomsSpider(scrapy.Spider):
         checkout = response.meta.get('checkout')        
         
         room_type = None
-        max_available_rooms = None
+        available_rooms = None
         rowspan = None
         
         rows = response.xpath('//*[@id="hprt-table"]/tbody/tr')
@@ -135,6 +132,6 @@ class UpdateRoomsSpider(scrapy.Spider):
                         (booking_id, room_type, available_rooms, checkin, checkout)
                         VALUES (%s, %s, %s, %s, %s)
                     """, (
-                    booking_id, room_type, max_available_rooms, checkin, checkout
+                    booking_id, room_type, available_rooms, checkin, checkout
                 ))
             self.connection.commit()
