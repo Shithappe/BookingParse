@@ -73,6 +73,12 @@ class UpdateRoomsSpider(scrapy.Spider):
         self.cursor.execute(f'SELECT id, link FROM booking_data')
         rows = self.cursor.fetchall()
 
+        file_path = 'output.txt'
+        with open(file_path, 'w', encoding='utf-8') as txt_file:
+            # Записываем строки данных
+            for row in rows:
+                txt_file.write(f'{row[0]}, {row[1]}\n')
+
 
         for row in rows:
                 formatted_link = self.format_link(row[1], self.checkin, self.checkout) 
@@ -105,12 +111,13 @@ class UpdateRoomsSpider(scrapy.Spider):
                     available_rooms = 0
 
                 # print(f'\n{room_type, available_rooms}\n')
+                print(booking_id, room_type, available_rooms, checkin, checkout)
 
-                self.cursor.execute("""
-                        INSERT INTO remaining_rooms
-                        (booking_id, room_type, available_rooms, checkin, checkout)
-                        VALUES (%s, %s, %s, %s, %s)
-                    """, (
-                    booking_id, room_type, available_rooms, checkin, checkout
-                ))
-            self.connection.commit()
+            #     self.cursor.execute("""
+            #             INSERT INTO remaining_rooms
+            #             (booking_id, room_type, available_rooms, checkin, checkout)
+            #             VALUES (%s, %s, %s, %s, %s)
+            #         """, (
+            #         booking_id, room_type, available_rooms, checkin, checkout
+            #     ))
+            # self.connection.commit()

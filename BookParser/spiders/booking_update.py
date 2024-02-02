@@ -9,7 +9,7 @@ from urllib.parse import urlparse, urlencode, parse_qs, urlunparse
 
 class MySpider(scrapy.Spider):
 
-    next_month = datetime.now().date() + relativedelta(months=1)
+    next_month = datetime.now().date() + relativedelta(months=4)
     checkin = next_month
     checkout = next_month + relativedelta(days=1)
 
@@ -80,6 +80,8 @@ class MySpider(scrapy.Spider):
         self.cursor.execute('SELECT id, link FROM booking_data')
         booking_data = self.cursor.fetchall()
 
+        print(len(booking_data))
+
         for book in booking_data:
             id, url = book[0], book[1]
             yield scrapy.Request(url=self.format_link(url), callback=self.parse, meta={'id': id, 'original_url': url})
@@ -92,20 +94,24 @@ class MySpider(scrapy.Spider):
         booking_id = response.meta.get('id')
 
         title = response.css('.d2fee87262.pp-header__title::text').extract_first()
-        # description = response.css('.a53cbfa6de.b3efd73f69::text').extract_first().strip()
+        description = response.css('.a53cbfa6de.b3efd73f69::text').extract_first().strip()
 
-        # star = len(response.css('span[data-testid="rating-stars"] > span'))
-        # address = response.css('span.hp_address_subtitle::text').get().strip()
+        star = len(response.css('span[data-testid="rating-stars"] > span'))
+        address = response.css('span.hp_address_subtitle::text').get().strip()
         city = response.css('input[name="ss"]::attr(value)').extract_first().strip()
 
-        # location = response.css('a#hotel_address').attrib.get('data-atlas-latlng')
+        location = response.css('a#hotel_address').attrib.get('data-atlas-latlng')
 
-        # score = response.css('div.a3b8729ab1.d86cee9b25::text').get()
+        score = response.css('div.a3b8729ab1.d86cee9b25::text').get()
 
-        # images = response.css('a.bh-photo-grid-item.bh-photo-grid-thumb > img::attr(src)').extract()
+        images = response.css('a[data-thumb-url]::attr(data-thumb-url)').extract()
+        small_images = response.css('a.bh-photo-grid-item.bh-photo-grid-thumb > img::attr(src)').extract()
+        images.extend(small_images)
+
+        images = [image.replace('max300', 'max500') for image in images]
 
 
-        # link = response.meta.get('original_url').split('?')[0]
+        link = response.meta.get('original_url').split('?')[0]
 
         type = None
         avalible_types = ["Villa", "Villas", "Guesthouse", "Homestay", "Bungalows", "Resort"]
@@ -120,71 +126,72 @@ class MySpider(scrapy.Spider):
             type = (type_match.group(1) if type_match else 'Hotel').capitalize()
             
 
-        # review_count = int(response.xpath('//*[@id="js--hp-gallery-scorecard"]/a/div/div/div/div[2]/div[2]/text()').get().split()[-2].replace(',', ''))
+        review_count = int(response.xpath('//*[@id="js--hp-gallery-scorecard"]/a/div/div/div/div[2]/div[2]/text()').get().split()[-2].replace(',', ''))
 
-        # print(f'\n{title} --- {type}\n')
-        
-        sql = """
-            UPDATE booking_data 
-            SET city = %s, type = %s
-            WHERE id = %s
-        """
-        self.cursor.execute(sql, (
-            city, type, booking_id
-        ))
-        self.connection.commit()
+        price = response.css(".prco-valign-middle-helper::text").get()
+        if (price):
+            price = int(re.search(r'\d+', price).group())
+
+
         # sql = """
         #     UPDATE booking_data 
-        #     SET title = %s, description = %s, star = %s, link = %s, address = %s, city = %s,
-        #     location = %s, score = %s, images = %s, type = %s, review_count = %s
+        #     SET images = %s, price = %s
         #     WHERE id = %s
         # """
         # self.cursor.execute(sql, (
-        #     title, description, star, link, address, city, location, score, str(images), type, review_count, booking_id
+        #     str(images), price, booking_id
         # ))
         # self.connection.commit()
-
-
-
+        
+        sql = """
+            UPDATE booking_data 
+            SET title = %s, description = %s, star = %s, link = %s, address = %s, city = %s,
+            location = %s, score = %s, images = %s, type = %s, review_count = %s
+            WHERE id = %s
+        """
+        self.cursor.execute(sql, (
+            title, description, star, link, address, city, location, score, str(images), price, type, review_count, booking_id
+        ))
+        self.connection.commit()
 
 
         # получение удобств отеля 
-        # facilities_tag = None
-        # facilities_tag = response.xpath('//*[@id="basiclayout"]/div[1]/div[2]/div/div/div/div/div/ul/li/div[2]/div')
-        # if not facilities_tag:
-        #     facilities_tag = response.xpath('//ul[@class="c807d72881 d1a624a1cc e10711a42e"]/li/div/div/div/span/div/span')   
+        facilities_tag = None
+        facilities_tag = response.xpath('//*[@id="basiclayout"]/div[1]/div[2]/div/div/div/div/div/ul/li/div[2]/div')
+        if not facilities_tag:
+            facilities_tag = response.xpath('//ul[@class="c807d72881 d1a624a1cc e10711a42e"]/li/div/div/div/span/div/span')   
 
-        # facilities = {} 
+        facilities = {} 
 
-        # # Обработка найденных элементов
-        # for element in facilities_tag:
-        #     # Извлечение текста из каждого элемента и вывод его в консоль
-        #     selected_text = element.xpath('./text()').get()
-        #     print(selected_text)
+        # Обработка найденных элементов
+        for element in facilities_tag:
+            # Извлечение текста из каждого элемента и вывод его в консоль
+            selected_text = element.xpath('./text()').get()
+            print(selected_text)
 
-        #     # Проверка наличия текста в facilities_cache
-        #     existing_id = self.facilities_cache.get(selected_text)
-        #     if existing_id is not None:
-        #         facilities[selected_text] = existing_id
-        #         print(f"Existing ID for '{selected_text}': {existing_id}")
-        #     else:
-        #         # If the selected_text is not found, add it to the database and cache
-        #         self.cursor.execute('INSERT INTO facilities (title) VALUES (%s)', (selected_text,))
-        #         self.connection.commit()
-        #         new_id = self.cursor.lastrowid
-        #         print(f"New ID for '{new_id}': {selected_text}")
-        #         facilities[selected_text] = new_id
-        #         self.facilities_cache[selected_text] = new_id
+            # Проверка наличия текста в facilities_cache
+            existing_id = self.facilities_cache.get(selected_text)
+            if existing_id is not None:
+                facilities[selected_text] = existing_id
+                print(f"Existing ID for '{selected_text}': {existing_id}")
+            else:
+                # If the selected_text is not found, add it to the database and cache
+                self.cursor.execute('INSERT INTO facilities (title) VALUES (%s)', (selected_text,))
+                self.connection.commit()
+                new_id = self.cursor.lastrowid
+                print(f"New ID for '{new_id}': {selected_text}")
+                facilities[selected_text] = new_id
+                self.facilities_cache[selected_text] = new_id
 
-        # if facilities is not None:
-        #     values_to_insert = [(booking_id, facility_id) for facility_name, facility_id in facilities.items()]
-        #     print(values_to_insert)
+        if facilities is not None:
+            values_to_insert = [(booking_id, facility_id) for facility_name, facility_id in facilities.items()]
+            print(values_to_insert)
 
-        #     self.cursor.execute('DELETE FROM booking_facilities WHERE booking_id = %s', (booking_id,))
-        #     self.connection.commit()
+            self.cursor.execute('DELETE FROM booking_facilities WHERE booking_id = %s', (booking_id,))
+            self.connection.commit()
 
-        #     self.cursor.executemany('INSERT INTO booking_facilities (booking_id, facilities_id) VALUES (%s, %s)', values_to_insert)
-        #     self.connection.commit()
+            self.cursor.executemany('INSERT INTO booking_facilities (booking_id, facilities_id) VALUES (%s, %s)', values_to_insert)
+            self.connection.commit()
 
-        # print(facilities)
-        # print(self.facilities_cache)
+        print(facilities)
+        print(self.facilities_cache)

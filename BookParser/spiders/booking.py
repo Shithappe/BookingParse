@@ -71,7 +71,7 @@ class MySpider(scrapy.Spider):
         
         self.cursor = self.connection.cursor()
 
-        self.cursor.execute('SELECT link FROM links')
+        self.cursor.execute('SELECT link FROM links WHERE id > 10000')
         all_links = [i[0] for i in self.cursor.fetchall()]
 
         self.cursor.execute('SELECT link FROM booking_data')
@@ -95,32 +95,46 @@ class MySpider(scrapy.Spider):
 
         star = len(response.css('span[data-testid="rating-stars"] > span'))
         address = response.css('span.hp_address_subtitle::text').get().strip()
-        if len(address.split(',')) > 3:
-            city = re.sub(r'\d+', '', address.split(',')[3]).strip()
-        else:
-            city = re.sub(r'\d+', '', address.split(',')[1]).strip()
+        city = response.css('input[name="ss"]::attr(value)').extract_first().strip()
 
         location = response.css('a#hotel_address').attrib.get('data-atlas-latlng')
 
         score = response.css('div.a3b8729ab1.d86cee9b25::text').get()
 
-        images = response.css('a.bh-photo-grid-item.bh-photo-grid-thumb > img::attr(src)').extract()
+        images = response.css('a[data-thumb-url]::attr(data-thumb-url)').extract()
+        small_images = response.css('a.bh-photo-grid-item.bh-photo-grid-thumb > img::attr(src)').extract()
+        images.extend(small_images)
+
+        images = [image.replace('max300', 'max500') for image in images]
 
         link = response.meta.get('original_url').split('?')[0]
 
-        type = response.css('li[itemprop="itemListElement"][data-google-track*="hotel"] a::text')[1].get()
-        if 'All' in type:
-            type = type.replace('All', '').strip().capitalize()
-        else:
-            type = 'Guest houses'
+        type = None
+        avalible_types = ["Villa", "Villas", "Guesthouse", "Homestay", "Bungalows", "Resort"]
+        
+        for word in avalible_types:
+            if word in title:
+                type = word
+
+        if type is None:
+            type = response.css('.bui-breadcrumb__text a.bui_breadcrumb__link::text').getall()[2]
+            type_match = re.search(r'All\s+(.+)', type)
+            type = (type_match.group(1) if type_match else 'Hotel').capitalize()
+
+
+        review_count = int(response.xpath('//*[@id="js--hp-gallery-scorecard"]/a/div/div/div/div[2]/div[2]/text()').get().split()[-2].replace(',', ''))
+
+        price = response.css(".prco-valign-middle-helper::text").get()
+        if (price):
+            price = int(re.search(r'\d+', price).group())
 
 
         sql = """
             INSERT INTO booking_data 
-            (title, description, star, link, address, city, location, score, images, type)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            (title, description, star, link, address, city, location, score, images, type, review_count)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
         self.cursor.execute(sql, (
-            title, description, star, link, address, city, location, score, str(images), type
+            title, description, star, link, address, city, location, score, str(images), type, review_count
         ))
         self.connection.commit()

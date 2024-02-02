@@ -94,6 +94,9 @@ class UpdateRoomsSpider(scrapy.Spider):
             self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id MOD 2 = {self.mod}')
             rows = self.cursor.fetchall()
 
+        
+        # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id = 2017')
+        # rows = self.cursor.fetchall()
 
         for row in rows:
                 formatted_link = self.format_link(row[1], self.checkin, self.checkout) 
@@ -108,6 +111,15 @@ class UpdateRoomsSpider(scrapy.Spider):
     def parse(self, response):
 
         booking_id = response.meta.get('booking_id')
+
+        self.cursor.execute(f'''SELECT room_type, MAX(max_available_rooms) AS max_available
+                            FROM rooms_30_day
+                            WHERE booking_id = {booking_id}
+                            GROUP BY room_type''')
+        max_available = self.cursor.fetchall()
+
+        # print(f'{len(max_available)} -- {max_available}')
+
         checkin = response.meta.get('checkin')
         checkout = response.meta.get('checkout')        
         
@@ -117,21 +129,50 @@ class UpdateRoomsSpider(scrapy.Spider):
         
         rows = response.xpath('//*[@id="hprt-table"]/tbody/tr')
 
+        room_types_count = {}
+
         for i in range(len(rows)):
             rowspan = rows[i].xpath('./td/@rowspan').get()
             if rowspan:
                 room_type = rows[i].xpath('.//span[contains(@class, "hprt-roomtype-icon-link")]/text()').get().strip()
                 available_rooms = rows[i].xpath('.//select[@class="hprt-nos-select js-hprt-nos-select"]//option[last()]/@value').get()                
+                
                 if not available_rooms: 
                     available_rooms = 0
 
-                # print(f'\n{room_type, available_rooms}\n')
-                    
-                self.cursor.execute("""
-                        INSERT INTO rooms_2_day
-                        (booking_id, room_type, available_rooms, checkin, checkout)
-                        VALUES (%s, %s, %s, %s, %s)
-                    """, (
-                    booking_id, room_type, available_rooms, checkin, checkout
-                ))
+                count = int(available_rooms)
+
+                if room_type in room_types_count:
+                    room_types_count[room_type] += count
+                else:
+                    room_types_count[room_type] = count
+
+
+                for max_type, max_count in max_available:
+                    if max_type == room_type:
+                        max_available.remove((max_type, max_count))
+                        break
+
+        # Устанавливаем значение 0 для элементов, которые остались в max_available
+        max_available = [(max_type, 0) for max_type, max_count in max_available]
+
+        # Объединяем room_types_count и max_available
+        combined_rooms = list(room_types_count.items()) + max_available
+
+        # print(room_types_count)
+        # print(max_available)
+        # print(combined_rooms)
+
+        try:
+            self.cursor.executemany("""
+                INSERT INTO rooms_2_day
+                (booking_id, room_type, available_rooms, checkin, checkout)
+                VALUES (%s, %s, %s, %s, %s)
+            """, [(booking_id, room_type, count, checkin, checkout) for room_type, count in combined_rooms])
+
             self.connection.commit()
+            print("Insert successful")
+        except Exception as e:
+            print(f"Error: {e}")
+
+

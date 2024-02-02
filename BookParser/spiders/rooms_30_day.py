@@ -93,6 +93,9 @@ class UpdateRoomsSpider(scrapy.Spider):
             self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id MOD 2 = {self.mod}')
             rows = self.cursor.fetchall()
 
+        # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id = 2013')
+        # rows = self.cursor.fetchall()
+
 
         for row in rows:
             for i in range(30):
@@ -116,6 +119,8 @@ class UpdateRoomsSpider(scrapy.Spider):
         
         rows = response.xpath('//*[@id="hprt-table"]/tbody/tr')
 
+        room_types_count = {}
+
         for i in range(len(rows)):
             rowspan = rows[i].xpath('./td/@rowspan').get()
             if rowspan:
@@ -124,11 +129,30 @@ class UpdateRoomsSpider(scrapy.Spider):
                 if not max_available_rooms: 
                     max_available_rooms = 0
 
-                self.cursor.execute("""
+                count = int(max_available_rooms)
+
+                if room_type in room_types_count:
+                    room_types_count[room_type] += count
+                else:
+                    room_types_count[room_type] = count
+
+                # print(f'\n{room_type, max_available_rooms}\n')
+
+                for room_type, count in room_types_count.items():
+                    self.cursor.execute("""
                         INSERT INTO rooms_30_day
                         (booking_id, room_type, max_available_rooms, checkin, checkout)
                         VALUES (%s, %s, %s, %s, %s)
                     """, (
-                    booking_id, room_type, max_available_rooms, checkin, checkout
-                ))
+                        booking_id, room_type, count, checkin, checkout
+                    ))
                 self.connection.commit()
+
+                # self.cursor.execute("""
+                #         INSERT INTO rooms_30_day
+                #         (booking_id, room_type, max_available_rooms, checkin, checkout)
+                #         VALUES (%s, %s, %s, %s, %s)
+                #     """, (
+                #     booking_id, room_type, max_available_rooms, checkin, checkout
+                # ))
+                # self.connection.commit()
