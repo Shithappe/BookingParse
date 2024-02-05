@@ -12,9 +12,10 @@ class UpdateRoomsSpider(scrapy.Spider):
     
 
     today = datetime.now().date()
+    # today = today + timedelta(days=2)  # for debug
 
-    checkin = (datetime.now() + timedelta(hours=8)).date()
-    checkout = (datetime.now() + timedelta(hours=8) + timedelta(days=1)).date()
+    checkin = today + timedelta(hours=8)
+    checkout = checkin + timedelta(days=1)    
 
     name = "rooms_2_day"
     allowed_domains = ["www.booking.com"]
@@ -63,7 +64,23 @@ class UpdateRoomsSpider(scrapy.Spider):
 
         url = url._replace(query=urlencode(query_parameters, doseq=True))
         return urlunparse(url)
+
+    def set_to_db(self, booking_id, value, checkin, checkout):
+        # print(booking_id, value, checkin, checkout)
+        try:
+            self.cursor.executemany("""
+                INSERT INTO rooms_2_day
+                (booking_id, room_type, available_rooms, checkin, checkout)
+                VALUES (%s, %s, %s, %s, %s)
+            """, [(booking_id, room_type, count, checkin, checkout) for room_type, count in value])
+
+            self.connection.commit()
+            # print("Insert successful")
+        except Exception as e:
+            print(f"Error: {e}")
+
         
+
     def start_requests(self):
         self.connection = self.connect_to_db()
         if self.connection and self.connection.is_connected():
@@ -95,18 +112,18 @@ class UpdateRoomsSpider(scrapy.Spider):
             rows = self.cursor.fetchall()
 
         
-        # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id = 2017')
-        # rows = self.cursor.fetchall()
+        self.cursor.execute(f'SELECT id, link FROM booking_data')
+        rows = self.cursor.fetchall()
 
         for row in rows:
                 formatted_link = self.format_link(row[1], self.checkin, self.checkout) 
                 request_meta = {
                     'booking_id': row[0],
+                    'link': row[1],
                     'checkin': self.checkin, 
                     'checkout': self.checkout
                 }
                 yield scrapy.Request(url=formatted_link, callback=self.parse, meta=request_meta)
-
 
     def parse(self, response):
 
@@ -117,8 +134,6 @@ class UpdateRoomsSpider(scrapy.Spider):
                             WHERE booking_id = {booking_id}
                             GROUP BY room_type''')
         max_available = self.cursor.fetchall()
-
-        # print(f'{len(max_available)} -- {max_available}')
 
         checkin = response.meta.get('checkin')
         checkout = response.meta.get('checkout')        
@@ -131,48 +146,71 @@ class UpdateRoomsSpider(scrapy.Spider):
 
         room_types_count = {}
 
-        for i in range(len(rows)):
-            rowspan = rows[i].xpath('./td/@rowspan').get()
-            if rowspan:
-                room_type = rows[i].xpath('.//span[contains(@class, "hprt-roomtype-icon-link")]/text()').get().strip()
-                available_rooms = rows[i].xpath('.//select[@class="hprt-nos-select js-hprt-nos-select"]//option[last()]/@value').get()                
-                
-                if not available_rooms: 
-                    available_rooms = 0
+        if (rows):
+            for i in range(len(rows)):
+                rowspan = rows[i].xpath('./td/@rowspan').get()
+                if rowspan:
+                    room_type = rows[i].xpath('.//span[contains(@class, "hprt-roomtype-icon-link")]/text()').get().strip()
+                    available_rooms = rows[i].xpath('.//select[@class="hprt-nos-select js-hprt-nos-select"]//option[last()]/@value').get()                
+                    
+                    if not available_rooms: 
+                        available_rooms = 0
 
-                count = int(available_rooms)
+                    count = int(available_rooms)
 
-                if room_type in room_types_count:
-                    room_types_count[room_type] += count
-                else:
-                    room_types_count[room_type] = count
+                    if room_type in room_types_count:
+                        room_types_count[room_type] += count
+                    else:
+                        room_types_count[room_type] = count
 
 
-                for max_type, max_count in max_available:
-                    if max_type == room_type:
-                        max_available.remove((max_type, max_count))
-                        break
+                    for max_type, max_count in max_available:
+                        if max_type == room_type:
+                            max_available.remove((max_type, max_count))
+                            break
 
-        # Устанавливаем значение 0 для элементов, которые остались в max_available
-        max_available = [(max_type, 0) for max_type, max_count in max_available]
+            # Устанавливаем значение 0 для элементов, которые остались в max_available
+            max_available = [(max_type, 0) for max_type, max_count in max_available]
 
-        # Объединяем room_types_count и max_available
-        combined_rooms = list(room_types_count.items()) + max_available
+            # Объединяем room_types_count и max_available
+            combined_rooms = list(room_types_count.items()) + max_available
 
-        # print(room_types_count)
-        # print(max_available)
-        # print(combined_rooms)
+            # print(room_types_count)
+            # print(max_available)
+            # print(combined_rooms)
 
-        try:
-            self.cursor.executemany("""
-                INSERT INTO rooms_2_day
-                (booking_id, room_type, available_rooms, checkin, checkout)
-                VALUES (%s, %s, %s, %s, %s)
-            """, [(booking_id, room_type, count, checkin, checkout) for room_type, count in combined_rooms])
+            self.set_to_db(booking_id, combined_rooms, checkin, checkout)
 
-            self.connection.commit()
-            print("Insert successful")
-        except Exception as e:
-            print(f"Error: {e}")
+        else:
+            alert_title = response.css('.bui-alert__title::text').get()
+            print(alert_title)
 
+            if 'is a minimum length of stay of' in alert_title:
+                book_size = int(alert_title.split(' ')[-2])
+                # print(book_size)
+
+
+                checkin = self.today + timedelta(hours=8)
+                checkout = checkin + timedelta(days=book_size)
+
+
+                formatted_link = self.format_link(response.meta.get('link'), checkin, checkout) 
+                # print('formatted_link')
+                # print(formatted_link)
+
+                request_meta = {
+                    'booking_id': booking_id,
+                    'link': response.meta.get('link'),
+                    'checkin': checkin, 
+                    'checkout': checkout
+                }
+                yield scrapy.Request(url=formatted_link, callback=self.parse, meta=request_meta)
+
+
+            else:
+                print('set 0 avalible')
+                updated_list = [(name, 0) for name, _ in max_available]
+                # print(updated_list)
+
+                self.set_to_db(booking_id, updated_list, checkin, checkout)
 
