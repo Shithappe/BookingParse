@@ -1,4 +1,4 @@
 test.py
 log_scrapy.log
 
-/__pycache__/
+/__pycache__/*
