@@ -14,7 +14,7 @@ class MySpider(scrapy.Spider):
     checkout = next_month + relativedelta(days=1)
 
 
-    name = "booking_data"
+    name = "booking"
     allowed_domains = ["www.booking.com"]
     start_urls = []
     connection = None
@@ -71,12 +71,11 @@ class MySpider(scrapy.Spider):
         
         self.cursor = self.connection.cursor()
 
-        self.cursor.execute('SELECT link FROM links WHERE id > 10000')
+        self.cursor.execute('SELECT link FROM links')
         all_links = [i[0] for i in self.cursor.fetchall()]
 
         self.cursor.execute('SELECT link FROM booking_data')
         old_links = [i[0] for i in self.cursor.fetchall()]
-
 
         self.start_urls = [x for x in all_links if x not in old_links]
         # self.start_urls = [self.format_link(i[0]) for i in all_links]
@@ -85,8 +84,8 @@ class MySpider(scrapy.Spider):
         for url in self.start_urls:
             yield scrapy.Request(url=self.format_link(url), callback=self.parse, meta={'original_url': url})
 
-        self.cursor.close()
-        self.connection.close()
+        # self.cursor.close()
+        # self.connection.close()
 
     def parse(self, response):
 
@@ -122,7 +121,9 @@ class MySpider(scrapy.Spider):
             type = (type_match.group(1) if type_match else 'Hotel').capitalize()
 
 
-        review_count = int(response.xpath('//*[@id="js--hp-gallery-scorecard"]/a/div/div/div/div[2]/div[2]/text()').get().split()[-2].replace(',', ''))
+        review_count = response.xpath('//*[@id="js--hp-gallery-scorecard"]/a/div/div/div/div[2]/div[2]/text()').get()
+        if review_count:
+            review_count = int(review_count.split()[-2].replace(',', ''))
 
         price = response.css(".prco-valign-middle-helper::text").get()
         if (price):
@@ -134,7 +135,7 @@ class MySpider(scrapy.Spider):
             (title, description, star, link, address, city, location, score, images, type, review_count)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
-        self.cursor.execute(sql, (
-            title, description, star, link, address, city, location, score, str(images), type, review_count
-        ))
-        self.connection.commit()
+        # self.cursor.execute(sql, (
+        #     title, description, star, link, address, city, location, score, str(images), type, review_count
+        # ))
+        # self.connection.commit()

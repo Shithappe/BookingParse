@@ -4,6 +4,8 @@ import mysql.connector
 from datetime import datetime, timedelta
 from urllib.parse import urlparse, urlencode, parse_qs, urlunparse
 
+from tabulate import tabulate
+
 
 class UpdateRoomsSpider(scrapy.Spider):
 
@@ -11,12 +13,13 @@ class UpdateRoomsSpider(scrapy.Spider):
         super(UpdateRoomsSpider, self).__init__(*args, **kwargs)
 
         self.today = datetime.now().date()
-        self.checkin = [datetime.now().date() + timedelta(hours=5) + timedelta(weeks=i) for i in range(1, 5)]
+        # self.checkin = [datetime.now().date() + timedelta(hours=5) + timedelta(weeks=i) for i in range(1, 4)]
+        # self.checkin.extend([self.checkin[-1] + timedelta(days=i) for i in range(1, 8)])
+        self.checkin = [self.today + timedelta(hours=5) + timedelta(weeks=3) + timedelta(days=i) for i in range(1, 8)]
         self.checkout = [self.checkin[i] + timedelta(days=1) for i in range(len(self.checkin))]
-        self.max_value = {}
 
 
-    name = "rooms_3_week"
+    name = "rooms_3_week2"
     allowed_domains = ["www.booking.com"]
     start_urls = ["https://www.booking.com"]
     connection = None
@@ -66,10 +69,12 @@ class UpdateRoomsSpider(scrapy.Spider):
 
         rows = None
 
-        self.cursor.execute("SELECT id, link FROM booking_data WHERE id = 6741")
+        self.cursor.execute("SELECT id, link FROM booking_data where id = 2079")
         # self.cursor.execute(f'SELECT id, link FROM booking_data')
         rows = self.cursor.fetchall()
 
+
+        self.room_data =[]
 
         for row in rows:
             formatted_link = self.format_link(row[1], self.checkin[0], self.checkout[0]) 
@@ -78,8 +83,7 @@ class UpdateRoomsSpider(scrapy.Spider):
                 'link': row[1],
                 'checkin': self.checkin[1], 
                 'checkout': self.checkout[1],
-                'index': 1,
-                'max_value': {}
+                'index': 1
             }
             yield scrapy.Request(url=formatted_link, callback=self.parse, meta=request_meta)
 
@@ -91,15 +95,14 @@ class UpdateRoomsSpider(scrapy.Spider):
         checkin = response.meta.get('checkin')
         checkout = response.meta.get('checkout')
         index = response.meta.get('index')
-        max_value = response.meta.get('max_value')
+
+        print('\n', booking_id, checkin, checkout, index, '\n', link, '\n')
 
         room_type = None
         max_available_rooms = None
         rowspan = None  
         
         rows = response.xpath('//*[@id="hprt-table"]/tbody/tr')
-
-        room_types_count = {}
 
         if (rows):
             for i in range(len(rows)):
@@ -109,8 +112,7 @@ class UpdateRoomsSpider(scrapy.Spider):
 
                     price = response.xpath(f'//*[@id="hprt-table"]/tbody/tr[{i+1}]/td[3]/div/div/div[1]/div[2]/div/span/text()').get()
                     if (price):
-                        price = int(re.search(r'\d+', price).group())
-                    print(price)
+                        price = ''.join(filter(str.isdigit, price))
 
                     max_available_rooms = rows[i].xpath('.//select[@class="hprt-nos-select js-hprt-nos-select"]//option[last()]/@value').get() 
                     if not max_available_rooms: 
@@ -118,24 +120,19 @@ class UpdateRoomsSpider(scrapy.Spider):
 
                     count = int(max_available_rooms)
 
-                    if room_type in room_types_count:
-                        room_types_count[room_type] += count
-                    else:
-                        room_types_count[room_type] = count
-                        # room_types_count['price'] = price
+
+                    room_exists = False
+                    for room in self.room_data:
+                        if room['title'] == room_type:
+                            room_exists = True
+                            if count > room['available_count']:
+                                room['available_count'] = count
+                            break
+
+                    if not room_exists:
+                        self.room_data.append({'booking_id': booking_id, 'title': room_type, 'available_count': count, 'price': price})
 
 
-            if not max_value:
-                max_value = room_types_count
-            else:
-                for room_type, count in room_types_count.items():
-                    if room_type in max_value:
-                        max_value[room_type] = max(max_value[room_type], count)
-                    else:
-                        max_value[room_type] = count
-
-
-            print(booking_id, index, len(self.checkin) - 1)
             if index != len(self.checkin) - 1:
                 formatted_link = self.format_link(link, checkin, checkout) 
                 request_meta = {
@@ -143,24 +140,30 @@ class UpdateRoomsSpider(scrapy.Spider):
                     'link': link,
                     'checkin': self.checkin[index + 1], 
                     'checkout': self.checkout[index + 1],
-                    'index': index + 1,
-                    'max_value': max_value
+                    'index': index + 1
                 }
                 yield scrapy.Request(url=formatted_link, callback=self.parse, meta=request_meta)
             else:
-                print(max_value)
-                print('\nWRITE TO DB')
-                if (max_value):
-                    for room_type, count in max_value.items():
-                        print(f'{room_type}: {count} -- {price}')
-                    #     self.cursor.execute("""
-                    #         INSERT INTO rooms_30_day
-                    #         (booking_id, room_type, max_available_rooms, checkin, checkout, price)
-                    #         VALUES (%s, %s, %s, %s, %s, %s)
-                    #     """, (
-                    #         booking_id, room_type, count, checkin, checkout, price
-                    #     ))
-                    # self.connection.commit()
+                if len(self.room_data):
+                    print('\nWRITE TO DB\n')
+
+                    headers = ['Booking ID', 'Title', 'Available Count', 'Price']
+                    rows = [[item['booking_id'], item['title'], item['available_count'], item['price']] for item in self.room_data if item['booking_id'] == booking_id]
+                    print('\n' + tabulate(rows, headers) + '\n')
+
+                    data_to_insert = [(room['booking_id'], room['title'], room['available_count'], checkin, checkout, room['price']) for room in self.room_data]
+                    if data_to_insert:
+                        query = """
+                            INSERT INTO rooms_30_day
+                            (booking_id, room_type, max_available_rooms, checkin, checkout, price)
+                            VALUES (%s, %s, %s, %s, %s, %s)
+                        """
+
+                        self.cursor.executemany(query, data_to_insert)
+                        self.connection.commit()
+
+                    self.room_data = []
+
 
         else:
             alert_title = response.css('.bui-alert__title::text').get()
@@ -169,7 +172,7 @@ class UpdateRoomsSpider(scrapy.Spider):
             if 'is a minimum length of stay of' in alert_title:
                 book_size = int(alert_title.split(' ')[-2])
 
-                checkin = self.today + timedelta(hours=8)
+                # checkin = self.today + timedelta(hours=8)
                 checkout = checkin + timedelta(days=book_size)
 
 
@@ -179,6 +182,18 @@ class UpdateRoomsSpider(scrapy.Spider):
                     'booking_id': booking_id,
                     'link': response.meta.get('link'),
                     'checkin': checkin, 
-                    'checkout': checkout
+                    'checkout': checkout,
+                    'index': index
+                }
+                yield scrapy.Request(url=formatted_link, callback=self.parse, meta=request_meta)
+
+            elif index != len(self.checkin) - 1:
+                formatted_link = self.format_link(link, checkin, checkout) 
+                request_meta = {
+                    'booking_id': booking_id,
+                    'link': link,
+                    'checkin': self.checkin[index + 1], 
+                    'checkout': self.checkout[index + 1],
+                    'index': index + 1
                 }
                 yield scrapy.Request(url=formatted_link, callback=self.parse, meta=request_meta)
