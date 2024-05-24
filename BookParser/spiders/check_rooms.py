@@ -1,3 +1,7 @@
+# Этот парсер собирает данные по комнатам 
+# booking_id, room_type, activity, price в таблицу rooms
+###############################################################
+
 import re
 import scrapy
 import mysql.connector
@@ -13,13 +17,11 @@ class UpdateRoomsSpider(scrapy.Spider):
         super(UpdateRoomsSpider, self).__init__(*args, **kwargs)
 
         self.today = datetime.now().date()
-        # self.checkin = [datetime.now().date() + timedelta(hours=5) + timedelta(weeks=i) for i in range(1, 4)]
-        # self.checkin.extend([self.checkin[-1] + timedelta(days=i) for i in range(1, 8)])
         self.checkin = [self.today + timedelta(hours=5) + timedelta(weeks=3) + timedelta(days=i) for i in range(1, 8)]
         self.checkout = [self.checkin[i] + timedelta(days=1) for i in range(len(self.checkin))]
 
 
-    name = "rooms_3_week2"
+    name = "check_rooms"
     allowed_domains = ["www.booking.com"]
     start_urls = ["https://www.booking.com"]
     connection = None
@@ -96,7 +98,7 @@ class UpdateRoomsSpider(scrapy.Spider):
         checkout = response.meta.get('checkout')
         index = response.meta.get('index')
 
-        print('\n', booking_id, checkin, checkout, index)
+        # print('\n', booking_id, checkin, checkout, index)
 
         room_type = None
         max_available_rooms = None

@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS links (
 )
 
 
-DROP TABLE booking_data;
+-- DROP TABLE booking_data;
 
 CREATE TABLE IF NOT EXISTS booking_data (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -30,13 +30,12 @@ DROP TABLE rooms;
 CREATE TABLE IF NOT EXISTS rooms (
     id INT AUTO_INCREMENT PRIMARY KEY,
     booking_id INT,
-    FOREIGN KEY (booking_id) REFERENCES booking_data(id) ON DELETE CASCADE,
-    title VARCHAR(255),
-    max_people INT,
-    prices VARCHAR(255),
-    max_available_rooms INT,
-    checkin VARCHAR(20),
-    checkout VARCHAR(20),
+    -- FOREIGN KEY (booking_id) REFERENCES booking_data(id) ON DELETE CASCADE,
+    room_type VARCHAR(255),
+    max_available INT,
+    active BOOLEAN DEFAULT False,
+    price INT,
+    occupancy INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )
 
