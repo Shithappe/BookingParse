@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS rooms (
     active BOOLEAN DEFAULT False,
     price INT,
     occupancy INT,
+    UNIQUE KEY uniq_booking_room (booking_id, room_type),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )
 

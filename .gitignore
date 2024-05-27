@@ -1,4 +1,6 @@
 test.py
 log_scrapy.log
 
-/__pycache__/*
+*.pyc
+
+BookParser/spiders/__pycache__/*
