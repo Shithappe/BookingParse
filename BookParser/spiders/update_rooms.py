@@ -19,8 +19,13 @@ class UpdateRoomsSpider(scrapy.Spider):
         super(UpdateRoomsSpider, self).__init__(*args, **kwargs)
 
         self.today = datetime.now().date()
-        self.checkin = [self.today + timedelta(hours=5) + timedelta(weeks=3) + timedelta(days=i) for i in range(1, 8)]
+        self.checkin = [self.today + timedelta(days=i) for i in range(8)]
+        # self.checkin.extend([self.today + timedelta(days=7 + i) for i in range(8)])
+        # self.checkin.extend([self.today + timedelta(days=14 + i) for i in range(8)])
         self.checkout = [self.checkin[i] + timedelta(days=1) for i in range(len(self.checkin))]
+
+        print(self.checkin)
+        return
 
 
     name = "update_rooms"
@@ -79,11 +84,6 @@ class UpdateRoomsSpider(scrapy.Spider):
         self.room_data =[]
 
         for row in rows:
-            # self.cursor.execute("SELECT room_type, max_available, price FROM rooms where booking_id = %s", [row[0]])
-            # rooms = self.cursor.fetchall()
-
-            # print(row[0], rooms)
-
             try:
                 # Начало транзакции
                 self.connection.start_transaction()
@@ -92,9 +92,6 @@ class UpdateRoomsSpider(scrapy.Spider):
                 select_query = "SELECT booking_id, room_type, max_available, price FROM rooms WHERE booking_id = %s"
                 self.cursor.execute(select_query, (row[0],))
                 rooms = self.cursor.fetchall()
-
-                # Печать результатов SELECT
-                print(rooms)
 
                 # Выполнение UPDATE
                 update_query = "UPDATE rooms SET active = %s WHERE booking_id = %s"
@@ -129,8 +126,6 @@ class UpdateRoomsSpider(scrapy.Spider):
         checkout = response.meta.get('checkout')
         index = response.meta.get('index')
 
-        # print('\n', booking_id, checkin, checkout, index)
-
         room_type = None
         max_available_rooms = None
         rowspan = None  
@@ -162,7 +157,7 @@ class UpdateRoomsSpider(scrapy.Spider):
                                 room['available_count'] = count
                             break
 
-                    if not room_exists:
+                    if not room_exists and count > 0:
                         self.room_data.append({'booking_id': booking_id, 'title': room_type, 'available_count': count, 'price': price})
 
 
@@ -182,42 +177,6 @@ class UpdateRoomsSpider(scrapy.Spider):
                     print('\nWRITE TO DB\n')
 
                     headers = ['Booking ID', 'Title', 'Available Count', 'Price', 'Active']
-
-                    # new_data_dict = {}
-                    # for item in self.room_data:
-                    #     if item['booking_id'] == booking_id:
-                    #         room_type = item['title']
-                    #         if room_type not in new_data_dict:
-                    #             new_data_dict[room_type] = item
-                    #         else:
-                    #             if item['available_count'] > new_data_dict[room_type]['available_count']:
-                    #                 new_data_dict[room_type]['available_count'] = item['available_count']
-                    #             new_data_dict[room_type]['price'] = item['price']
-
-                    # # Старые данные
-                    # print('\nOld data')
-                    # rows = [[item[0], item[1], item[2], item[3]] for item in rooms if item[0] == booking_id]
-                    # print(tabulate(rows, headers[:-1]) + '\n')  # Без заголовка Active
-
-                    # # Новые данные с обновлениями и значением Active
-                    # print('\nNew data')
-                    # updated_rows = []
-                    # for item in rooms:
-                    #     if item[0] == booking_id:
-                    #         room_type = item[1]
-                    #         if room_type in new_data_dict:
-                    #             new_item = new_data_dict[room_type]
-                    #             updated_rows.append([item[0], item[1], new_item['available_count'], new_item['price'], True])
-                    #         else:
-                    #             updated_rows.append([item[0], item[1], item[2], item[3], False])
-
-                    # # Проверка новых данных на наличие старых комнат
-                    # existing_room_types = {item[1] for item in rooms if item[0] == booking_id}
-                    # for room_type, new_item in new_data_dict.items():
-                    #     if room_type not in existing_room_types:
-                    #         updated_rows.append([booking_id, new_item['title'], new_item['available_count'], new_item['price'], True])
-
-                    # print(tabulate(updated_rows, headers) + '\n')
 
                     # Создание словаря для новых данных
                     new_data_dict = {}
@@ -284,17 +243,6 @@ class UpdateRoomsSpider(scrapy.Spider):
 
                     print(tabulate(updated_rows, headers) + '\n')
 
-                    # data_to_insert = [(room['booking_id'], room['title'], room['available_count'], checkin, checkout, room['price']) for room in self.room_data]
-                    # data_to_insert = [(room['booking_id'], room['title'], room['available_count'], True, room['price']) for room in self.room_data]
-                    # if data_to_insert:
-                    #     query = """
-                    #         INSERT INTO rooms
-                    #         (booking_id, room_type, max_available, active, price)
-                    #         VALUES (%s, %s, %s, %s, %s)
-                    #     """
-                    #     self.cursor.executemany(query, data_to_insert)
-                    #     self.connection.commit()
-
                     self.room_data = []
 
 
@@ -314,6 +262,7 @@ class UpdateRoomsSpider(scrapy.Spider):
                 request_meta = {
                     'booking_id': booking_id,
                     'link': response.meta.get('link'),
+                    'rooms': rooms,
                     'checkin': checkin, 
                     'checkout': checkout,
                     'index': index
@@ -325,6 +274,7 @@ class UpdateRoomsSpider(scrapy.Spider):
                 request_meta = {
                     'booking_id': booking_id,
                     'link': link,
+                    'rooms': rooms,
                     'checkin': self.checkin[index + 1], 
                     'checkout': self.checkout[index + 1],
                     'index': index + 1
