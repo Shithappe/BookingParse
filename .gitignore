@@ -2,5 +2,5 @@ test.py
 log_scrapy.log
 
 *.pyc
-
-BookParser/spiders/__pycache__/*
+__pycache__/
+BookParser/spiders/__pycache__/

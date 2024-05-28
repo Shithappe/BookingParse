@@ -104,8 +104,8 @@ class UpdateRoomsSpider(scrapy.Spider):
             rows = self.cursor.fetchall()
 
         
-        # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id = 1')
-        # rows = self.cursor.fetchall()
+        self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id = 1')
+        rows = self.cursor.fetchall()
 
         for row in rows:
                 formatted_link = self.format_link(row[1], self.checkin, self.checkout) 
@@ -121,11 +121,15 @@ class UpdateRoomsSpider(scrapy.Spider):
 
         booking_id = response.meta.get('booking_id')
 
-        self.cursor.execute(f'''SELECT room_type, MAX(max_available_rooms) AS max_available
-                            FROM rooms_30_day
-                            WHERE booking_id = {booking_id}
+        self.cursor.execute(f'''SELECT room_type, max_available
+                            FROM rooms
+                            WHERE booking_id = {booking_id} and active = 1
                             GROUP BY room_type''')
         max_available = self.cursor.fetchall()
+
+        print(max_available)
+
+        return
 
         checkin = response.meta.get('checkin')
         checkout = response.meta.get('checkout')        

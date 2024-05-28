@@ -19,9 +19,7 @@ class UpdateRoomsSpider(scrapy.Spider):
         super(UpdateRoomsSpider, self).__init__(*args, **kwargs)
 
         self.today = datetime.now().date()
-        self.checkin = [self.today + timedelta(days=i) for i in range(8)]
-        # self.checkin.extend([self.today + timedelta(days=7 + i) for i in range(8)])
-        # self.checkin.extend([self.today + timedelta(days=14 + i) for i in range(8)])
+        self.checkin = [self.today + timedelta(days=i) for i in range(15)]
         self.checkout = [self.checkin[i] + timedelta(days=1) for i in range(len(self.checkin))]
 
         print(self.checkin)
@@ -76,8 +74,8 @@ class UpdateRoomsSpider(scrapy.Spider):
         
         self.cursor = self.connection.cursor()
 
-        # self.cursor.execute("SELECT id, link FROM booking_data where id = 2017")
-        self.cursor.execute(f'SELECT id, link FROM booking_data')
+        self.cursor.execute("SELECT id, link FROM booking_data where id = 1")
+        # self.cursor.execute(f'SELECT id, link FROM booking_data')
         rows = self.cursor.fetchall()
 
 
