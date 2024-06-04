@@ -71,8 +71,8 @@ class UpdateRoomsSpider(scrapy.Spider):
 
         rows = None
 
-        # self.cursor.execute("SELECT id, link FROM booking_data where id = 4")
-        self.cursor.execute(f'SELECT id, link FROM booking_data')
+        self.cursor.execute("SELECT id, link FROM booking_data where id = 4")
+        # self.cursor.execute(f'SELECT id, link FROM booking_data')
         rows = self.cursor.fetchall()
 
 
