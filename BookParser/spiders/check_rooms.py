@@ -71,7 +71,7 @@ class UpdateRoomsSpider(scrapy.Spider):
 
         rows = None
 
-        self.cursor.execute("SELECT id, link FROM booking_data where id = 4")
+        self.cursor.execute("SELECT id, link FROM booking_data where id = 21")
         # self.cursor.execute(f'SELECT id, link FROM booking_data')
         rows = self.cursor.fetchall()
 
@@ -153,16 +153,16 @@ class UpdateRoomsSpider(scrapy.Spider):
                     rows = [[item['booking_id'], item['title'], item['available_count'], item['price']] for item in self.room_data if item['booking_id'] == booking_id]
                     print('\n' + tabulate(rows, headers) + '\n')
 
-                    # data_to_insert = [(room['booking_id'], room['title'], room['available_count'], True, room['price']) for room in self.room_data]
-                    # if data_to_insert:
-                    #     query = """
-                    #         INSERT INTO rooms
-                    #         (booking_id, room_type, max_available, active, price)
-                    #         VALUES (%s, %s, %s, %s, %s)
-                    #     """
+                    data_to_insert = [(room['booking_id'], room['title'], room['available_count'], True, room['price']) for room in self.room_data]
+                    if data_to_insert:
+                        query = """
+                            INSERT INTO rooms
+                            (booking_id, room_type, max_available, active, price)
+                            VALUES (%s, %s, %s, %s, %s)
+                        """
 
-                    #     self.cursor.executemany(query, data_to_insert)
-                    #     self.connection.commit()
+                        self.cursor.executemany(query, data_to_insert)
+                        self.connection.commit()
 
                     self.room_data = []
 
