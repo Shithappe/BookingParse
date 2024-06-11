@@ -17,9 +17,11 @@ class UpdateRoomsSpider(scrapy.Spider):
         super(UpdateRoomsSpider, self).__init__(*args, **kwargs)
 
         self.today = datetime.now().date()
-        # self.checkin = [self.today + timedelta(days=2 + i) for i in range(14)]
-        self.checkin = [self.today + timedelta(days=7 + i) for i in range(7)]
+        self.checkin = [self.today + timedelta(days=2 + i) for i in range(21)]
+        # self.checkin = [self.today + timedelta(days=7 + i) for i in range(7)]
         self.checkout = [self.checkin[i] + timedelta(days=1) for i in range(len(self.checkin))]
+
+    
 
     name = "update_rooms"
     allowed_domains = ["www.booking.com"]
@@ -135,8 +137,10 @@ class UpdateRoomsSpider(scrapy.Spider):
             raise SystemExit("Failed to connect to DB")
         
         self.cursor = self.connection.cursor()
+        print(len(self.checkin))
 
-        self.cursor.execute("SELECT id, link FROM booking_data where id = 21")
+        # self.cursor.execute("SELECT id, link FROM booking_data where id = 2075")
+        self.cursor.execute("SELECT id, link FROM booking_data")
         rows = self.cursor.fetchall()
 
         self.room_data = []
