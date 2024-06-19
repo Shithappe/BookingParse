@@ -1,6 +1,6 @@
 # Этот парсер обновляет данные по комнатам 
 # booking_id, room_type, activity, price в таблицу rooms
-# парсер должен запускатсья +- раз в неделю, суть отсеивать не актуальные комнаты, если какую-то комнут парсер не находит она не должна отобрадаться 
+# парсер должен запускатсья +- раз в неделю, суть отсеивать не актуальные комнаты, если какую-то комнут парсер не находит она не должна отображаться 
 # получить ссылки отелей, получить комныты этого отеля, получить названия комныт и их размерность, установить active = false при отсудствии, обновить размерность, цену при расхождении
 ###############################################################
 
@@ -139,8 +139,8 @@ class UpdateRoomsSpider(scrapy.Spider):
         self.cursor = self.connection.cursor()
         print(len(self.checkin))
 
-        # self.cursor.execute("SELECT id, link FROM booking_data where id = 2075")
-        self.cursor.execute("SELECT id, link FROM booking_data")
+        self.cursor.execute("SELECT id, link FROM booking_data where id = 2079")
+        # self.cursor.execute("SELECT id, link FROM booking_data")
         rows = self.cursor.fetchall()
 
         self.room_data = []
