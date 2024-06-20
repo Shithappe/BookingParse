@@ -77,7 +77,8 @@ class MySpider(scrapy.Spider):
         # facilities_data = self.cursor.fetchall()
         # self.facilities_cache = {title: id for id, title in facilities_data}
 
-        self.cursor.execute('SELECT id, link FROM booking_data WHERE id > 12224')
+        self.cursor.execute('SELECT id, link FROM booking_data WHERE country = "Spain"')
+        # self.cursor.execute('SELECT id, link FROM booking_data WHERE id = 12229')
         booking_data = self.cursor.fetchall()
 
         # print(len(booking_data))
@@ -95,8 +96,8 @@ class MySpider(scrapy.Spider):
 
         booking_id = response.meta.get('id')
 
-        title = response.css('.d2fee87262.pp-header__title::text').extract_first()
-        description = response.css('.a53cbfa6de.b3efd73f69::text').extract_first().strip()
+        title = response.xpath('/html/body/div[4]/div/div[5]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]/div[1]/div/div/h2/text()').get()
+        description = response.xpath('/html/body/div[4]/div/div[5]/div[1]/div[1]/div[2]/div/div/div[1]/div[1]/div[1]/div[1]/div[2]/div/div/p[1]/text()').get().strip()
 
         star = len(response.css('span[data-testid="rating-stars"] > span'))
         address = response.css('span.hp_address_subtitle::text').get().strip()
@@ -104,7 +105,7 @@ class MySpider(scrapy.Spider):
 
         location = response.css('a#hotel_address').attrib.get('data-atlas-latlng')
 
-        score = response.css('div.a3b8729ab1.d86cee9b25::text').get()
+        score = response.xpath('/html/body/div[4]/div/div[5]/div[1]/div[1]/div[1]/div[1]/div[4]/div/div[1]/div[1]/div/div[1]/a/div/div/div/div[1]/text()').get().strip()
 
         images = response.css('a[data-thumb-url]::attr(data-thumb-url)').extract()
         small_images = response.css('a.bh-photo-grid-item.bh-photo-grid-thumb > img::attr(src)').extract()
@@ -112,8 +113,6 @@ class MySpider(scrapy.Spider):
 
         images = [image.replace('max300', 'max500') for image in images]
 
-
-        link = response.meta.get('original_url').split('?')[0]
 
         type = None
         avalible_types = ["Villa", "Villas", "Guesthouse", "Homestay", "Bungalows", "Resort"]
@@ -134,6 +133,7 @@ class MySpider(scrapy.Spider):
         if (price):
             price = int(re.search(r'\d+', price).group())
 
+        print(title, '\n', description, '\n', star, '\n', address, '\n', city, '\n', location, '\n', score, '\n', price, '\n', type, '\n', review_count)
         # print(title, '\n', star, '\n', link, '\n', address, '\n', city, '\n', location, '\n', score, '\n', str(images), '\n', price, '\n', type, '\n', review_count, '\n', booking_id)
 
         
@@ -149,12 +149,12 @@ class MySpider(scrapy.Spider):
 
         sql = """
             UPDATE booking_data 
-            SET title = %s, description = %s, star = %s, link = %s, address = %s, city = %s,
+            SET title = %s, description = %s, star = %s, address = %s, city = %s,
             location = %s, score = %s, images = %s, price = %s, type = %s, review_count = %s
             WHERE id = %s
         """
         self.cursor.execute(sql, (
-            title, description, star, link, address, city, location, score, str(images), price, type, review_count, booking_id
+            title, description, star, address, city, location, score, str(images), price, type, review_count, booking_id
         ))
         self.connection.commit()
 

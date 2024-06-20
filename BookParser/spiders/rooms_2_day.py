@@ -60,17 +60,17 @@ class UpdateRoomsSpider(scrapy.Spider):
     def set_to_db(self, booking_id, value, checkin, checkout):
         print('\nWRITE TO DB\n')
         print(booking_id, value, checkin, checkout)
-        # try:
-        #     self.cursor.executemany("""
-        #         INSERT INTO rooms_2_day
-        #         (booking_id, room_type, available_rooms, price, checkin, checkout)
-        #         VALUES (%s, %s, %s, %s, %s, %s)
-        #     """, [(booking_id, room_type, count, price, checkin, checkout) for room_type, count, price in value])
+        try:
+            self.cursor.executemany("""
+                INSERT INTO rooms_2_day
+                (booking_id, room_type, available_rooms, price, checkin, checkout)
+                VALUES (%s, %s, %s, %s, %s, %s)
+            """, [(booking_id, room_type, count, price, checkin, checkout) for room_type, count, price in value])
 
-        #     self.connection.commit()
-        #     # print("Insert successful")
-        # except Exception as e:
-        #     print(f"Error: {e}")
+            self.connection.commit()
+            # print("Insert successful")
+        except Exception as e:
+            print(f"Error: {e}")
 
         
 
