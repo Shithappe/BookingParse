@@ -77,7 +77,7 @@ class MySpider(scrapy.Spider):
         # facilities_data = self.cursor.fetchall()
         # self.facilities_cache = {title: id for id, title in facilities_data}
 
-        self.cursor.execute('SELECT id, link FROM booking_data WHERE country = "Spain"')
+        self.cursor.execute('SELECT id, link FROM booking_data where country = "Spain"')
         # self.cursor.execute('SELECT id, link FROM booking_data WHERE id = 12229')
         booking_data = self.cursor.fetchall()
 
@@ -96,8 +96,9 @@ class MySpider(scrapy.Spider):
 
         booking_id = response.meta.get('id')
 
-        title = response.xpath('/html/body/div[4]/div/div[5]/div[1]/div[1]/div[1]/div[1]/div[2]/div[4]/div[1]/div/div/h2/text()').get()
-        description = response.xpath('/html/body/div[4]/div/div[5]/div[1]/div[1]/div[2]/div/div/div[1]/div[1]/div[1]/div[1]/div[2]/div/div/p[1]/text()').get().strip()
+        title = response.css('.aceeb7ecbc.pp-header__title::text').get()
+        # title = response.xpath('/html/body/div[4]/div/div[5]/div[1]/div[1]/div[1]/div[1]/div[3]/div[4]/div[1]/div/div/h2/text()').get().strip()
+        description = response.xpath('/html/body/div[4]/div/div[4]/div[1]/div[1]/div[2]/div/div/div[1]/div[1]/div[1]/div[1]/div[2]/div/div/p[1]/text()').get()
 
         star = len(response.css('span[data-testid="rating-stars"] > span'))
         address = response.css('span.hp_address_subtitle::text').get().strip()
@@ -105,7 +106,7 @@ class MySpider(scrapy.Spider):
 
         location = response.css('a#hotel_address').attrib.get('data-atlas-latlng')
 
-        score = response.xpath('/html/body/div[4]/div/div[5]/div[1]/div[1]/div[1]/div[1]/div[4]/div/div[1]/div[1]/div/div[1]/a/div/div/div/div[1]/text()').get().strip()
+        score = response.xpath('/html/body/div[4]/div/div[4]/div[1]/div[1]/div[1]/div[1]/div[5]/div/div[1]/div[1]/div/div[1]/a/div/div/div/div[1]/text()').get()
 
         images = response.css('a[data-thumb-url]::attr(data-thumb-url)').extract()
         small_images = response.css('a.bh-photo-grid-item.bh-photo-grid-thumb > img::attr(src)').extract()

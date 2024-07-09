@@ -1,9 +1,3 @@
-# Этот парсер обновляет данные по комнатам 
-# booking_id, room_type, activity, price в таблицу rooms
-# парсер должен запускатсья +- раз в неделю, суть отсеивать не актуальные комнаты, если какую-то комнут парсер не находит она не должна отображаться 
-# получить ссылки отелей, получить комныты этого отеля, получить названия комныт и их размерность, установить active = false при отсудствии, обновить размерность, цену при расхождении
-###############################################################
-
 import scrapy
 import mysql.connector
 from tabulate import tabulate
@@ -11,20 +5,20 @@ from datetime import datetime, timedelta
 from urllib.parse import urlparse, urlencode, parse_qs, urlunparse
 
 
-class UpdateRoomsSpider(scrapy.Spider):
+class Rooms_ID_Spider(scrapy.Spider):
 
     def __init__(self, *args, **kwargs):
-        super(UpdateRoomsSpider, self).__init__(*args, **kwargs)
+        super(Rooms_ID_Spider, self).__init__(*args, **kwargs)
 
         self.today = datetime.now().date()
         # self.checkin = [self.today + timedelta(days=2 + i) for i in range(21)]
-        self.checkin = [self.today + timedelta(days=60 + i) for i in range(2)]
-        self.checkout = [self.checkin[i] + timedelta(days=1) for i in range(len(self.checkin))]
+        # self.checkin = [self.today + timedelta(days=60 + i) for i in range(2)]
+        # self.checkout = [self.checkin[i] + timedelta(days=1) for i in range(len(self.checkin))]
 
-        # self.checkin, self.checkout = self.get_dates()
-    
+        self.checkin, self.checkout = self.get_monthly_week_dates()
 
-    name = "update_rooms"
+
+    name = "rooms_id"
     allowed_domains = ["www.booking.com"]
     start_urls = ["https://www.booking.com"]
     connection = None
@@ -41,10 +35,12 @@ class UpdateRoomsSpider(scrapy.Spider):
         }
         
         try:
-            cnx = mysql.connector.connect(**config)
-            return cnx
+            connection = mysql.connector.connect(**config)
+            cursor = connection.cursor()
+            return connection, cursor
+
         except mysql.connector.Error as err:
-            print(f"Ошибка подключения к базе данных: {err}")
+            print(err)
 
     def format_link(self, link, checkin, checkout):
         url = urlparse(link)
@@ -62,24 +58,25 @@ class UpdateRoomsSpider(scrapy.Spider):
         url = url._replace(query=urlencode(query_parameters, doseq=True))
         return urlunparse(url)
 
-    def get_dates(self):
+    def get_monthly_week_dates(self, num_months=3):
         today = datetime.now().date()
-        checkin = []
-        checkout = []
-
-        for i in range(5, 6):
-            # Рассчитываем год и месяц для следующего месяца
-            month = (today.month + i) % 12 or 12
-            year = today.year + (today.month + i - 1) // 12
-
-            # Начальная дата месяца
-            start_date = datetime(year, month, 1).date()
-
-            # Добавляем даты первой недели месяца
-            for j in range(7):
-                checkin_date = start_date + timedelta(days=j)
-                checkin.append(checkin_date)
-
+        current_week_of_month = (today.day - 1) // 7 + 1
+        checkin, checkout = [], []
+        
+        for month in range(num_months):
+            next_month = today.replace(day=1) + timedelta(days=32 * (month + 1))
+            next_month = next_month.replace(day=1)
+            
+            target_date = next_month + timedelta(days=(current_week_of_month - 1) * 7)
+            
+            if target_date.month != next_month.month:
+                target_date = next_month + timedelta(days=(current_week_of_month - 2) * 7)
+            
+            while target_date.weekday() != 0:
+                target_date -= timedelta(days=1)
+            
+            checkin.extend([target_date + timedelta(days=day) for day in range(7)])
+        
         checkout = [checkin[i] + timedelta(days=1) for i in range(len(checkin))]
 
         return checkin, checkout
@@ -98,8 +95,23 @@ class UpdateRoomsSpider(scrapy.Spider):
 
 
         result_data = list(grouped_data.values())
-
         print(tabulate(result_data, headers="keys") + '\n')
+
+        for item in result_data:
+            item['active'] = True
+
+        data_to_insert = [(item['room_id'], item['booking_id'], item['room_type'], item['available_count'], item['active'], item['price']) for item in result_data]
+
+        query = """
+            INSERT INTO rooms_id (room_id, booking_id, room_type, max_available, active, price)
+            VALUES (%s, %s, %s, %s, %s, %s)
+            ON DUPLICATE KEY UPDATE
+                max_available=VALUES(max_available),
+                active=VALUES(active),
+                price=VALUES(price)
+        """
+        self.cursor.executemany(query, data_to_insert)
+        self.connection.commit()
 
         return
 
@@ -174,17 +186,9 @@ class UpdateRoomsSpider(scrapy.Spider):
 
 
     def start_requests(self):
-        self.connection = self.connect_to_db()
-        if self.connection and self.connection.is_connected():
-            print('\nConnection to DB success\n')
-        else:
-            raise SystemExit("Failed to connect to DB")
-        
-        self.cursor = self.connection.cursor()
+        self.connection, self.cursor = self.connect_to_db()
 
-
-        self.cursor.execute("SELECT id, link FROM booking_data where id = 2075")
-        # self.cursor.execute("SELECT id, link FROM booking_data")
+        self.cursor.execute("SELECT id, link FROM booking_data where id = 2079")
         rows = self.cursor.fetchall()
 
         self.room_data = []
@@ -193,11 +197,11 @@ class UpdateRoomsSpider(scrapy.Spider):
             try:
                 self.connection.start_transaction()
 
-                select_query = "SELECT booking_id, room_type, max_available, price FROM rooms WHERE booking_id = %s"
+                select_query = "SELECT room_id, booking_id, room_type, max_available, price FROM rooms_id WHERE booking_id = %s"
                 self.cursor.execute(select_query, (row[0],))
                 rooms = self.cursor.fetchall()
 
-                update_query = "UPDATE rooms SET active = %s WHERE booking_id = %s"
+                update_query = "UPDATE rooms_id SET active = %s WHERE booking_id = %s"
                 self.cursor.execute(update_query, (False, row[0]))
 
                 self.connection.commit()
@@ -248,19 +252,7 @@ class UpdateRoomsSpider(scrapy.Spider):
 
                     count = int(max_available_rooms)
 
-                    room_exists = False
-                    for room in self.room_data:
-                        if room['title'] == room_type:
-                            room_exists = True
-                            if count > room['available_count']:
-                                room['available_count'] = count
-                            break
-
-                    # print(f'booking_id: {booking_id} \nroom_id: {room_id} \ntitle: {room_type}, \navailable_count: {count}, \nprice: {price}')
-
-                    # if not room_exists and count > 0:
-                    if count > 0:
-                        self.room_data.append({'booking_id': booking_id, 'room_id': room_id, 'title': room_type, 'available_count': count, 'price': price})
+                    self.room_data.append({'booking_id': booking_id, 'room_id': room_id, 'room_type': room_type, 'available_count': count, 'price': price})
 
 
 
