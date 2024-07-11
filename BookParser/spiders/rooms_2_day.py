@@ -103,8 +103,8 @@ class UpdateRoomsSpider(scrapy.Spider):
             rows = self.cursor.fetchall()
 
         
-        self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id = 8978')
-        rows = self.cursor.fetchall()
+        # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id = 8978')
+        # rows = self.cursor.fetchall()
 
         for row in rows:
                 formatted_link = self.format_link(row[1], self.checkin, self.checkout) 

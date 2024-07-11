@@ -120,7 +120,7 @@ class Rooms_ID_Spider(scrapy.Spider):
     def start_requests(self):
         self.connection, self.cursor = self.connect_to_db()
 
-        self.cursor.execute("SELECT id, link FROM booking_data where id = 8978")
+        self.cursor.execute("SELECT id, link FROM booking_data")
         rows = self.cursor.fetchall()
 
         self.room_data = []
