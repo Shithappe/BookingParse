@@ -59,13 +59,12 @@ class UpdateRoomsSpider(scrapy.Spider):
 
     def set_to_db(self, booking_id, value, checkin, checkout):
         print('\nWRITE TO DB\n')
-        print(value)
+        # print(value)
         try:
             formatted_values = [
                 (booking_id, item['room_id'], item['room_type'], item['available_rooms'], item['price'], checkin, checkout) for item in value
             ]
 
-            # Выполняем вставку
             self.cursor.executemany("""
                 INSERT INTO rooms_2_day
                 (booking_id, room_id, room_type, available_rooms, price, checkin, checkout)
@@ -103,7 +102,7 @@ class UpdateRoomsSpider(scrapy.Spider):
             rows = self.cursor.fetchall()
 
         
-        # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id = 8978')
+        # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id = 2075')
         # rows = self.cursor.fetchall()
 
         for row in rows:
@@ -119,14 +118,12 @@ class UpdateRoomsSpider(scrapy.Spider):
     def parse(self, response):
         booking_id = response.meta.get('booking_id')
 
-        self.cursor.execute(f'''SELECT room_id
+        self.cursor.execute(f'''SELECT room_id, room_type
                                 FROM rooms_id
                                 WHERE booking_id = {booking_id}
                                 GROUP BY room_id''')
         ext_rooms_id = self.cursor.fetchall()
-        room_ids = [room_id[0] for room_id in ext_rooms_id]
-
-        print(f'\n{room_ids}\n')
+        room_ids = [rid for rid, _ in ext_rooms_id]
 
         checkin = response.meta.get('checkin')
         checkout = response.meta.get('checkout')        
@@ -162,19 +159,19 @@ class UpdateRoomsSpider(scrapy.Spider):
 
             existing_room_ids = [int(room['room_id']) for room in rooms_data]
 
-            for room_id in room_ids:
+            for room_id, room_type in ext_rooms_id:
                 if room_id not in existing_room_ids:
                     rooms_data.append({
                         'room_id': room_id,
-                        'room_type': None,
+                        'room_type': room_type,
                         'available_rooms': 0,
                         'price': None
                     })
-            for room in rooms_data:
-                print(f"{room['room_id']} {room['room_type']}: {room['available_rooms']} {room['price']}")
 
-            # self.set_to_db(booking_id, combined_rooms, checkin, checkout)
-            # нужно тоже самое сделать для update.. и записать в бд
+            # for room in rooms_data:
+            #     print(f"{room['room_id']} {room['room_type']}: {room['available_rooms']} {room['price']}")
+
+            self.set_to_db(booking_id, rooms_data, checkin, checkout)
 
 
         else:
