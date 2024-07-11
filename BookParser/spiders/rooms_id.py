@@ -106,6 +106,7 @@ class Rooms_ID_Spider(scrapy.Spider):
             INSERT INTO rooms_id (room_id, booking_id, room_type, max_available, active, price)
             VALUES (%s, %s, %s, %s, %s, %s)
             ON DUPLICATE KEY UPDATE
+                room_type=VALUES(room_type),
                 max_available=VALUES(max_available),
                 active=VALUES(active),
                 price=VALUES(price)
@@ -115,80 +116,11 @@ class Rooms_ID_Spider(scrapy.Spider):
 
         return
 
-        if len(self.room_data):
-            print('\nWRITE TO DB\n')
-
-            headers = ['Booking ID', 'Room ID', 'Title', 'Available Count', 'Price', 'Active']
-
-            new_data_dict = {}
-            for item in self.room_data:
-                if item['booking_id'] == booking_id:
-                    room_type = item['title']
-                    if room_type not in new_data_dict:
-                        new_data_dict[room_type] = item
-                    else:
-                        if item['available_count'] > new_data_dict[room_type]['available_count']:
-                            new_data_dict[room_type]['available_count'] = item['available_count']
-                        new_data_dict[room_type]['price'] = item['price']
-
-            # print('\nOld data')
-            # rows = [[item[0], item[1], item[2], item[3]] for item in rooms if item[0] == booking_id]
-            # print(tabulate(rows, headers[:-1]) + '\n')
-
-            # print('\nNew data')
-            updated_rows = []
-            existing_room_types = {item[1] for item in rooms if item[0] == booking_id}
-
-            for item in rooms:
-                if item[0] == booking_id:
-                    room_type = item[1]
-                    if room_type in new_data_dict:
-                        new_item = new_data_dict[room_type]
-                        updated_rows.append([item[0], new_item['room_id'], item[1], new_item['available_count'], new_item['price'], True])
-                    else:
-                        updated_rows.append([item[0], new_item['room_id'], item[1], item[2], item[3], False])
-
-            data_to_insert = []
-            for room_type, new_item in new_data_dict.items():
-                if room_type not in existing_room_types:
-                    updated_rows.append([booking_id, new_item['room_id'], new_item['title'], new_item['available_count'], new_item['price'], True])
-                    data_to_insert.append((new_item['booking_id'], new_item['room_id'], new_item['title'], new_item['available_count'], True, new_item['price']))
-
-            print('data_to_insert\n' + tabulate(data_to_insert, headers) + '\n')
-
-            if data_to_insert:
-                query = """
-                    INSERT INTO rooms
-                    (booking_id, room_type, max_available, active, price)
-                    VALUES (%s, %s, %s, %s, %s)
-                """
-                self.cursor.executemany(query, data_to_insert)
-                self.connection.commit()
-
-            data_to_update = []
-            for room_type, new_item in new_data_dict.items():
-                if room_type in existing_room_types:
-                    data_to_update.append((new_item['available_count'], new_item['price'], True, booking_id, room_type))
-
-            # if data_to_update:
-            #     query = """
-            #         UPDATE rooms
-            #         SET max_available = %s, price = %s, active = %s
-            #         WHERE booking_id = %s AND room_type = %s
-            #     """
-            #     self.cursor.executemany(query, data_to_update)
-            #     self.connection.commit()
-
-            print(tabulate(updated_rows, headers) + '\n')
-            # print(tabulate(data_to_update, headers) + '\n')
-
-            self.room_data = []
-
 
     def start_requests(self):
         self.connection, self.cursor = self.connect_to_db()
 
-        self.cursor.execute("SELECT id, link FROM booking_data where id = 2079")
+        self.cursor.execute("SELECT id, link FROM booking_data where id = 8978")
         rows = self.cursor.fetchall()
 
         self.room_data = []

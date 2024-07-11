@@ -25,7 +25,6 @@ class UpdateRoomsSpider(scrapy.Spider):
     
 
     def connect_to_db(self):
-
         config = {
             'user': 'artnmo_estate',
             'password': 'gL8+8uBs2_',
@@ -35,9 +34,10 @@ class UpdateRoomsSpider(scrapy.Spider):
         }
         
         try:
-            # cnx = mysql.connector.connect(**config_local)
-            cnx = mysql.connector.connect(**config)
-            return cnx
+            connection = mysql.connector.connect(**config)
+            cursor = connection.cursor()
+            return connection, cursor
+
         except mysql.connector.Error as err:
             print(err)
 
@@ -59,30 +59,28 @@ class UpdateRoomsSpider(scrapy.Spider):
 
     def set_to_db(self, booking_id, value, checkin, checkout):
         print('\nWRITE TO DB\n')
-        print(booking_id, value, checkin, checkout)
+        print(value)
         try:
+            formatted_values = [
+                (booking_id, item['room_id'], item['room_type'], item['available_rooms'], item['price'], checkin, checkout) for item in value
+            ]
+
+            # Выполняем вставку
             self.cursor.executemany("""
                 INSERT INTO rooms_2_day
-                (booking_id, room_type, available_rooms, price, checkin, checkout)
-                VALUES (%s, %s, %s, %s, %s, %s)
-            """, [(booking_id, room_type, count, price, checkin, checkout) for room_type, count, price in value])
+                (booking_id, room_id, room_type, available_rooms, price, checkin, checkout)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
+            """, formatted_values)
 
             self.connection.commit()
-            # print("Insert successful")
+            print("Insert successful")
         except Exception as e:
-            print(f"Error: {e}")
+            print(f"DB Error: {e}")
 
         
 
     def start_requests(self):
-        self.connection = self.connect_to_db()
-        if self.connection and self.connection.is_connected():
-            print('\nConnection to DB success\n')
-        else:
-            print('\nFailed to connect to DB. Exiting...\n')
-            raise SystemExit("Failed to connect to DB")
-        
-        self.cursor = self.connection.cursor()
+        self.connection, self.cursor = self.connect_to_db()
 
         rows = None
 
@@ -93,7 +91,7 @@ class UpdateRoomsSpider(scrapy.Spider):
         if rows[0][0]:
             # удалить все записи за сегодня с последним booking_id (т.к. он может быть не полным)
             print(f'Continuing with booking_id {rows[0][0]}')
-            self.cursor.execute(f"DELETE FROM rooms_30_day WHERE created_at = '{self.today}' AND booking_id = {rows[0][0]}")
+            self.cursor.execute(f"DELETE FROM rooms_2_day WHERE created_at = '{self.today}' AND booking_id = {rows[0][0]}")
             self.cursor.fetchall()
 
             # продолжить обход записей с предпоследнего значения 
@@ -105,8 +103,8 @@ class UpdateRoomsSpider(scrapy.Spider):
             rows = self.cursor.fetchall()
 
         
-        # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id = 2017')
-        # rows = self.cursor.fetchall()
+        self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id = 8978')
+        rows = self.cursor.fetchall()
 
         for row in rows:
                 formatted_link = self.format_link(row[1], self.checkin, self.checkout) 
@@ -119,71 +117,64 @@ class UpdateRoomsSpider(scrapy.Spider):
                 yield scrapy.Request(url=formatted_link, callback=self.parse, meta=request_meta)
 
     def parse(self, response):
-
         booking_id = response.meta.get('booking_id')
 
-        self.cursor.execute(f'''SELECT room_type, max_available
-                            FROM rooms
-                            WHERE booking_id = {booking_id}
-                            GROUP BY room_type''')
-        max_available = self.cursor.fetchall()
+        self.cursor.execute(f'''SELECT room_id
+                                FROM rooms_id
+                                WHERE booking_id = {booking_id}
+                                GROUP BY room_id''')
+        ext_rooms_id = self.cursor.fetchall()
+        room_ids = [room_id[0] for room_id in ext_rooms_id]
+
+        print(f'\n{room_ids}\n')
 
         checkin = response.meta.get('checkin')
         checkout = response.meta.get('checkout')        
 
-        room_type = None
-        available_rooms = None
-        rowspan = None
-
         rows = response.xpath('//*[@id="hprt-table"]/tbody/tr')
 
-        room_types_count = {}
-        room_prices = {}
+        rooms_data = []
 
         if rows:
             for i in range(len(rows)):
                 rowspan = rows[i].xpath('./td/@rowspan').get()
                 if rowspan:
+                    room_id = rows[i].xpath('.//a[@class="hprt-roomtype-link"]/@data-room-id').get()
                     room_type = rows[i].xpath('.//span[contains(@class, "hprt-roomtype-icon-link")]/text()').get().strip()
                     available_rooms = rows[i].xpath('.//select[@class="hprt-nos-select js-hprt-nos-select"]//option[last()]/@value').get()                
-                    price = response.xpath(f'//*[@id="hprt-table"]/tbody/tr[{i+1}]/td[3]/div/div/div[1]/div[2]/div/span/text()').get()
+                    price = rows[i].xpath(f'./td[3]/div/div/div[1]/div[2]/div/span/text()').get()
                     if price:
                         price = ''.join(filter(str.isdigit, price))
-                    
-                    print(f'{room_type}: {available_rooms} {price}')
-
                     if not available_rooms: 
                         available_rooms = 0
+                    available_rooms = int(available_rooms)
 
-                    count = int(available_rooms)
+                    rooms_data.append({
+                        'room_id': room_id,
+                        'room_type': room_type,
+                        'available_rooms': available_rooms,
+                        'price': price
+                    })
 
-                    if room_type in room_types_count:
-                        room_types_count[room_type] += count
-                    else:
-                        room_types_count[room_type] = count
+                    # print(f'{room_id} {room_type}: {available_rooms} {price}')
 
-                    if room_type not in room_prices:
-                        room_prices[room_type] = price
 
-                    for max_type, max_count in max_available:
-                        if max_type == room_type:
-                            max_available.remove((max_type, max_count))
-                            break
 
-            # Устанавливаем значение 0 для элементов, которые остались в max_available
-            max_available = [(max_type, 0) for max_type, max_count in max_available]
+            existing_room_ids = [int(room['room_id']) for room in rooms_data]
 
-            # Объединяем room_types_count, max_available и добавляем цены
-            combined_rooms = []
-            for room_type, count in room_types_count.items():
-                combined_rooms.append((room_type, count, room_prices.get(room_type)))
+            for room_id in room_ids:
+                if room_id not in existing_room_ids:
+                    rooms_data.append({
+                        'room_id': room_id,
+                        'room_type': None,
+                        'available_rooms': 0,
+                        'price': None
+                    })
+            for room in rooms_data:
+                print(f"{room['room_id']} {room['room_type']}: {room['available_rooms']} {room['price']}")
 
-            for max_type, _ in max_available:
-                combined_rooms.append((max_type, 0, room_prices.get(max_type)))
-
-            # print(combined_rooms)
-
-            self.set_to_db(booking_id, combined_rooms, checkin, checkout)
+            # self.set_to_db(booking_id, combined_rooms, checkin, checkout)
+            # нужно тоже самое сделать для update.. и записать в бд
 
 
         else:
@@ -200,8 +191,7 @@ class UpdateRoomsSpider(scrapy.Spider):
 
 
                 formatted_link = self.format_link(response.meta.get('link'), checkin, checkout) 
-                # print('formatted_link')
-                # print(formatted_link)
+                # print('formatted_link ', formatted_link)
 
                 request_meta = {
                     'booking_id': booking_id,
@@ -214,9 +204,18 @@ class UpdateRoomsSpider(scrapy.Spider):
 
             else:
                 print('set 0 avalible')
-                print('max_available: ', max_available)
-                updated_list = [(name, 0, None) for name, _ in max_available]
-                print('updated_list: ', updated_list)
 
-                self.set_to_db(booking_id, updated_list, checkin, checkout)
+                for room_id in room_ids:
+                    rooms_data.append({
+                        'room_id': room_id,
+                        'room_type': None,
+                        'available_rooms': 0,
+                        'price': None
+                    })
+
+                # print('max_available: ', max_available)
+                # updated_list = [(room_id, room_type, 0, None) for room_id, room_type, max_count in max_available]
+                # print('updated_list: ', updated_list)
+
+                self.set_to_db(booking_id, rooms_data, checkin, checkout)
 
