@@ -11,19 +11,13 @@ class Rooms_ID_Spider(scrapy.Spider):
         super(Rooms_ID_Spider, self).__init__(*args, **kwargs)
 
         self.today = datetime.now().date()
-        # self.checkin = [self.today + timedelta(days=2 + i) for i in range(21)]
-        # self.checkin = [self.today + timedelta(days=60 + i) for i in range(2)]
-        # self.checkout = [self.checkin[i] + timedelta(days=1) for i in range(len(self.checkin))]
-
         self.checkin, self.checkout = self.get_monthly_week_dates()
-
 
     name = "rooms_id"
     allowed_domains = ["www.booking.com"]
     start_urls = ["https://www.booking.com"]
     connection = None
     cursor = None
-    
 
     def connect_to_db(self):
         config = {
@@ -33,7 +27,7 @@ class Rooms_ID_Spider(scrapy.Spider):
             'database': 'artnmo_estate',
             'raise_on_warnings': True
         }
-        
+
         try:
             connection = mysql.connector.connect(**config)
             cursor = connection.cursor()
@@ -62,26 +56,26 @@ class Rooms_ID_Spider(scrapy.Spider):
         today = datetime.now().date()
         current_week_of_month = (today.day - 1) // 7 + 1
         checkin, checkout = [], []
-        
+
         for month in range(num_months):
             next_month = today.replace(day=1) + timedelta(days=32 * (month + 1))
             next_month = next_month.replace(day=1)
-            
+
             target_date = next_month + timedelta(days=(current_week_of_month - 1) * 7)
-            
+
             if target_date.month != next_month.month:
                 target_date = next_month + timedelta(days=(current_week_of_month - 2) * 7)
-            
+
             while target_date.weekday() != 0:
                 target_date -= timedelta(days=1)
-            
+
             checkin.extend([target_date + timedelta(days=day) for day in range(7)])
-        
+
         checkout = [checkin[i] + timedelta(days=1) for i in range(len(checkin))]
 
         return checkin, checkout
 
-    def write_to_db(self, booking_id, rooms):
+    def write_to_db(self):
 
         grouped_data = {}
 
@@ -92,7 +86,6 @@ class Rooms_ID_Spider(scrapy.Spider):
             else:
                 if item['available_count'] > grouped_data[room_id]['available_count']:
                     grouped_data[room_id]['available_count'] = item['available_count']
-
 
         result_data = list(grouped_data.values())
         print(tabulate(result_data, headers="keys") + '\n')
@@ -114,16 +107,17 @@ class Rooms_ID_Spider(scrapy.Spider):
         self.cursor.executemany(query, data_to_insert)
         self.connection.commit()
 
-        return
-
-
     def start_requests(self):
         self.connection, self.cursor = self.connect_to_db()
 
-        self.cursor.execute("SELECT id, link FROM booking_data")
+        self.cursor.execute("""
+            SELECT bd.id, bd.link
+            FROM booking_data bd
+            LEFT JOIN rooms_id ri ON bd.id = ri.booking_id
+            WHERE ri.booking_id IS NULL
+        """)
+        # self.cursor.execute("""SELECT id, link FROM booking_data WHERE id = 2079""")
         rows = self.cursor.fetchall()
-
-        self.room_data = []
 
         for row in rows:
             try:
@@ -142,12 +136,12 @@ class Rooms_ID_Spider(scrapy.Spider):
                 self.connection.rollback()
                 print(f"Error: {err}")
 
-            formatted_link = self.format_link(row[1], self.checkin[0], self.checkout[0]) 
+            formatted_link = self.format_link(row[1], self.checkin[0], self.checkout[0])
             request_meta = {
                 'booking_id': row[0],
                 'link': row[1],
                 'rooms': rooms,
-                'checkin': self.checkin[1], 
+                'checkin': self.checkin[1],
                 'checkout': self.checkout[1],
                 'index': 1
             }
@@ -161,11 +155,17 @@ class Rooms_ID_Spider(scrapy.Spider):
         checkout = response.meta.get('checkout')
         index = response.meta.get('index')
 
+        print(f'\n{booking_id}\n')
+
         room_type = None
         max_available_rooms = None
-        rowspan = None  
+        rowspan = None
 
         rows = response.xpath('//*[@id="hprt-table"]/tbody/tr')
+        error_message = response.css('p.error[rel="this_hotel_is_not_bookable"]').get()
+        alert_title = response.css('.bui-alert__title::text').get()
+
+        self.room_data = []
 
         if rows:
             for i in range(len(rows)):
@@ -174,7 +174,7 @@ class Rooms_ID_Spider(scrapy.Spider):
                     room_id = rows[i].xpath('.//a[@class="hprt-roomtype-link"]/@data-room-id').get()
                     room_type = rows[i].xpath('.//span[contains(@class, "hprt-roomtype-icon-link")]/text()').get().strip()
 
-                    price = response.xpath(f'//*[@id="hprt-table"]/tbody/tr[{i+1}]/td[3]/div/div/div[1]/div[2]/div/span/text()').get()
+                    price = response.xpath(f'//*[@id="hprt-table"]/tbody/tr[{i + 1}]/td[3]/div/div/div[1]/div[2]/div/span/text()').get()
                     if price:
                         price = ''.join(filter(str.isdigit, price))
 
@@ -185,8 +185,6 @@ class Rooms_ID_Spider(scrapy.Spider):
                     count = int(max_available_rooms)
 
                     self.room_data.append({'booking_id': booking_id, 'room_id': room_id, 'room_type': room_type, 'available_count': count, 'price': price})
-
-
 
             if index != len(self.checkin) - 1:
                 formatted_link = self.format_link(link, checkin, checkout)
@@ -200,10 +198,13 @@ class Rooms_ID_Spider(scrapy.Spider):
                 }
                 yield scrapy.Request(url=formatted_link, callback=self.parse, meta=request_meta)
             else:
-                self.write_to_db(booking_id, rooms)
+                self.write_to_db()
 
-        else:
-            alert_title = response.css('.bui-alert__title::text').get()
+
+        elif error_message:
+            print(f'\n{booking_id} this_hotel_is_not_bookable\n')
+            return
+        elif alert_title:
             print(alert_title)
 
             if 'is a minimum length of stay of' in alert_title:
@@ -234,4 +235,7 @@ class Rooms_ID_Spider(scrapy.Spider):
                 }
                 yield scrapy.Request(url=formatted_link, callback=self.parse, meta=request_meta)
             else:
-                self.write_to_db(booking_id, rooms)
+                self.write_to_db()
+
+        else:
+            print(f'\n{booking_id} Something wrong! (301)')

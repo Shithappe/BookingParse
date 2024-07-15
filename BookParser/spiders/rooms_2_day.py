@@ -12,7 +12,7 @@ class UpdateRoomsSpider(scrapy.Spider):
     
 
     today = datetime.now().date()
-    # today = today + timedelta(days=2)  # for debug
+    today = today + timedelta(days=1)  # for debug
 
     checkin = today + timedelta(hours=8)
     checkout = checkin + timedelta(days=1)    
@@ -59,7 +59,7 @@ class UpdateRoomsSpider(scrapy.Spider):
 
     def set_to_db(self, booking_id, value, checkin, checkout):
         print('\nWRITE TO DB\n')
-        # print(value)
+        print(value)
         try:
             formatted_values = [
                 (booking_id, item['room_id'], item['room_type'], item['available_rooms'], item['price'], checkin, checkout) for item in value
@@ -72,7 +72,7 @@ class UpdateRoomsSpider(scrapy.Spider):
             """, formatted_values)
 
             self.connection.commit()
-            print("Insert successful")
+            # print("Insert successful")
         except Exception as e:
             print(f"DB Error: {e}")
 
@@ -153,11 +153,10 @@ class UpdateRoomsSpider(scrapy.Spider):
                         'price': price
                     })
 
-                    # print(f'{room_id} {room_type}: {available_rooms} {price}')
+                    print(f'{room_id} {room_type}: {available_rooms} {price}')
 
 
-
-            existing_room_ids = [int(room['room_id']) for room in rooms_data]
+            existing_room_ids = [int(room['room_id']) for room in rooms_data if room['room_id'] is not None]
 
             for room_id, room_type in ext_rooms_id:
                 if room_id not in existing_room_ids:
@@ -180,15 +179,11 @@ class UpdateRoomsSpider(scrapy.Spider):
 
             if 'is a minimum length of stay of' in alert_title:
                 book_size = int(alert_title.split(' ')[-2])
-                # print(book_size)
-
 
                 checkin = self.today + timedelta(hours=8)
                 checkout = checkin + timedelta(days=book_size)
 
-
                 formatted_link = self.format_link(response.meta.get('link'), checkin, checkout) 
-                # print('formatted_link ', formatted_link)
 
                 request_meta = {
                     'booking_id': booking_id,
@@ -209,10 +204,6 @@ class UpdateRoomsSpider(scrapy.Spider):
                         'available_rooms': 0,
                         'price': None
                     })
-
-                # print('max_available: ', max_available)
-                # updated_list = [(room_id, room_type, 0, None) for room_id, room_type, max_count in max_available]
-                # print('updated_list: ', updated_list)
 
                 self.set_to_db(booking_id, rooms_data, checkin, checkout)
 
