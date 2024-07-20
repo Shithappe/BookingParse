@@ -57,9 +57,10 @@ class UpdateRoomsSpider(scrapy.Spider):
         url = url._replace(query=urlencode(query_parameters, doseq=True))
         return urlunparse(url)
 
-    def set_to_db(self, booking_id, value, checkin, checkout):
+    def set_to_db(self, booking_id, value, checkin, checkout, images):
         print('\nWRITE TO DB\n')
-        print(value)
+        # print(value)
+        # print(images)
         try:
             formatted_values = [
                 (booking_id, item['room_id'], item['room_type'], item['available_rooms'], item['price'], checkin, checkout) for item in value
@@ -70,6 +71,8 @@ class UpdateRoomsSpider(scrapy.Spider):
                 (booking_id, room_id, room_type, available_rooms, price, checkin, checkout)
                 VALUES (%s, %s, %s, %s, %s, %s, %s)
             """, formatted_values)
+
+            self.cursor.execute('''UPDATE booking_data SET images = %s WHERE id = %s''', (str(images), booking_id))
 
             self.connection.commit()
             # print("Insert successful")
@@ -102,7 +105,7 @@ class UpdateRoomsSpider(scrapy.Spider):
             rows = self.cursor.fetchall()
 
         
-        # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id = 2075')
+        # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id = 8978')
         # rows = self.cursor.fetchall()
 
         for row in rows:
@@ -129,6 +132,10 @@ class UpdateRoomsSpider(scrapy.Spider):
         checkout = response.meta.get('checkout')        
 
         rows = response.xpath('//*[@id="hprt-table"]/tbody/tr')
+        images = response.css('a[data-thumb-url]::attr(data-thumb-url)').extract()
+        small_images = response.css('a.bh-photo-grid-item.bh-photo-grid-thumb > img::attr(src)').extract()
+        images.extend(small_images)
+        images = [image.replace('max300', 'max500') for image in images]
 
         rooms_data = []
 
@@ -170,7 +177,7 @@ class UpdateRoomsSpider(scrapy.Spider):
             # for room in rooms_data:
             #     print(f"{room['room_id']} {room['room_type']}: {room['available_rooms']} {room['price']}")
 
-            self.set_to_db(booking_id, rooms_data, checkin, checkout)
+            self.set_to_db(booking_id, rooms_data, checkin, checkout, images)
 
 
         else:
@@ -205,5 +212,5 @@ class UpdateRoomsSpider(scrapy.Spider):
                         'price': None
                     })
 
-                self.set_to_db(booking_id, rooms_data, checkin, checkout)
+                self.set_to_db(booking_id, rooms_data, checkin, checkout, images)
 
