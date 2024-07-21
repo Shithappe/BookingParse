@@ -12,7 +12,7 @@ class UpdateRoomsSpider(scrapy.Spider):
     
 
     today = datetime.now().date()
-    today = today + timedelta(days=1)  # for debug
+    # today = today + timedelta(days=1)  # for debug
 
     checkin = today + timedelta(hours=8)
     checkout = checkin + timedelta(days=1)    
@@ -57,7 +57,7 @@ class UpdateRoomsSpider(scrapy.Spider):
         url = url._replace(query=urlencode(query_parameters, doseq=True))
         return urlunparse(url)
 
-    def set_to_db(self, booking_id, value, checkin, checkout, images):
+    def set_to_db(self, booking_id, value, checkin, checkout):
         print('\nWRITE TO DB\n')
         # print(value)
         # print(images)
@@ -72,13 +72,12 @@ class UpdateRoomsSpider(scrapy.Spider):
                 VALUES (%s, %s, %s, %s, %s, %s, %s)
             """, formatted_values)
 
-            self.cursor.execute('''UPDATE booking_data SET images = %s WHERE id = %s''', (str(images), booking_id))
+            # self.cursor.execute('''UPDATE booking_data SET images = %s WHERE id = %s''', (str(images), booking_id))
 
             self.connection.commit()
             # print("Insert successful")
         except Exception as e:
             print(f"DB Error: {e}")
-
         
 
     def start_requests(self):
@@ -105,8 +104,9 @@ class UpdateRoomsSpider(scrapy.Spider):
             rows = self.cursor.fetchall()
 
         
-        # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id = 8978')
-        # rows = self.cursor.fetchall()
+        # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id in (2013, 9011, 2079, 2110)')
+        # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id = 2013')
+        rows = self.cursor.fetchall()
 
         for row in rows:
                 formatted_link = self.format_link(row[1], self.checkin, self.checkout) 
@@ -132,10 +132,14 @@ class UpdateRoomsSpider(scrapy.Spider):
         checkout = response.meta.get('checkout')        
 
         rows = response.xpath('//*[@id="hprt-table"]/tbody/tr')
-        images = response.css('a[data-thumb-url]::attr(data-thumb-url)').extract()
-        small_images = response.css('a.bh-photo-grid-item.bh-photo-grid-thumb > img::attr(src)').extract()
-        images.extend(small_images)
-        images = [image.replace('max300', 'max500') for image in images]
+        
+        # images = response.css('a[data-thumb-url]::attr(data-thumb-url)').extract()
+        # small_images = response.css('a.bh-photo-grid-item.bh-photo-grid-thumb > img::attr(src)').extract()
+        # images.extend(small_images)
+        # images = [image.replace('max300', 'max500') for image in images]
+        # print(images)
+
+        
 
         rooms_data = []
 
@@ -176,8 +180,8 @@ class UpdateRoomsSpider(scrapy.Spider):
 
             # for room in rooms_data:
             #     print(f"{room['room_id']} {room['room_type']}: {room['available_rooms']} {room['price']}")
-
-            self.set_to_db(booking_id, rooms_data, checkin, checkout, images)
+            
+            self.set_to_db(booking_id, rooms_data, checkin, checkout)
 
 
         else:
@@ -212,5 +216,5 @@ class UpdateRoomsSpider(scrapy.Spider):
                         'price': None
                     })
 
-                self.set_to_db(booking_id, rooms_data, checkin, checkout, images)
+                self.set_to_db(booking_id, rooms_data, checkin, checkout)
 
