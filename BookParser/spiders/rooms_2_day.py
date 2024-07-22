@@ -59,18 +59,18 @@ class UpdateRoomsSpider(scrapy.Spider):
 
     def set_to_db(self, booking_id, value, checkin, checkout):
         print('\nWRITE TO DB\n')
-        # print(value)
+        print(value)
         # print(images)
         try:
             formatted_values = [
                 (booking_id, item['room_id'], item['room_type'], item['available_rooms'], item['price'], checkin, checkout) for item in value
             ]
 
-            self.cursor.executemany("""
-                INSERT INTO rooms_2_day
-                (booking_id, room_id, room_type, available_rooms, price, checkin, checkout)
-                VALUES (%s, %s, %s, %s, %s, %s, %s)
-            """, formatted_values)
+            # self.cursor.executemany("""
+            #     INSERT INTO rooms_2_day
+            #     (booking_id, room_id, room_type, available_rooms, price, checkin, checkout)
+            #     VALUES (%s, %s, %s, %s, %s, %s, %s)
+            # """, formatted_values)
 
             # self.cursor.execute('''UPDATE booking_data SET images = %s WHERE id = %s''', (str(images), booking_id))
 
@@ -105,7 +105,7 @@ class UpdateRoomsSpider(scrapy.Spider):
 
         
         # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id in (2013, 9011, 2079, 2110)')
-        # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id = 2013')
+        self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id = 8978')
         rows = self.cursor.fetchall()
 
         for row in rows:
@@ -123,7 +123,7 @@ class UpdateRoomsSpider(scrapy.Spider):
 
         self.cursor.execute(f'''SELECT room_id, room_type
                                 FROM rooms_id
-                                WHERE booking_id = {booking_id}
+                                WHERE booking_id = {booking_id} and active = 1
                                 GROUP BY room_id''')
         ext_rooms_id = self.cursor.fetchall()
         room_ids = [rid for rid, _ in ext_rooms_id]

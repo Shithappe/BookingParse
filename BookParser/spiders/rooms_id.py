@@ -13,6 +13,8 @@ class Rooms_ID_Spider(scrapy.Spider):
         self.today = datetime.now().date()
         self.checkin, self.checkout = self.get_monthly_week_dates()
 
+        self.room_data = []
+
     name = "rooms_id"
     allowed_domains = ["www.booking.com"]
     start_urls = ["https://www.booking.com"]
@@ -76,6 +78,8 @@ class Rooms_ID_Spider(scrapy.Spider):
         return checkin, checkout
 
     def write_to_db(self):
+        print('\nWRITE TO DB\n')
+        # print(self.room_data)
 
         grouped_data = {}
 
@@ -106,17 +110,19 @@ class Rooms_ID_Spider(scrapy.Spider):
         """
         self.cursor.executemany(query, data_to_insert)
         self.connection.commit()
+        self.room_data = []
 
     def start_requests(self):
         self.connection, self.cursor = self.connect_to_db()
 
-        self.cursor.execute("""
-            SELECT bd.id, bd.link
-            FROM booking_data bd
-            LEFT JOIN rooms_id ri ON bd.id = ri.booking_id
-            WHERE ri.booking_id IS NULL
-        """)
-        # self.cursor.execute("""SELECT id, link FROM booking_data WHERE id = 2079""")
+        # self.cursor.execute("""
+        #     SELECT bd.id, bd.link
+        #     FROM booking_data bd
+        #     LEFT JOIN rooms_id ri ON bd.id = ri.booking_id
+        #     WHERE ri.booking_id IS NULL
+        # """)
+        # self.cursor.execute("""SELECT id, link FROM booking_data WHERE id = 8978""")
+        self.cursor.execute("""SELECT id, link FROM booking_data""")
         rows = self.cursor.fetchall()
 
         for row in rows:
@@ -165,7 +171,7 @@ class Rooms_ID_Spider(scrapy.Spider):
         error_message = response.css('p.error[rel="this_hotel_is_not_bookable"]').get()
         alert_title = response.css('.bui-alert__title::text').get()
 
-        self.room_data = []
+        # self.room_data = []
 
         if rows:
             for i in range(len(rows)):
@@ -184,7 +190,10 @@ class Rooms_ID_Spider(scrapy.Spider):
 
                     count = int(max_available_rooms)
 
+                    print(f'\nbooking_id: {booking_id}\nroom_id: {room_id}\nroom_type: {room_type}\navailable_count: {count}\nprice: {price}\n')
                     self.room_data.append({'booking_id': booking_id, 'room_id': room_id, 'room_type': room_type, 'available_count': count, 'price': price})
+
+                    print(len(self.room_data))
 
             if index != len(self.checkin) - 1:
                 formatted_link = self.format_link(link, checkin, checkout)
