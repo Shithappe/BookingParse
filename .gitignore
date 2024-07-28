@@ -1,5 +1,7 @@
+.env
 test.py
 log_scrapy.log
+output.txt
 
 *.pyc
 __pycache__/

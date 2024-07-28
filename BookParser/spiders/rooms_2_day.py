@@ -1,3 +1,4 @@
+import os
 import scrapy
 import mysql.connector
 from datetime import datetime, timedelta
@@ -7,8 +8,9 @@ from urllib.parse import urlparse, urlencode, parse_qs, urlunparse
 
 class UpdateRoomsSpider(scrapy.Spider):
 
-    # mod = 0  # четные  # estate 1
-    mod = 1  # не четные  # ai-pdf 2
+    # MOD = 0  # четные  # estate 1
+    # MOD = 1  # не четные  # ai-pdf 2
+    MOD = os.getenv('MOD')
     
 
     today = datetime.now().date()
@@ -26,10 +28,10 @@ class UpdateRoomsSpider(scrapy.Spider):
 
     def connect_to_db(self):
         config = {
-            'user': 'artnmo_estate',
-            'password': 'gL8+8uBs2_',
-            'host': 'artnmo.mysql.tools',
-            'database': 'artnmo_estate',
+            'user': os.getenv('DATABASE_USER'),
+            'password': os.getenv('DATABASE_PASSWORD'),
+            'host': os.getenv('DATABASE_HOST'),
+            'database': os.getenv('DATABASE_NAME'),
             'raise_on_warnings': True
         }
         
@@ -59,22 +61,31 @@ class UpdateRoomsSpider(scrapy.Spider):
 
     def set_to_db(self, booking_id, value, checkin, checkout):
         print('\nWRITE TO DB\n')
-        print(value)
+        # print(value)
         # print(images)
         try:
             formatted_values = [
-                (booking_id, item['room_id'], item['room_type'], item['available_rooms'], item['price'], checkin, checkout) for item in value
+                (
+                    booking_id, 
+                    item['room_id'], 
+                    item['room_type'], 
+                    item['available_rooms'], 
+                    item['price'], 
+                    checkin.strftime('%Y-%m-%d'), 
+                    checkout.strftime('%Y-%m-%d') 
+                ) for item in value
             ]
 
-            # self.cursor.executemany("""
-            #     INSERT INTO rooms_2_day
-            #     (booking_id, room_id, room_type, available_rooms, price, checkin, checkout)
-            #     VALUES (%s, %s, %s, %s, %s, %s, %s)
-            # """, formatted_values)
+            self.cursor.executemany("""
+                INSERT INTO rooms_2_day
+                (booking_id, room_id, room_type, available_rooms, price, checkin, checkout)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
+            """, formatted_values)
 
             # self.cursor.execute('''UPDATE booking_data SET images = %s WHERE id = %s''', (str(images), booking_id))
 
             self.connection.commit()
+
             # print("Insert successful")
         except Exception as e:
             print(f"DB Error: {e}")
@@ -86,7 +97,7 @@ class UpdateRoomsSpider(scrapy.Spider):
         rows = None
 
          # последий обработыный booking_id за сегодня для этого парсера
-        self.cursor.execute(f"SELECT MAX(booking_id) FROM rooms_2_day WHERE created_at >= '{self.today}' AND booking_id MOD 2 = {self.mod}")
+        self.cursor.execute(f"SELECT MAX(booking_id) FROM rooms_2_day WHERE created_at >= '{self.today}' AND booking_id MOD 2 = {self.MOD}")
         rows = self.cursor.fetchall()
 
         if rows[0][0]:
@@ -96,17 +107,19 @@ class UpdateRoomsSpider(scrapy.Spider):
             self.cursor.fetchall()
 
             # продолжить обход записей с предпоследнего значения 
-            self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id >= {rows[0][0]} AND id MOD 2 = {self.mod}')
+            self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id >= {rows[0][0]} AND id MOD 2 = {self.MOD}')
             rows = self.cursor.fetchall()
         else:
             # в слуае отсутствия записей за сегодня для этого парсера  
-            self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id MOD 2 = {self.mod}')
+            self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id MOD 2 = {self.MOD}')
             rows = self.cursor.fetchall()
 
         
         # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id in (2013, 9011, 2079, 2110)')
-        self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id = 8978')
-        rows = self.cursor.fetchall()
+        # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id in (3010, 2125)')
+        # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id = 3010')
+        # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id = 2079')
+        # rows = self.cursor.fetchall()
 
         for row in rows:
                 formatted_link = self.format_link(row[1], self.checkin, self.checkout) 
@@ -137,6 +150,53 @@ class UpdateRoomsSpider(scrapy.Spider):
         # small_images = response.css('a.bh-photo-grid-item.bh-photo-grid-thumb > img::attr(src)').extract()
         # images.extend(small_images)
         # images = [image.replace('max300', 'max500') for image in images]
+        # print(images)
+
+        # block = response.css('div.adc8292e09.fb8796e1ae.fbe4119cc7.defeff979d.fc1a541cf9.b443bfd5d2')
+        # images = block.css('img::attr(src)').extract()
+        # block = response.xpath('//div[@class="adc8292e09 fb8796e1ae fbe4119cc7 defeff979d fc1a541cf9 b443bfd5d2"]')
+        # images = response.xpath('/html/body/div[4]/div/div[5]/div[1]/div[1]/div[1]/div[1]/div[4]/div/div/div/div/div[1]/div/div/div[1]/div[1]/button/picture/img/@src').extract()
+
+        # pictures = response.xpath('/html/body/div[4]/div/div[5]/div[1]/div[1]/div[1]/div[1]/div[4]/div/div/div/div/div[1]/div//picture')
+        # pictures = response.xpath('/html/body/div[4]/div/div[5]/div[1]/div[1]/div[1]/div[1]/div[4]/div/div/div/div/div[1]/div/div')
+        # images = pictures.xpath('.//img/@src').extract()
+
+        # pictures = response.xpath('//picture')
+        # images = pictures.xpath('.//img/@src').extract()
+
+        # print(images)
+        # page_content = response.text
+        
+        # Ищем все строки, содержащие /max
+        # Используем регулярное выражение для поиска строк, заключенных в кавычки и содержащих /max
+        # images = re.findall(r'"(https?://[^"]+/max[^"]+)"', page_content)
+        
+        # # Печатаем найденные ссылки на изображения
+        # for image_url in images:
+        #     print(image_url)
+
+        # image_urls = re.findall(r'"(https?://[^"]+/max[^"]+)"', page_content)
+        
+        # # Словарь для хранения наилучших доступных изображений
+        # images_dict = {}
+
+        # # Обрабатываем ссылки, чтобы сохранить только уникальные изображения с наилучшим разрешением
+        # for url in image_urls:
+        #     match = re.search(r'/max(\d+x\d+)/(\d+)\.jpg', url)
+        #     if match:
+        #         resolution, image_id = match.groups()
+        #         width, height = map(int, resolution.split('x'))
+
+        #         # Обновляем словарь, если изображение лучше
+        #         if image_id not in images_dict or (width > images_dict[image_id]['width'] and height > images_dict[image_id]['height']):
+        #             images_dict[image_id] = {'url': url, 'width': width, 'height': height}
+        
+        # # Извлекаем уникальные ссылки на изображения
+        # images = [info['url'] for info in images_dict.values()]
+
+        # Печатаем уникальные ссылки на изображения
+        # for image_url in images:
+        #     print(image_url)
         # print(images)
 
         
