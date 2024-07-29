@@ -58,98 +58,13 @@ class UpdateRoomsSpider(scrapy.Spider):
 
         url = url._replace(query=urlencode(query_parameters, doseq=True))
         return urlunparse(url)
+    
+    def set_images(self, response, booking_id):
 
-    def set_to_db(self, booking_id, value, checkin, checkout):
-        print('\nWRITE TO DB\n')
-        # print(value)
-        # print(images)
-        try:
-            formatted_values = [
-                (
-                    booking_id, 
-                    item['room_id'], 
-                    item['room_type'], 
-                    item['available_rooms'], 
-                    item['price'], 
-                    checkin.strftime('%Y-%m-%d'), 
-                    checkout.strftime('%Y-%m-%d') 
-                ) for item in value
-            ]
-
-            self.cursor.executemany("""
-                INSERT INTO rooms_2_day
-                (booking_id, room_id, room_type, available_rooms, price, checkin, checkout)
-                VALUES (%s, %s, %s, %s, %s, %s, %s)
-            """, formatted_values)
-
-            # self.cursor.execute('''UPDATE booking_data SET images = %s WHERE id = %s''', (str(images), booking_id))
-
-            self.connection.commit()
-
-            # print("Insert successful")
-        except Exception as e:
-            print(f"DB Error: {e}")
-        
-
-    def start_requests(self):
-        self.connection, self.cursor = self.connect_to_db()
-
-        rows = None
-
-         # последий обработыный booking_id за сегодня для этого парсера
-        self.cursor.execute(f"SELECT MAX(booking_id) FROM rooms_2_day WHERE created_at >= '{self.today}' AND booking_id MOD 2 = {self.MOD}")
-        rows = self.cursor.fetchall()
-
-        if rows[0][0]:
-            # удалить все записи за сегодня с последним booking_id (т.к. он может быть не полным)
-            print(f'Continuing with booking_id {rows[0][0]}')
-            self.cursor.execute(f"DELETE FROM rooms_2_day WHERE created_at = '{self.today}' AND booking_id = {rows[0][0]}")
-            self.cursor.fetchall()
-
-            # продолжить обход записей с предпоследнего значения 
-            self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id >= {rows[0][0]} AND id MOD 2 = {self.MOD}')
-            rows = self.cursor.fetchall()
-        else:
-            # в слуае отсутствия записей за сегодня для этого парсера  
-            self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id MOD 2 = {self.MOD}')
-            rows = self.cursor.fetchall()
-
-        
-        # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id in (2013, 9011, 2079, 2110)')
-        # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id in (3010, 2125)')
-        # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id = 3010')
-        # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id = 2079')
-        # rows = self.cursor.fetchall()
-
-        for row in rows:
-                formatted_link = self.format_link(row[1], self.checkin, self.checkout) 
-                request_meta = {
-                    'booking_id': row[0],
-                    'link': row[1],
-                    'checkin': self.checkin, 
-                    'checkout': self.checkout
-                }
-                yield scrapy.Request(url=formatted_link, callback=self.parse, meta=request_meta)
-
-    def parse(self, response):
-        booking_id = response.meta.get('booking_id')
-
-        self.cursor.execute(f'''SELECT room_id, room_type
-                                FROM rooms_id
-                                WHERE booking_id = {booking_id} and active = 1
-                                GROUP BY room_id''')
-        ext_rooms_id = self.cursor.fetchall()
-        room_ids = [rid for rid, _ in ext_rooms_id]
-
-        checkin = response.meta.get('checkin')
-        checkout = response.meta.get('checkout')        
-
-        rows = response.xpath('//*[@id="hprt-table"]/tbody/tr')
-        
-        # images = response.css('a[data-thumb-url]::attr(data-thumb-url)').extract()
-        # small_images = response.css('a.bh-photo-grid-item.bh-photo-grid-thumb > img::attr(src)').extract()
-        # images.extend(small_images)
-        # images = [image.replace('max300', 'max500') for image in images]
+        images = response.css('a[data-thumb-url]::attr(data-thumb-url)').extract()
+        small_images = response.css('a.bh-photo-grid-item.bh-photo-grid-thumb > img::attr(src)').extract()
+        images.extend(small_images)
+        images = [image.replace('max300', 'max500') for image in images]
         # print(images)
 
         # block = response.css('div.adc8292e09.fb8796e1ae.fbe4119cc7.defeff979d.fc1a541cf9.b443bfd5d2')
@@ -199,7 +114,102 @@ class UpdateRoomsSpider(scrapy.Spider):
         #     print(image_url)
         # print(images)
 
+        if images:
+            try:
+                self.cursor.execute('''UPDATE booking_data SET images = %s WHERE id = %s''', (str(images), booking_id))
+                self.connection.commit()
+
+            except Exception as e:
+                print(f"DB Error: {e}")
+        else:
+            print('\nno images')
+
+
+    def set_to_db(self, booking_id, value, checkin, checkout):
+        print('\nWRITE TO DB\n')
+        # print(value)
+        try:
+            formatted_values = [
+                (
+                    booking_id, 
+                    item['room_id'], 
+                    item['room_type'], 
+                    item['available_rooms'], 
+                    item['price'], 
+                    checkin.strftime('%Y-%m-%d'), 
+                    checkout.strftime('%Y-%m-%d') 
+                ) for item in value
+            ]
+
+            self.cursor.executemany("""
+                INSERT INTO rooms_2_day
+                (booking_id, room_id, room_type, available_rooms, price, checkin, checkout)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
+            """, formatted_values)
+
+            self.connection.commit()
+
+            # print("Insert successful")
+        except Exception as e:
+            print(f"DB Error: {e}")
         
+
+    def start_requests(self):
+        self.connection, self.cursor = self.connect_to_db()
+
+        rows = None
+
+         # последий обработыный booking_id за сегодня для этого парсера
+        self.cursor.execute(f"SELECT MAX(booking_id) FROM rooms_2_day WHERE created_at >= '{self.today}' AND booking_id MOD 2 = {self.MOD}")
+        rows = self.cursor.fetchall()
+
+        if rows[0][0]:
+            # удалить все записи за сегодня с последним booking_id (т.к. он может быть не полным)
+            print(f'Continuing with booking_id {rows[0][0]}')
+            self.cursor.execute(f"DELETE FROM rooms_2_day WHERE created_at = '{self.today}' AND booking_id = {rows[0][0]}")
+            self.cursor.fetchall()
+
+            # продолжить обход записей с предпоследнего значения 
+            self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id >= {rows[0][0]} AND id MOD 2 = {self.MOD}')
+            rows = self.cursor.fetchall()
+        else:
+            # в слуае отсутствия записей за сегодня для этого парсера  
+            self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id MOD 2 = {self.MOD}')
+            rows = self.cursor.fetchall()
+
+        
+        # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id in (2013, 9011, 2079, 2110)')
+        # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id in (3010, 2125)')
+        # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id = 2079')
+        # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id = 3010')
+        # rows = self.cursor.fetchall()
+
+        for row in rows:
+                formatted_link = self.format_link(row[1], self.checkin, self.checkout) 
+                request_meta = {
+                    'booking_id': row[0],
+                    'link': row[1],
+                    'checkin': self.checkin, 
+                    'checkout': self.checkout
+                }
+                yield scrapy.Request(url=formatted_link, callback=self.parse, meta=request_meta)
+
+    def parse(self, response):
+        booking_id = response.meta.get('booking_id')
+        
+        self.set_images(response, booking_id)
+
+        self.cursor.execute(f'''SELECT room_id, room_type
+                                FROM rooms_id
+                                WHERE booking_id = {booking_id} and active = 1
+                                GROUP BY room_id''')
+        ext_rooms_id = self.cursor.fetchall()
+        room_ids = [rid for rid, _ in ext_rooms_id]
+
+        checkin = response.meta.get('checkin')
+        checkout = response.meta.get('checkout')        
+
+        rows = response.xpath('//*[@id="hprt-table"]/tbody/tr')
 
         rooms_data = []
 
