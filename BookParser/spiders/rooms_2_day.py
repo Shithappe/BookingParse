@@ -65,58 +65,11 @@ class UpdateRoomsSpider(scrapy.Spider):
         small_images = response.css('a.bh-photo-grid-item.bh-photo-grid-thumb > img::attr(src)').extract()
         images.extend(small_images)
         images = [image.replace('max300', 'max500') for image in images]
-        # print(images)
-
-        # block = response.css('div.adc8292e09.fb8796e1ae.fbe4119cc7.defeff979d.fc1a541cf9.b443bfd5d2')
-        # images = block.css('img::attr(src)').extract()
-        # block = response.xpath('//div[@class="adc8292e09 fb8796e1ae fbe4119cc7 defeff979d fc1a541cf9 b443bfd5d2"]')
-        # images = response.xpath('/html/body/div[4]/div/div[5]/div[1]/div[1]/div[1]/div[1]/div[4]/div/div/div/div/div[1]/div/div/div[1]/div[1]/button/picture/img/@src').extract()
-
-        # pictures = response.xpath('/html/body/div[4]/div/div[5]/div[1]/div[1]/div[1]/div[1]/div[4]/div/div/div/div/div[1]/div//picture')
-        # pictures = response.xpath('/html/body/div[4]/div/div[5]/div[1]/div[1]/div[1]/div[1]/div[4]/div/div/div/div/div[1]/div/div')
-        # images = pictures.xpath('.//img/@src').extract()
-
-        # pictures = response.xpath('//picture')
-        # images = pictures.xpath('.//img/@src').extract()
-
-        # print(images)
-        # page_content = response.text
-        
-        # Ищем все строки, содержащие /max
-        # Используем регулярное выражение для поиска строк, заключенных в кавычки и содержащих /max
-        # images = re.findall(r'"(https?://[^"]+/max[^"]+)"', page_content)
-        
-        # # Печатаем найденные ссылки на изображения
-        # for image_url in images:
-        #     print(image_url)
-
-        # image_urls = re.findall(r'"(https?://[^"]+/max[^"]+)"', page_content)
-        
-        # # Словарь для хранения наилучших доступных изображений
-        # images_dict = {}
-
-        # # Обрабатываем ссылки, чтобы сохранить только уникальные изображения с наилучшим разрешением
-        # for url in image_urls:
-        #     match = re.search(r'/max(\d+x\d+)/(\d+)\.jpg', url)
-        #     if match:
-        #         resolution, image_id = match.groups()
-        #         width, height = map(int, resolution.split('x'))
-
-        #         # Обновляем словарь, если изображение лучше
-        #         if image_id not in images_dict or (width > images_dict[image_id]['width'] and height > images_dict[image_id]['height']):
-        #             images_dict[image_id] = {'url': url, 'width': width, 'height': height}
-        
-        # # Извлекаем уникальные ссылки на изображения
-        # images = [info['url'] for info in images_dict.values()]
-
-        # Печатаем уникальные ссылки на изображения
-        # for image_url in images:
-        #     print(image_url)
-        # print(images)
+        images_str = ','.join(images)
 
         if images:
             try:
-                self.cursor.execute('''UPDATE booking_data SET images = %s WHERE id = %s''', (str(images), booking_id))
+                self.cursor.execute('''UPDATE booking_data SET images = %s WHERE id = %s''', (images_str, booking_id))
                 self.connection.commit()
 
             except Exception as e:
