@@ -7,8 +7,9 @@ from urllib.parse import urlparse, urlencode, parse_qs, urlunparse
 
 class Rooms_ID_Spider(scrapy.Spider):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, mode = None, *args, **kwargs):
         super(Rooms_ID_Spider, self).__init__(*args, **kwargs)
+        self.mode = mode
 
         self.today = datetime.now().date()
         self.checkin, self.checkout = self.get_monthly_week_dates()
@@ -113,16 +114,15 @@ class Rooms_ID_Spider(scrapy.Spider):
         self.room_data = []
 
     def start_requests(self):
+        sql = 'SELECT id, link FROM booking_data'
+
+        if self.mode == 'priority':
+            print(f"\n\nMode: {self.mode}")
+            sql = 'SELECT id, link FROM booking_data where priority > 0'
         self.connection, self.cursor = self.connect_to_db()
 
-        # self.cursor.execute("""
-        #     SELECT bd.id, bd.link
-        #     FROM booking_data bd
-        #     LEFT JOIN rooms_id ri ON bd.id = ri.booking_id
-        #     WHERE ri.booking_id IS NULL
-        # """)
-        # self.cursor.execute("""SELECT id, link FROM booking_data WHERE id = 8978""")
-        self.cursor.execute("""SELECT id, link FROM booking_data""")
+        self.cursor.execute(sql)
+        # self.cursor.execute("""SELECT id, link FROM booking_data""")
         rows = self.cursor.fetchall()
 
         for row in rows:
