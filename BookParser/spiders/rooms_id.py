@@ -119,6 +119,11 @@ class Rooms_ID_Spider(scrapy.Spider):
         if self.mode == 'priority':
             print(f"\n\nMode: {self.mode}")
             sql = 'SELECT id, link FROM booking_data where priority > 0'
+        
+        if self.mode and self.mode.isdigit():
+            print(f"\n\nMode: ID")
+            sql = f'SELECT id, link FROM booking_data where id = {self.mode}'
+        
         self.connection, self.cursor = self.connect_to_db()
 
         self.cursor.execute(sql)

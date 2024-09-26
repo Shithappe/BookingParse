@@ -1,4 +1,4 @@
-import os
+import os, re
 import scrapy
 import mysql.connector
 from datetime import datetime, timedelta
@@ -166,6 +166,7 @@ class UpdateRoomsSpider(scrapy.Spider):
 
         rooms_data = []
 
+        # если есть строки таблицы - собираем данные
         if rows:
             for i in range(len(rows)):
                 rowspan = rows[i].xpath('./td/@rowspan').get()
@@ -206,13 +207,17 @@ class UpdateRoomsSpider(scrapy.Spider):
             
             self.set_to_db(booking_id, rooms_data, checkin, checkout)
 
-
+        # если строк таблицы нет, то берем минимальное (добавлем к checkout) к-во ночей и запускаем запрос ещё раз
         else:
-            alert_title = response.css('.bui-alert__title::text').get()
-            print(alert_title)
+            min_nights = None
+            min_nights_text = response.xpath('/html/body/div[4]/div/div[5]/div[1]/div[1]/div[6]/div/div[5]/div[3]/div/form/div[5]/div[1]/table/thead/tr/th[3]/text()').get()
 
-            if 'is a minimum length of stay of' in alert_title:
-                book_size = int(alert_title.split(' ')[-2])
+            if min_nights_text:
+                min_nights = int(re.findall(r'\d+', min_nights_text)[0])
+                print(min_nights)
+
+            if min_nights:
+                book_size = min_nights
 
                 checkin = self.today + timedelta(hours=8)
                 checkout = checkin + timedelta(days=book_size)
@@ -227,7 +232,7 @@ class UpdateRoomsSpider(scrapy.Spider):
                 }
                 yield scrapy.Request(url=formatted_link, callback=self.parse, meta=request_meta)
 
-
+            # если нет значения минимального к-во ночей считаем, что все комнаты заняты
             else:
                 print('set 0 avalible')
 
