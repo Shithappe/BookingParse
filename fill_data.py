@@ -37,13 +37,15 @@ def connect_to_db():
         print(f"Ошибка подключения к базе данных: {err}")
         return None, None
 
-def generate_available_rooms(avg_available, variation=0):
+def generate_available_rooms(avg_available, variation=0, max_available=0):
     """
-    Генерирует значение available_rooms на основе среднего значения с добавлением разброса.
+    Генерирует значение available_rooms на основе среднего значения с добавлением разброса,
+    гарантируя, что значение не превышает max_available.
 
     Args:
         avg_available (float): Среднее значение доступных комнат.
         variation (float): Максимальное отклонение от среднего.
+        max_available (int): Максимальное допустимое значение available_rooms.
 
     Returns:
         int: Сгенерированное количество доступных комнат.
@@ -55,7 +57,11 @@ def generate_available_rooms(avg_available, variation=0):
         # Если variation = 0, доступные комнаты равны среднему
         available = avg_available
     # Округляем до ближайшего целого числа и убеждаемся, что значение не отрицательное
-    return max(int(round(available)), 0)
+    available = max(int(round(available)), 0)
+    # Гарантируем, что available_rooms не превышает max_available
+    if available > max_available:
+        available = max_available
+    return available
 
 def generate_date_range(start_date_str, end_date_str):
     """
@@ -86,7 +92,7 @@ def print_table(data, headers="keys"):
 def main():
     # Период для заполнения
     start_date = '2024-09-20'
-    end_date = '2024-09-26'
+    end_date = '2024-09-29'
 
     # Генерация списка дат
     date_list = generate_date_range(start_date, end_date)
@@ -96,23 +102,27 @@ def main():
     if not conn or not cursor:
         return  # Завершить выполнение, если подключение не удалось
 
+    # Обновленный запрос с использованием JOIN для получения max_available_rooms
     query_rooms = """
         SELECT 
-            room_id, 
-            room_type,
-            AVG(available_rooms) AS avg_available_rooms,
-            MAX(available_rooms) - MIN(available_rooms) AS variation
-        FROM rooms_2_day
-        WHERE room_id IS NOT NULL AND room_id != 0
-            AND checkin BETWEEN NOW() - INTERVAL 1 MONTH AND NOW()
-        GROUP BY room_id 
-        LIMIT 5
+            r.booking_id,
+            r.room_id, 
+            ri.room_type,
+            AVG(r.available_rooms) AS avg_available_rooms,
+            (MAX(r.available_rooms) - MIN(r.available_rooms)) / 2 AS variation,
+            ri.max_available,
+            ri.price
+        FROM rooms_2_day r
+        JOIN rooms_id ri ON r.room_id = ri.room_id
+        WHERE r.room_id IS NOT NULL AND r.room_id != 0
+            AND r.checkin BETWEEN NOW() - INTERVAL 1 MONTH AND NOW()
+        GROUP BY r.room_id;
     """
     try:
         cursor.execute(query_rooms)
         rooms_data = cursor.fetchall()
         print("Полученные комнаты и их статистика available_rooms:")
-        print(rooms_data)
+        print_table(rooms_data)
     except Error as err:
         print(f"Ошибка выполнения запроса на получение room_id и статистики available_rooms: {err}")
         conn.close()
@@ -128,11 +138,14 @@ def main():
         return
 
     # Используем tqdm для отображения прогресса по комнатам
-    for room in tqdm(rooms_data, desc="Progress", unit="unit"):
+    for room in tqdm(rooms_data, desc="Обработка комнат", unit="комната"):
+        booking_id = room.get('booking_id')
         room_id = room.get('room_id')
         room_type = room.get('room_type')
+        price = room.get('price')
         avg_available = room.get('avg_available_rooms')
         variation = room.get('variation')
+        max_available = room.get('max_available')
 
         if room_id is None or avg_available is None:
             print(f"Пропуск room_id={room_id} из-за отсутствия данных.")
@@ -142,6 +155,7 @@ def main():
         try:
             avg_available_float = float(avg_available)
             variation_float = float(variation) if variation is not None else 0.0
+            max_available_int = int(max_available) if max_available is not None else 0
         except (TypeError, ValueError) as e:
             print(f"Ошибка преобразования статистики для room_id={room_id}: {e}")
             continue
@@ -149,45 +163,60 @@ def main():
         # Генерируем записи для каждого дня
         room_records = []
         for single_date in date_list:
+            available_rooms = generate_available_rooms(avg_available_float, variation_float, max_available_int)
             record = {
+                'booking_id': booking_id,
                 'room_id': room_id,
                 'room_type': room_type,
+                'available_rooms': available_rooms,
+                'price': price,
                 'checkin': single_date.strftime('%Y-%m-%d'),
-                'checkout': (single_date + timedelta(days=1)).strftime('%Y-%m-%d'),
-                'available_rooms': generate_available_rooms(avg_available_float, variation_float)
+                'checkout': (single_date + timedelta(days=1)).strftime('%Y-%m-%d')
             }
             room_records.append(record)
 
+        # Проверка, что все записи имеют нужные ключи
+        required_keys = {"booking_id", "room_id", "room_type", "available_rooms", "price", "checkin", "checkout"}
+        for rec in room_records:
+            if not required_keys.issubset(rec.keys()):
+                print(f"Некорректная запись: {rec}")
+
         # Вывод сгенерированных данных в виде таблицы
-        # print(f"\n{room_id}")
-        # print_table(room_records)
-        tqdm.write(f"\n{room_id}")
-        tqdm.write(tabulate(room_records, headers="keys", tablefmt="pretty", showindex=False))
+        tqdm.write(f"\nСгенерированные данные для room_id {room_id}:")
+        print_table(room_records)
 
         # Добавляем записи в общий список для вставки
-        # insert_data.extend(room_records)
+        insert_data.extend(room_records)
 
-    # Вставка данных в базу данных
-    # if insert_data:
-    #     insert_query = """
-    #         INSERT INTO rooms_2_day (room_id, checkin, checkout, available_rooms)
-    #         VALUES (%s, %s, %s, %s)
-    #         ON DUPLICATE KEY UPDATE
-    #             available_rooms = VALUES(available_rooms)
-    #     """
-    #     insert_values = [
-    #         (record['room_id'], record['checkin'], record['checkout'], record['available_rooms'])
-    #         for record in insert_data
-    #     ]
-    #     try:
-    #         cursor.executemany(insert_query, insert_values)
-    #         conn.commit()
-    #         print("\nДанные успешно вставлены/обновлены в базе данных.")
-    #     except Error as err:
-    #         print(f"Ошибка вставки данных в базу данных: {err}")
-    #         conn.rollback()
-    # else:
-    #     print("Нет данных для вставки.")
+    # Параметры пакетной вставки
+    batch_size = 1000  # Можно настроить в зависимости от размера данных и ограничений базы данных
+
+    # Вставка данных в базу данных порциями
+    if insert_data:
+        insert_query = """
+            INSERT INTO rooms_2_day (booking_id, room_id, room_type, available_rooms, price, checkin, checkout)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            ON DUPLICATE KEY UPDATE
+                available_rooms = VALUES(available_rooms)
+        """
+        # Подготовка значений для вставки
+        insert_values = [
+            (record['booking_id'], record['room_id'], record['room_type'],  record['available_rooms'], record['price'], record['checkin'], record['checkout'])
+            for record in insert_data
+        ]
+
+        # Разбивка данных на пакеты
+        for i in range(0, len(insert_values), batch_size):
+            batch = insert_values[i:i + batch_size]
+            try:
+                cursor.executemany(insert_query, batch)
+                conn.commit()
+                tqdm.write(f"Вставлено записей: {i + len(batch)} из {len(insert_values)}")
+            except Error as err:
+                print(f"Ошибка вставки данных в базу данных: {err}")
+                conn.rollback()
+    else:
+        print("Нет данных для вставки.")
 
     # Закрытие соединения
     cursor.close()
@@ -196,6 +225,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
 
