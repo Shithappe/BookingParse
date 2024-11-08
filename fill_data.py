@@ -91,8 +91,8 @@ def print_table(data, headers="keys"):
 
 def main():
     # Период для заполнения
-    start_date = '2024-09-20'
-    end_date = '2024-09-29'
+    start_date = '2024-10-27'
+    end_date = '2024-11-07'
 
     # Генерация списка дат
     date_list = generate_date_range(start_date, end_date)

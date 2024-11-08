@@ -80,7 +80,7 @@ class UpdateRoomsSpider(scrapy.Spider):
 
     def set_to_db(self, booking_id, value, checkin, checkout):
         print('\nWRITE TO DB\n')
-        print(value)
+        # print(value)
         try:
             formatted_values = [
                 (
@@ -134,8 +134,6 @@ class UpdateRoomsSpider(scrapy.Spider):
         # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id in (2013, 9011, 2079, 2110)')
         # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id in (3010, 2125)')
         # self.cursor.execute(f'SELECT id, link FROM booking_data WHERE id = 2079')
-        self.cursor.execute(f'SELECT id, link FROM booking_data')
-        rows = self.cursor.fetchall()
 
         for row in rows:
                 formatted_link = self.format_link(row[1], self.checkin, self.checkout) 
@@ -158,7 +156,6 @@ class UpdateRoomsSpider(scrapy.Spider):
                                 GROUP BY room_id''')
         ext_rooms_id = self.cursor.fetchall()
         room_ids = [rid for rid, _ in ext_rooms_id]
-        # print('room_ids: ', ext_rooms_id, booking_id)
 
         checkin = response.meta.get('checkin')
         checkout = response.meta.get('checkout')        
@@ -210,40 +207,28 @@ class UpdateRoomsSpider(scrapy.Spider):
 
         # если строк таблицы нет, то берем минимальное (добавлем к checkout) к-во ночей и запускаем запрос ещё раз
         else:
-            alert_title = response.css('.bui-alert__title::text').get()
+            min_nights = None
+            min_nights_text = response.xpath('/html/body/div[4]/div/div[5]/div[1]/div[1]/div[6]/div/div[5]/div[3]/div/form/div[5]/div[1]/table/thead/tr/th[3]/text()').get()
 
-            if alert_title:
-                print('alert_title ', alert_title)
+            if min_nights_text:
+                min_nights = int(re.findall(r'\d+', min_nights_text)[0])
+                print(min_nights)
 
-                book_size = None
-                if 'is a minimum length of stay of' in alert_title:
-                    book_size = int(alert_title.split(' ')[-2])
-                    print('book_size: ', book_size)
+            if min_nights:
+                book_size = min_nights
 
-                # min_nights_text = response.xpath('/html/body/div[4]/div/div[5]/div[1]/div[1]/div[6]/div/div[5]/div[3]/div/form/div[5]/div[1]/table/thead/tr/th[3]/text()').get()
+                checkin = self.today + timedelta(hours=8)
+                checkout = checkin + timedelta(days=book_size)
 
-                # min_nights = None
-                # if min_nights_text:
-                #     min_nights = int(re.findall(r'\d+', min_nights_text)[0])
-                #     print(min_nights)
+                formatted_link = self.format_link(response.meta.get('link'), checkin, checkout) 
 
-                if book_size:
-                    # book_size = min_nights
-
-                    checkin = self.today + timedelta(hours=8)
-                    checkout = checkin + timedelta(days=book_size)
-
-                    formatted_link = self.format_link(response.meta.get('link'), checkin, checkout) 
-
-                    print('go to ', formatted_link)
-
-                    request_meta = {
-                        'booking_id': booking_id,
-                        'link': response.meta.get('link'),
-                        'checkin': checkin, 
-                        'checkout': checkout
-                    }
-                    yield scrapy.Request(url=formatted_link, callback=self.parse, meta=request_meta)
+                request_meta = {
+                    'booking_id': booking_id,
+                    'link': response.meta.get('link'),
+                    'checkin': checkin, 
+                    'checkout': checkout
+                }
+                yield scrapy.Request(url=formatted_link, callback=self.parse, meta=request_meta)
 
             # если нет значения минимального к-во ночей считаем, что все комнаты заняты
             else:
@@ -257,7 +242,4 @@ class UpdateRoomsSpider(scrapy.Spider):
                         'price': None
                     })
 
-                print('rooms_data: ', rooms_data)
-
                 self.set_to_db(booking_id, rooms_data, checkin, checkout)
-

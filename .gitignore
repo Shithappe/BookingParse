@@ -3,6 +3,9 @@ test.py
 log_scrapy.log
 output.txt
 
+*.log
+*.bat
 *.pyc
 __pycache__/
 BookParser/spiders/__pycache__/
+.gitignore
