@@ -1,3 +1,4 @@
+import os
 import scrapy
 import mysql.connector
 from tabulate import tabulate
@@ -24,10 +25,10 @@ class Rooms_ID_Spider(scrapy.Spider):
 
     def connect_to_db(self):
         config = {
-            'user': 'artnmo_estate',
-            'password': 'gL8+8uBs2_',
-            'host': 'artnmo.mysql.tools',
-            'database': 'artnmo_estate',
+            'user': os.getenv('DATABASE_USER'),
+            'password': os.getenv('DATABASE_PASSWORD'),
+            'host': os.getenv('DATABASE_HOST'),
+            'database': os.getenv('DATABASE_NAME'),
             'raise_on_warnings': True
         }
 
